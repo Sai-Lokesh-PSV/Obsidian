@@ -1,0 +1,12 @@
+{
+  "theme": "obsidian",
+  "cssTheme": "Wasp",
+  "textFontFamily": "FiraCode Nerd Font",
+  "accentColor": "#22c343",
+  "enabledCssSnippets": [
+    "DnD",
+    "Dnd",
+    "encodedfonts",
+    "encodedicons"
+  ]
+}

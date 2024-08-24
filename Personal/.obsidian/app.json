@@ -1,0 +1,9 @@
+{
+  "vimMode": true,
+  "readableLineLength": true,
+  "strictLineBreaks": true,
+  "showLineNumber": true,
+  "alwaysUpdateLinks": true,
+  "propertiesInDocument": "visible",
+  "newFileLocation": "current"
+}

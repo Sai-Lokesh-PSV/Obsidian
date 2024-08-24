@@ -1,0 +1,29 @@
+.streak-container {
+    display: flex; /* arrange child divs in a row */
+    gap: 20px; /* space between the child divs */
+    justify-content: center; /* center the child divs in the container */
+    align-items: flex-start;
+}
+
+.streak-card {
+    border: 1px solid #AAAA;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    background-color: #5555;
+    box-shadow: 0 2px 12px rgba(255, 100, 255, .3);
+    width: 195px;
+}
+
+.streak-header {
+    margin: 0 !important;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.streak-info {
+    font-size: 16px;
+    margin: 5px 0;
+    text-align: left;
+}

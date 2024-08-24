@@ -1,0 +1,279 @@
+{
+  "main": {
+    "id": "0156a27fb2c7d9f5",
+    "type": "split",
+    "children": [
+      {
+        "id": "8faeef97822cae2b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a47be08c6cb8d203",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          }
+        ],
+        "stacked": true
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "fe0ccbdf26cc971c",
+    "type": "split",
+    "children": [
+      {
+        "id": "abafe439436abee4",
+        "type": "tabs",
+        "dimension": 64.21161825726142,
+        "children": [
+          {
+            "id": "5504be79e0cb7f76",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "178ac31fb0e4d03c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "c9605109048cdd47",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          },
+          {
+            "id": "51f96234a51145e0",
+            "type": "leaf",
+            "state": {
+              "type": "tagfolder-view",
+              "state": {}
+            }
+          }
+        ]
+      },
+      {
+        "id": "4c6e953f04eb45f3",
+        "type": "tabs",
+        "dimension": 35.788381742738586,
+        "children": [
+          {
+            "id": "5b0dc9fb6766d0d2",
+            "type": "leaf",
+            "state": {
+              "type": "recent-files",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "adfe220eb94290df",
+    "type": "split",
+    "children": [
+      {
+        "id": "dde9ec7339977198",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c1a739e6382b6e03",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "f55a02a19b0273ca",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Quotes.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "6b7088c08c8bfe94",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Quotes.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "95c3bd9849d71aae",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "86e4a90ea31d7f5c",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              }
+            }
+          },
+          {
+            "id": "080a9b615ac352ba",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Quotes.md"
+              }
+            }
+          },
+          {
+            "id": "a55cdebb9c5a6774",
+            "type": "leaf",
+            "state": {
+              "type": "journal-calendar",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 6
+      },
+      {
+        "id": "8db31c9212fe96d4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "925b5f6702c24ff4",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          },
+          {
+            "id": "1658bd34563ffeda",
+            "type": "leaf",
+            "state": {
+              "type": "timer-view",
+              "state": {}
+            }
+          },
+          {
+            "id": "bd49f45478c7d00a",
+            "type": "leaf",
+            "state": {
+              "type": "mathpad-view",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "homepage:Open homepage": false,
+      "switcher:Open quick switcher": true,
+      "command-palette:Open command palette": true,
+      "graph:Open graph view": false,
+      "daily-notes:Open today's daily note": false,
+      "random-note:Open random note": false,
+      "zk-prefixer:Create new unique note": false,
+      "obsidian-excalidraw-plugin:Create new drawing": false,
+      "canvas:Create new canvas": false,
+      "templates:Insert template": true,
+      "obsidian-spaced-repetition:Review flashcards": false,
+      "obsidian-importer:Open Importer": true,
+      "templater-obsidian:Templater": true,
+      "obsidian-advanced-slides:Show Slide Preview": false,
+      "tags-routes:Open tags routes": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "obsidian-full-calendar:Open Full Calendar": false,
+      "handwritten-notes:Create empty handwritten note": false,
+      "obsidian-kanban:Create new board": false,
+      "markdown-importer:Open format converter": false,
+      "mathpad:Open Mathpad": false,
+      "pomodoro-timer:Toggle timer panel": false,
+      "workspaces:Manage workspace layouts": false,
+      "callout-manager:Insert Callout": false
+    }
+  },
+  "active": "a55cdebb9c5a6774",
+  "lastOpenFiles": [
+    "Oscillations.md",
+    "02 - Areas/01 - Mini Essays/202408240501 About Writing.md",
+    "06 - Daily/04 - Montly",
+    "06 - Daily/03 - Quaterly",
+    "06 - Daily/02 - Weekly",
+    "06 - Daily/Untitled.md",
+    "06 - Daily/01 - Daily",
+    "01 - Projects/01 - Basics of making a app",
+    "02 - Areas/03 - News Articles",
+    "02 - Areas/02 - Podcasts",
+    "02 - Areas/01 - Mini Essays",
+    "TagsRoutes/logs/logMessage.md",
+    "handwritten-notes/Trial note.pdf",
+    "Setting up my bullet journal.md",
+    "handwritten-notes",
+    "Quotes.md",
+    "06 - Daily/20240823.md",
+    "06 - Daily/20240824.md",
+    "ED-202408241511.excalidraw.md",
+    "DSA.md",
+    "Discrete Mathematics.md",
+    "06 - Daily/20240822.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Daily (Vanilla).md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Unique.md",
+    "06 - Daily/20240821.md",
+    "99 - Meta/Preloaded Classes/202403091325 General Tweaks CSS Classes.md",
+    "99 - Meta/Preloaded Classes/202401211512 Notebook CSS Classes.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
+    "99 - Meta/TagsRoutes/logs/logMessage.md"
+  ]
+}

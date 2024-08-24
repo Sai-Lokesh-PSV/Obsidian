@@ -1,0 +1,17 @@
+{
+  "immediateReplace": true,
+  "suggester": true,
+  "historyPriority": true,
+  "historyLimit": 100,
+  "history": [
+    ":sunglasses:",
+    ":1st_place_medal:",
+    ":tennis:",
+    ":three:",
+    ":zero:",
+    ":aerial_tramway:",
+    ":v:",
+    ":man_shrugging:",
+    ":eyes:"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "showInlineTitle": false,
+  "autoPairMarkdown": false,
+  "alwaysUpdateLinks": true,
+  "attachmentFolderPath": "99 - Meta/attachments",
+  "promptDelete": false,
+  "userIgnoreFilters": [
+    "99 - Meta/"
+  ],
+  "showFrontmatter": true,
+  "propertiesInDocument": "visible",
+  "autoPairBrackets": true,
+  "readableLineLength": true,
+  "spellcheck": true,
+  "showLineNumber": true,
+  "vimMode": true
+}
