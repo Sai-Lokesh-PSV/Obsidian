@@ -4,15 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "8faeef97822cae2b",
+        "id": "b6d62cf03181b91c",
         "type": "tabs",
         "children": [
           {
-            "id": "a47be08c6cb8d203",
+            "id": "541860c3915c07dd",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "99 - Meta/00 - Templates/(TEMPLATE) Trial.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ],
@@ -109,12 +113,20 @@
             }
           },
           {
+            "id": "4f9c5b9a26de5eea",
+            "type": "leaf",
+            "state": {
+              "type": "journal-calendar",
+              "state": {}
+            }
+          },
+          {
             "id": "f55a02a19b0273ca",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Quotes.md",
+                "file": "99 - Meta/00 - Templates/(TEMPLATE) Trial.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -131,7 +143,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Quotes.md",
+                "file": "99 - Meta/00 - Templates/(TEMPLATE) Trial.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -166,20 +178,22 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Quotes.md"
+                "file": "99 - Meta/00 - Templates/(TEMPLATE) Trial.md"
               }
             }
           },
           {
-            "id": "a55cdebb9c5a6774",
+            "id": "68f455e54dbdc490",
             "type": "leaf",
             "state": {
-              "type": "journal-calendar",
-              "state": {}
+              "type": "file-properties",
+              "state": {
+                "file": "99 - Meta/00 - Templates/(TEMPLATE) Trial.md"
+              }
             }
           }
         ],
-        "currentTab": 6
+        "currentTab": 1
       },
       {
         "id": "8db31c9212fe96d4",
@@ -232,7 +246,6 @@
       "obsidian-importer:Open Importer": true,
       "templater-obsidian:Templater": true,
       "obsidian-advanced-slides:Show Slide Preview": false,
-      "tags-routes:Open tags routes": false,
       "table-editor-obsidian:Advanced Tables Toolbar": false,
       "obsidian-full-calendar:Open Full Calendar": false,
       "handwritten-notes:Create empty handwritten note": false,
@@ -241,11 +254,20 @@
       "mathpad:Open Mathpad": false,
       "pomodoro-timer:Toggle timer panel": false,
       "workspaces:Manage workspace layouts": false,
-      "callout-manager:Insert Callout": false
+      "callout-manager:Insert Callout": false,
+      "tags-routes:Open tags routes": false
     }
   },
-  "active": "a55cdebb9c5a6774",
+  "active": "541860c3915c07dd",
   "lastOpenFiles": [
+    "99 - Meta/00 - Templates/(TEMPLATE) Trial.md",
+    "99 - Meta/00 - Templates/Untitled",
+    "99 - Meta/00 - Templates/2024-08-24.md",
+    "06 - Daily/01 - Daily/20240824.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Daily (Vanilla).md",
+    "99 - Meta/00 - Templates/2024-08-04.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
+    "Quotes.md",
     "Oscillations.md",
     "02 - Areas/01 - Mini Essays/202408240501 About Writing.md",
     "06 - Daily/04 - Montly",
@@ -260,20 +282,15 @@
     "TagsRoutes/logs/logMessage.md",
     "handwritten-notes/Trial note.pdf",
     "Setting up my bullet journal.md",
-    "handwritten-notes",
-    "Quotes.md",
     "06 - Daily/20240823.md",
-    "06 - Daily/20240824.md",
     "ED-202408241511.excalidraw.md",
     "DSA.md",
     "Discrete Mathematics.md",
     "06 - Daily/20240822.md",
-    "99 - Meta/00 - Templates/(TEMPLATE) Daily (Vanilla).md",
     "99 - Meta/00 - Templates/(TEMPLATE) Unique.md",
     "06 - Daily/20240821.md",
     "99 - Meta/Preloaded Classes/202403091325 General Tweaks CSS Classes.md",
     "99 - Meta/Preloaded Classes/202401211512 Notebook CSS Classes.md",
-    "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
     "99 - Meta/TagsRoutes/logs/logMessage.md"
   ]
 }

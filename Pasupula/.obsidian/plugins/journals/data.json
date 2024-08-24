@@ -1,5 +1,84 @@
 {
-  "journals": {},
+  "journals": {
+    "journal": {
+      "id": "journal",
+      "type": "calendar",
+      "name": "Journal",
+      "rootFolder": "99 - Meta/00 - Templates",
+      "openOnStartup": true,
+      "startupSection": "day",
+      "day": {
+        "enabled": true,
+        "openMode": "active",
+        "nameTemplate": "",
+        "dateFormat": "",
+        "folder": "",
+        "template": "",
+        "ribbon": {
+          "show": false,
+          "icon": "",
+          "tooltip": ""
+        },
+        "createOnStartup": false
+      },
+      "week": {
+        "enabled": true,
+        "openMode": "active",
+        "nameTemplate": "",
+        "dateFormat": "",
+        "folder": "",
+        "template": "",
+        "ribbon": {
+          "show": false,
+          "icon": "",
+          "tooltip": ""
+        },
+        "createOnStartup": false
+      },
+      "month": {
+        "enabled": true,
+        "openMode": "active",
+        "nameTemplate": "",
+        "dateFormat": "",
+        "folder": "",
+        "template": "",
+        "ribbon": {
+          "show": false,
+          "icon": "",
+          "tooltip": ""
+        },
+        "createOnStartup": false
+      },
+      "quarter": {
+        "enabled": true,
+        "openMode": "active",
+        "nameTemplate": "",
+        "dateFormat": "",
+        "folder": "",
+        "template": "",
+        "ribbon": {
+          "show": false,
+          "icon": "",
+          "tooltip": ""
+        },
+        "createOnStartup": false
+      },
+      "year": {
+        "enabled": true,
+        "openMode": "active",
+        "nameTemplate": "",
+        "dateFormat": "",
+        "folder": "",
+        "template": "",
+        "ribbon": {
+          "show": false,
+          "icon": "",
+          "tooltip": ""
+        },
+        "createOnStartup": false
+      }
+    }
+  },
   "calendar": {
     "firstDayOfWeek": -1,
     "firstWeekOfYear": 1

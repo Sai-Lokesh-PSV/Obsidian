@@ -32,8 +32,9 @@
   "x86-flow-graphing",
   "various-complements",
   "obsidian-pandoc",
-  "journals",
   "callout-manager",
   "obsidian-tracker",
-  "heatmap-calendar"
+  "heatmap-calendar",
+  "obsidian-charts",
+  "journals"
 ]
