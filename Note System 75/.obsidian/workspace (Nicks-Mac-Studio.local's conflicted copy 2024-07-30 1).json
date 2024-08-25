@@ -1,0 +1,191 @@
+{
+  "main": {
+    "id": "02d6ffe23974fa20",
+    "type": "split",
+    "children": [
+      {
+        "id": "583be5e9e41850a0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3b4ecf6b51703cfc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Grocery List.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "fb6c79bc7fbf9973",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Calculus 101 MOC.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "891a3efa3adbfb48",
+    "type": "split",
+    "children": [
+      {
+        "id": "766ac98cf51173af",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e68ef793bdb93a96",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "76c117d183205f9b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "5a9bbe830abe0056",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "6e9fa09f081ff567",
+    "type": "split",
+    "children": [
+      {
+        "id": "1e42792b5b554d02",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2a40e74396b2cdd0",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Calculus 101 MOC.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "a4869d4402d46810",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Calculus 101 MOC.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "86a0467736a000cf",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "29803a3e5919822e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Calculus 101 MOC.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "fb6c79bc7fbf9973",
+  "lastOpenFiles": [
+    "Courses MOC.md",
+    "Grocery List.md",
+    "A private journal entry.md",
+    "A list of the virtues I want to live by.md",
+    "Notes I have for the project due next month 1.md",
+    "Notes for my simmering effort.md",
+    "Notes I have for the project due next month 3.md",
+    "Notes I have for the project due next month 2.md",
+    "Notes for another simmering effort.md",
+    "A cool concept I heard while reading something.md",
+    "What is the LYT Workshop.md",
+    "Random spark in my mind.md",
+    "Random spark in my mind, again.md",
+    "Yet another random cool thing I quickly captured.md",
+    "Highlights from another book I was reading.md",
+    "Highlights from a third book I was reading.md",
+    "Highlights from a fourth book I was reading.md",
+    "Business Idea 1.md",
+    "Business Idea 2.md",
+    "Idea for an essay.md",
+    "Written essay 1.md",
+    "Written essay 2.md",
+    "Half-written essay 3.md",
+    "A quote from Yoda.md",
+    "Note on a historical figure.md",
+    "Note on a person in my industry or field.md"
+  ]
+}

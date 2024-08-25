@@ -1,11 +1,12 @@
 {
   "settings": {
-    "migrated": 3,
+    "migrated": 6,
     "iconPacksPath": ".obsidian/icons",
     "fontSize": 16,
-    "emojiStyle": "none",
+    "emojiStyle": "native",
     "iconColor": null,
     "recentlyUsedIcons": [
+      "LiCode2",
       "BoBxCalendarWeek",
       "BoBxNews",
       "BoBxPodcast",
@@ -14,64 +15,71 @@
     "recentlyUsedIconsSize": 5,
     "rules": [
       {
+        "icon": "BoBxsDetail",
+        "rule": "02 - Areas/01 - Mini Essays\\/[\\w\\d\\s]+\\.(?:\\w+\\.)*\\w+",
+        "for": "files",
+        "order": 0,
+        "useFilePath": true
+      },
+      {
         "rule": " - Maps of Content",
         "icon": "BoBxGlobeAlt",
         "for": "folders",
-        "order": 0
+        "order": 1
       },
       {
         "rule": " - Projects",
         "icon": "BoBxsPen",
         "for": "folders",
-        "order": 1
+        "order": 2
       },
       {
         "rule": " - Areas",
         "icon": "BoBxsPackage",
         "for": "folders",
-        "order": 2
+        "order": 3
       },
       {
         "rule": " - Resources",
         "icon": "BoBxsBook",
         "for": "folders",
-        "order": 3
+        "order": 4
       },
       {
         "rule": " - Fleeting",
         "icon": "BoBxsPencil",
         "for": "folders",
-        "order": 4
+        "order": 5
       },
       {
         "rule": "- Daily",
         "icon": "BoBxCalendarEvent",
         "for": "folders",
-        "order": 5
+        "order": 6
       },
       {
         "rule": "- Meta",
         "icon": "BoBxSelection",
         "for": "folders",
-        "order": 6
+        "order": 7
       },
       {
         "rule": "- Templates",
         "icon": "BoBxRuler",
         "for": "everything",
-        "order": 7
+        "order": 8
       },
       {
         "rule": "- Permanent",
         "icon": "BoBxsFile",
         "for": "everything",
-        "order": 8
+        "order": 9
       },
       {
         "rule": "- Archives",
         "icon": "BoBxsArchive",
         "for": "folders",
-        "order": 9
+        "order": 10
       }
     ],
     "extraMargin": {
@@ -84,13 +92,18 @@
     "iconInTitleEnabled": false,
     "iconInFrontmatterEnabled": false,
     "iconsBackgroundCheckEnabled": false,
-    "iconsInNotesEnabled": true
-  },
-  "02 - Areas/01 - Mini Essays": {
-    "iconName": "BoBxsDetail",
-    "inheritanceIcon": "BoBxsDetail"
+    "iconsInNotesEnabled": true,
+    "iconInTitlePosition": "above",
+    "iconInFrontmatterFieldName": "icon",
+    "iconColorInFrontmatterFieldName": "iconColor",
+    "iconsInLinksEnabled": true,
+    "iconIdentifier": ":",
+    "lucideIconPackType": "native",
+    "debugMode": false
   },
   "02 - Areas/02 - Podcasts": "BoBxPodcast",
   "02 - Areas/03 - News Articles": "BoBxNews",
-  "06 - Daily/02 - Weekly": "BoBxCalendarWeek"
+  "06 - Daily/02 - Weekly": "BoBxCalendarWeek",
+  "02 - Areas/01 - Mini Essays": "BoBxsDetail",
+  "01 - Projects/02 - C++ Projects": "LiCode2"
 }

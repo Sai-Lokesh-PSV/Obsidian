@@ -2063,7 +2063,8 @@ var require_ngraph5 = __commonJS({
 var main_exports = {};
 __export(main_exports, {
   DEFAULT_DISPLAY_SETTINGS: () => DEFAULT_DISPLAY_SETTINGS,
-  default: () => TagsRoutes2
+  default: () => TagsRoutes2,
+  defaultolorMap: () => defaultolorMap
 });
 module.exports = __toCommonJS(main_exports);
 var import_obsidian6 = require("obsidian");
@@ -22762,14 +22763,10 @@ var getFileType = (filePath) => {
       if (middlePart === "excalidraw") {
         return "excalidraw";
       } else {
-        return "md";
+        return "markdown";
       }
   }
   return "attachment";
-};
-var parseTagHierarchy = (tag) => {
-  const parts = tag.split("/");
-  return parts.map((_, index5) => parts.slice(0, index5 + 1).join("/"));
 };
 var filterStrings = ["TagsRoutes", "AnotherString"];
 var shouldRemove = (path, filterList) => {
@@ -33168,7 +33165,6 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.onLinkWidth = this.onLinkWidth.bind(this);
     this.onLinkParticleNumber = this.onLinkParticleNumber.bind(this);
     this.onLinkParticleSize = this.onLinkParticleSize.bind(this);
-    this.onLinkParticleColor = this.onLinkParticleColor.bind(this);
     this.onSlotSliderChange = this.onSlotSliderChange.bind(this);
     this.onToggleGlobalMap = this.onToggleGlobalMap.bind(this);
     this.getNodeVisible = this.getNodeVisible.bind(this);
@@ -33300,6 +33296,16 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
       return true;
     }
   }
+  updateColor() {
+    this.Graph.graphData().nodes.forEach((node) => {
+      const obj = node.__threeObj;
+      if (obj) {
+        obj.material.color.set(this.getNodeColorByType(node));
+        return;
+      }
+    });
+    this.Graph.linkColor(this.Graph.linkColor());
+  }
   updateHighlight() {
     this.highlightNodes.clear();
     this.selectedNodes.forEach((node) => this.highlightNodes.add(node));
@@ -33365,11 +33371,6 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
   onLinkParticleSize(value) {
     this.Graph.linkDirectionalParticleWidth((link) => this.highlightLinks.has(link) ? value * 2 : value);
     this.plugin.settings.customSlot[0].link_particle_size = value;
-    this.plugin.saveSettings();
-  }
-  onLinkParticleColor(value) {
-    this.Graph.linkDirectionalParticleColor((link) => this.highlightLinks.has(link) ? "#ff00ff" : value);
-    this.plugin.settings.customSlot[0].link_particle_color = value;
     this.plugin.saveSettings();
   }
   onToggleGlobalMap(value) {
@@ -33468,6 +33469,7 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.plugin.settings.currentSlot = this.currentSlot;
     this.plugin.saveData(this.plugin.settings);
     this.applyChanges();
+    this.updateColor();
     new import_obsidian3.Notice(`Tags routes: Load slot ${this.currentSlot}`);
   }
   onSave() {
@@ -33520,12 +33522,6 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
       this.plugin.settings.customSlot[this.currentSlot],
       "link_particle_number"
     );
-    this.setControlValue(
-      "Link particle color",
-      this._controls,
-      this.plugin.settings.customSlot[this.currentSlot],
-      "link_particle_color"
-    );
   }
   onLoad() {
     console.log("load from slot: ", this.currentSlot);
@@ -33533,6 +33529,7 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.plugin.settings.currentSlot = this.currentSlot;
     this.plugin.saveData(this.plugin.settings);
     this.applyChanges();
+    this.updateColor();
     new import_obsidian3.Notice(`Tags routes: Graph load from slot ${this.currentSlot}`);
   }
   onReset() {
@@ -33540,6 +33537,7 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.plugin.settings.customSlot[this.currentSlot] = structuredClone(DEFAULT_DISPLAY_SETTINGS);
     this.plugin.saveData(this.plugin.settings);
     this.applyChanges();
+    this.updateColor();
     new import_obsidian3.Notice(`Graph reset on slot ${this.currentSlot}`);
   }
   // 连接所有 broken 节点的方法
@@ -33643,29 +33641,21 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
   getNodeColorByType(node) {
     let color;
     switch (node.type) {
-      case "md":
-        color = "#00ff00";
-        break;
+      case "markdown":
       case "tag":
-        color = "#ff00ff";
-        break;
       case "attachment":
-        color = "#ffff00";
-        break;
       case "broken":
-        color = "#770000";
-        break;
       case "excalidraw":
-        color = "#00ffff";
+        color = this.plugin.settings.customSlot[0].colorMap[node.type];
         break;
       default:
         color = "#ffffff";
     }
     if (this.plugin.settings.customSlot[0].toggle_global_map) {
       if (this.highlightNodes.has(node))
-        color = "#3333ff";
+        color = this.plugin.settings.customSlot[0].colorMap["nodeHighlightColor"];
       if (node === this.selectedNode || node === this.hoverNode)
-        color = "#FF3333";
+        color = this.plugin.settings.customSlot[0].colorMap["nodeFocusColor"];
     }
     return color;
   }
@@ -33697,39 +33687,45 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.debugLogToFileM("", true);
     this.debugLogToFileM(`|File parse completed=>|| markdown and linked files nodes:| ${nodes.length}| total file links:| ${links.length}|`);
     filesDataMap.forEach((cache, filePath) => {
-      const fileTags = getTags(cache);
+      var _a, _b, _c;
+      if ((cache == null ? void 0 : cache.frontmatter) && ((_a = cache == null ? void 0 : cache.frontmatter) == null ? void 0 : _a.tags) && cache.frontmatter.tags.contains("tag-report"))
+        return;
       if (!nodes.some((node) => node.id == filePath)) {
         nodes.push({ id: filePath, type: "broken" });
       }
+      const fileTags = getTags(cache).map((cache2) => cache2.tag);
       const rootTags = /* @__PURE__ */ new Set();
-      fileTags.forEach((tag) => {
-        const tagParts = tag.tag.split("/");
-        rootTags.add(tagParts[0]);
-        tagParts.forEach((_, i) => {
-          const tagPart = tagParts.slice(0, i + 1).join("/");
-          tagCount.set(tagPart, (tagCount.get(tagPart) || 0) + 1);
+      if (((_b = cache == null ? void 0 : cache.frontmatter) == null ? void 0 : _b.tags) != void 0) {
+        (_c = cache == null ? void 0 : cache.frontmatter) == null ? void 0 : _c.tags.forEach((element) => {
+          if (element !== "excalidraw")
+            fileTags.push("#" + element);
+        });
+      }
+      fileTags.forEach((fileTag) => {
+        const tagParts = fileTag.split("/");
+        let currentTag = "";
+        tagParts.forEach((part, index5) => {
+          currentTag += (index5 > 0 ? "/" : "") + part;
+          if (index5 === 0) {
+            rootTags.add(currentTag);
+          }
+          tagCount.set(currentTag, (tagCount.get(currentTag) || 0) + 1);
+          if (!tagSet.has(currentTag)) {
+            nodes.push({ id: currentTag, type: "tag" });
+            tagSet.add(currentTag);
+          }
+          if (index5 > 0) {
+            const parentTag = tagParts.slice(0, index5).join("/");
+            const linkKey = `${parentTag}->${currentTag}`;
+            if (!tagLinks.has(linkKey)) {
+              links.push({ source: parentTag, target: currentTag, sourceId: parentTag, targetId: currentTag });
+              tagLinks.add(linkKey);
+            }
+          }
         });
       });
       rootTags.forEach((rootTag) => {
         links.push({ source: filePath, target: rootTag, sourceId: filePath, targetId: rootTag });
-      });
-      fileTags.forEach((tag) => {
-        const tagParts = parseTagHierarchy(tag.tag);
-        for (let i = 0; i < tagParts.length; i++) {
-          const tagPart = tagParts[i];
-          if (!tagSet.has(tagPart)) {
-            nodes.push({ id: tagPart, type: "tag" });
-            tagSet.add(tagPart);
-          }
-          if (i > 0) {
-            const parentTag = tagParts[i - 1];
-            const linkKey = `${parentTag}->${tagPart}`;
-            if (!tagLinks.has(linkKey)) {
-              links.push({ source: parentTag, target: tagPart, sourceId: parentTag, targetId: tagPart });
-              tagLinks.add(linkKey);
-            }
-          }
-        }
       });
     });
     const brokennum = nodes.filter((node) => node.type == "broken").length;
@@ -33783,7 +33779,7 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.Graph = _3dForceGraph().width(container.clientWidth).height(container.clientHeight).backgroundColor("#000003").d3Force("link", link_default().distance((link) => {
       const distance = Math.max(link.source.connections, link.target.connections, link.source.instanceNum || 2, link.target.instanceNum || 2);
       return distance < 10 ? 20 : distance * this.distanceFactor;
-    }))(graphContainer).nodeVisibility(this.getNodeVisible).linkVisibility(this.getLinkVisible).linkWidth((link) => this.highlightLinks.has(link) ? 2 : 1).linkDirectionalParticles((link) => this.highlightLinks.has(link) ? 4 : 2).linkDirectionalParticleWidth((link) => this.highlightLinks.has(link) ? 3 : 0.5).linkDirectionalParticleColor((link) => this.highlightLinks.has(link) ? "#ff00ff" : "#ffffff").nodeLabel((node) => node.type == "tag" ? `${node.id} (${node.instanceNum})` : `${node.id} (${node.connections})`).nodeOpacity(0.9).nodeThreeObject((node) => {
+    }))(graphContainer).nodeVisibility(this.getNodeVisible).linkVisibility(this.getLinkVisible).linkColor((link) => this.highlightLinks.has(link) ? this.plugin.settings.customSlot[0].colorMap["linkHighlightColor"] : this.plugin.settings.customSlot[0].colorMap["linkNormalColor"]).linkWidth((link) => this.highlightLinks.has(link) ? 2 : 1).linkDirectionalParticles((link) => this.highlightLinks.has(link) ? 4 : 2).linkDirectionalParticleWidth((link) => this.highlightLinks.has(link) ? 3 : 0.5).linkDirectionalParticleColor((link) => this.highlightLinks.has(link) ? this.plugin.settings.customSlot[0].colorMap["linkParticleHighlightColor"] : this.plugin.settings.customSlot[0].colorMap["linkParticleColor"]).nodeLabel((node) => node.type == "tag" ? `${node.id} (${node.instanceNum})` : `${node.id} (${node.connections})`).nodeOpacity(0.9).nodeThreeObject((node) => {
       let nodeSize = node.connections || 1;
       if (node.type === "tag")
         nodeSize = node.instanceNum || 1;
@@ -33829,7 +33825,7 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
         this.connectBrokenNodes(true);
       }).addButton("Link broken as line", "graph-button", () => {
         this.connectBrokenNodes(false);
-      }).addButton("Unlink borken", "graph-button", () => {
+      }).addButton("Unlink broken", "graph-button", () => {
         this.resetBrokenNodes();
       }).addButton("Link Excalidraw orphans", "graph-button", () => {
         this.connectExcalidrawNodes();
@@ -33839,7 +33835,7 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
         this.onResetGraph();
       })
     }).add({
-      arg: new settingGroup(this.plugin, "control sliders", "Display control").addSlider("Node size", 1, 10, 1, this.plugin.settings.customSlot[0].node_size, this.onNodeSize).addSlider("Node repulsion", 0, 10, 1, this.plugin.settings.customSlot[0].node_repulsion, this.onNodeRepulsion).addSlider("Link distance", 1, 25, 1, this.plugin.settings.customSlot[0].link_distance, this.onLinkDistance).addSlider("Link width", 1, 5, 1, this.plugin.settings.customSlot[0].link_width, this.onLinkWidth).addSlider("Link particle size", 1, 5, 1, this.plugin.settings.customSlot[0].link_particle_size, this.onLinkParticleSize).addSlider("Link particle number", 1, 5, 1, this.plugin.settings.customSlot[0].link_particle_number, this.onLinkParticleNumber).addColorPicker("Link particle color", this.plugin.settings.customSlot[0].link_particle_color, this.onLinkParticleColor).addToggle("Toggle global map", this.plugin.settings.customSlot[0].toggle_global_map, this.onToggleGlobalMap)
+      arg: new settingGroup(this.plugin, "control sliders", "Display control").addSlider("Node size", 1, 10, 1, this.plugin.settings.customSlot[0].node_size, this.onNodeSize).addSlider("Node repulsion", 0, 10, 1, this.plugin.settings.customSlot[0].node_repulsion, this.onNodeRepulsion).addSlider("Link distance", 1, 25, 1, this.plugin.settings.customSlot[0].link_distance, this.onLinkDistance).addSlider("Link width", 1, 5, 1, this.plugin.settings.customSlot[0].link_width, this.onLinkWidth).addSlider("Link particle size", 1, 5, 1, this.plugin.settings.customSlot[0].link_particle_size, this.onLinkParticleSize).addSlider("Link particle number", 1, 5, 1, this.plugin.settings.customSlot[0].link_particle_number, this.onLinkParticleNumber).addToggle("Toggle global map", this.plugin.settings.customSlot[0].toggle_global_map, this.onToggleGlobalMap)
     }).add({
       arg: new settingGroup(this.plugin, "save-load", "Save and load").addSlider("Slot #", 1, 5, 1, this.plugin.settings.currentSlot, this.onSlotSliderChange).add({
         arg: new settingGroup(this.plugin, "button-box", "button-box", "flex-box").addButton("Save", "graph-button", () => {
@@ -34047,22 +34043,30 @@ tags:
 };
 
 // src/main.ts
+var defaultolorMap = {
+  markdown: "#00ff00",
+  attachment: "#ffff00",
+  broken: "#ff0000",
+  excalidraw: "#00ffff",
+  tag: "#ff00ff",
+  nodeHighlightColor: "#3333ff",
+  nodeFocusColor: "#FF3333",
+  linkHighlightColor: "#ffffff",
+  linkNormalColor: "#ffffff",
+  linkParticleColor: "#ffffff",
+  linkParticleHighlightColor: "#ff00ff"
+};
 var DEFAULT_DISPLAY_SETTINGS = {
   broken_file_link_center: "true",
   broken_file_link_line: "false",
-  md_color: "green",
-  attachment_color: "yellow",
-  broken_color: "red",
-  excllidraw_file_color: "#00ffff",
-  tag_color: "#ff00ff",
-  link_particle_color: "#ffffff",
   node_size: 5,
   node_repulsion: 0,
   link_distance: 5,
   link_width: 1,
   link_particle_size: 2,
   link_particle_number: 2,
-  toggle_global_map: false
+  toggle_global_map: false,
+  colorMap: defaultolorMap
 };
 var DEFAULT_SETTINGS = {
   enableSave: true,
@@ -34193,19 +34197,36 @@ var TagsroutesSettingsTab = class extends import_obsidian6.PluginSettingTab {
   constructor(app, plugin) {
     super(app, plugin);
     this.plugin = plugin;
+    this.loadColor = this.loadColor.bind(this);
+  }
+  addColorPicker(container, name, keyName, cb) {
+    const defaultColor = this.plugin.settings.customSlot[0].colorMap[keyName];
+    const colorpicker = new import_obsidian6.Setting(container).setName(name).setDesc(defaultColor || "#000000").addColorPicker((picker) => {
+      picker.setValue(defaultColor).onChange(async (value) => {
+        this.plugin.settings.customSlot[0].colorMap[keyName] = value;
+        this.plugin.view.onSave();
+        cb(value);
+        setTimeout(() => colorpicker.setDesc(value), 0);
+      });
+    });
+    return this;
+  }
+  loadColor(value) {
+    this.plugin.view.updateColor();
   }
   display() {
     const { containerEl } = this;
     containerEl.empty();
+    containerEl.createEl("h1", { text: "General" });
     new import_obsidian6.Setting(containerEl).setName("Log Node/Link Count").setDesc("Enable or disable logging the number of nodes and links when the graph loads").addToggle(
       (toggle) => {
-        toggle.onChange(async (value) => {
+        toggle.setValue(this.plugin.settings.enableSave).onChange(async (value) => {
           if (!value) {
             this.toggleEnableShow.setValue(value);
           }
           this.plugin.settings.enableSave = value;
           await this.plugin.saveSettings();
-        }).setValue(this.plugin.settings.enableSave);
+        });
         this.toggleEnableSave = toggle;
       }
     );
@@ -34221,6 +34242,22 @@ var TagsroutesSettingsTab = class extends import_obsidian6.PluginSettingTab {
         this.toggleEnableShow = toggle;
       }
     );
+    containerEl.createEl("h1", { text: "Color" });
+    new import_obsidian6.Setting(containerEl).setName("Node type").setHeading();
+    this.addColorPicker(containerEl, "Markdown", "markdown", this.loadColor);
+    this.addColorPicker(containerEl, "Tags", "tag", this.loadColor);
+    this.addColorPicker(containerEl, "Exclidraw", "excalidraw", this.loadColor);
+    this.addColorPicker(containerEl, "Attachments", "attachment", this.loadColor);
+    this.addColorPicker(containerEl, "Broken", "broken", this.loadColor);
+    new import_obsidian6.Setting(containerEl).setName("Node state").setHeading().setDesc("Effects in global map mode");
+    this.addColorPicker(containerEl, "Highlight", "nodeHighlightColor", this.loadColor);
+    this.addColorPicker(containerEl, "Focus", "nodeFocusColor", this.loadColor);
+    new import_obsidian6.Setting(containerEl).setName("Link state").setHeading();
+    this.addColorPicker(containerEl, "Normal", "linkNormalColor", this.loadColor);
+    this.addColorPicker(containerEl, "Highlight", "linkHighlightColor", this.loadColor);
+    new import_obsidian6.Setting(containerEl).setName("Particle state").setHeading();
+    this.addColorPicker(containerEl, "Normal", "linkParticleColor", this.loadColor);
+    this.addColorPicker(containerEl, "Highlight", "linkParticleHighlightColor", this.loadColor);
   }
 };
 /*! Bundled license information:

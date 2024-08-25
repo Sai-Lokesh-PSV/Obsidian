@@ -10,7 +10,6 @@
   "tag-wrangler",
   "recent-files-obsidian",
   "obsidian-text-format",
-  "templater-obsidian",
   "calendar",
   "homepage",
   "obsidian-advanced-slides",
@@ -36,5 +35,6 @@
   "obsidian-tracker",
   "heatmap-calendar",
   "obsidian-charts",
-  "journals"
+  "journals",
+  "templater-obsidian"
 ]

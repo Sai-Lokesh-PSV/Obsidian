@@ -1,0 +1,34 @@
+
+- Apples
+- Bananas
+- Spinach
+- Carrots
+- Chicken breast
+- Ground beef
+- Salmon
+- Eggs
+- Milk
+- Yogurt
+- Cheese
+- Bread
+- Pasta
+- Rice
+- Olive oil
+- Tomato sauce
+- Canned beans
+- Canned tuna
+- Peanut butter
+- Honey
+- Cereal
+- Oatmeal
+- Coffee
+- Tea
+- Orange juice
+- Potatoes
+- Onions
+- Garlic
+- Bell peppers
+- Cucumber
+- Lemons
+- Paper towels
+- Dish soap

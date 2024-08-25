@@ -4,8 +4,8 @@
       "id": "journal",
       "type": "calendar",
       "name": "Journal",
-      "rootFolder": "99 - Meta/00 - Templates",
-      "openOnStartup": true,
+      "rootFolder": "",
+      "openOnStartup": false,
       "startupSection": "day",
       "day": {
         "enabled": true,
@@ -27,7 +27,7 @@
         "nameTemplate": "",
         "dateFormat": "",
         "folder": "",
-        "template": "",
+        "template": "99 - Meta/00 - Templates/(TEMPLATE) Weekly.md",
         "ribbon": {
           "show": false,
           "icon": "",

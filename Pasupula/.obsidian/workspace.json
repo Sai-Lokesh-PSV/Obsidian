@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "b6d62cf03181b91c",
+        "id": "747347d08d0d3df8",
         "type": "tabs",
         "children": [
           {
-            "id": "541860c3915c07dd",
+            "id": "564083f80cfe7a1f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "99 - Meta/00 - Templates/(TEMPLATE) Trial.md",
+                "file": "06 - Daily/01 - Daily/20240825.md",
                 "mode": "source",
                 "source": false
               }
@@ -75,7 +75,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 3
       },
       {
         "id": "4c6e953f04eb45f3",
@@ -89,8 +90,17 @@
               "type": "recent-files",
               "state": {}
             }
+          },
+          {
+            "id": "8e23ed9f117c9880",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -103,6 +113,7 @@
       {
         "id": "dde9ec7339977198",
         "type": "tabs",
+        "dimension": 54.96031746031746,
         "children": [
           {
             "id": "c1a739e6382b6e03",
@@ -126,7 +137,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "99 - Meta/00 - Templates/(TEMPLATE) Trial.md",
+                "file": "06 - Daily/01 - Daily/20240825.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -143,7 +154,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "99 - Meta/00 - Templates/(TEMPLATE) Trial.md",
+                "file": "06 - Daily/01 - Daily/20240825.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -178,7 +189,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "99 - Meta/00 - Templates/(TEMPLATE) Trial.md"
+                "file": "06 - Daily/01 - Daily/20240825.md"
               }
             }
           },
@@ -188,25 +199,18 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "99 - Meta/00 - Templates/(TEMPLATE) Trial.md"
+                "file": "06 - Daily/01 - Daily/20240825.md"
               }
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 6
       },
       {
         "id": "8db31c9212fe96d4",
         "type": "tabs",
+        "dimension": 45.03968253968254,
         "children": [
-          {
-            "id": "925b5f6702c24ff4",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {}
-            }
-          },
           {
             "id": "1658bd34563ffeda",
             "type": "leaf",
@@ -223,8 +227,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -241,7 +244,6 @@
       "zk-prefixer:Create new unique note": false,
       "obsidian-excalidraw-plugin:Create new drawing": false,
       "canvas:Create new canvas": false,
-      "templates:Insert template": true,
       "obsidian-spaced-repetition:Review flashcards": false,
       "obsidian-importer:Open Importer": true,
       "templater-obsidian:Templater": true,
@@ -258,39 +260,43 @@
       "tags-routes:Open tags routes": false
     }
   },
-  "active": "541860c3915c07dd",
+  "active": "564083f80cfe7a1f",
   "lastOpenFiles": [
+    "06 - Daily/01 - Daily/20240825.md",
+    "01 - Projects/02 - C++ Projects/00 - C++ Projects.md",
+    "TagsRoutes/logs/logMessage.md",
+    "Untitled.md",
+    "01 - Projects/02 - C++ Projects/Bank Management System.md",
+    "1.  Bookshop Management System.md",
+    "01 - Projects/02 - C++ Projects/Student Record Management System.md",
+    "01 - Projects/02 - C++ Projects/Contact Management System.md",
+    "01 - Projects/02 - C++ Projects/Bookshop Management System.md",
+    "2024-08-26.md",
+    "01 - Projects/Untitled",
+    "99 - Meta/00 - Templates/Date.md",
+    "Probability and statistics.md",
+    "Templates Testing.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Weekly.md",
     "99 - Meta/00 - Templates/(TEMPLATE) Trial.md",
-    "99 - Meta/00 - Templates/Untitled",
+    "testing.md",
+    "Setting up my bullet journal.md",
+    "Quotes.md",
+    "202408251322.md",
+    "TagsRoutes/reports",
+    "TagsRoutes/logs",
+    "TagsRoutes",
+    "01 - Projects/02 - C++ Projects",
+    "2024-W33.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Unique.md",
+    "99 - Meta/00 - Templates/2024-08-25.md",
     "99 - Meta/00 - Templates/2024-08-24.md",
     "06 - Daily/01 - Daily/20240824.md",
+    "99 - Meta/00 - Templates/Untitled",
     "99 - Meta/00 - Templates/(TEMPLATE) Daily (Vanilla).md",
     "99 - Meta/00 - Templates/2024-08-04.md",
-    "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
-    "Quotes.md",
-    "Oscillations.md",
-    "02 - Areas/01 - Mini Essays/202408240501 About Writing.md",
     "06 - Daily/04 - Montly",
     "06 - Daily/03 - Quaterly",
     "06 - Daily/02 - Weekly",
-    "06 - Daily/Untitled.md",
-    "06 - Daily/01 - Daily",
-    "01 - Projects/01 - Basics of making a app",
-    "02 - Areas/03 - News Articles",
-    "02 - Areas/02 - Podcasts",
-    "02 - Areas/01 - Mini Essays",
-    "TagsRoutes/logs/logMessage.md",
-    "handwritten-notes/Trial note.pdf",
-    "Setting up my bullet journal.md",
-    "06 - Daily/20240823.md",
-    "ED-202408241511.excalidraw.md",
-    "DSA.md",
-    "Discrete Mathematics.md",
-    "06 - Daily/20240822.md",
-    "99 - Meta/00 - Templates/(TEMPLATE) Unique.md",
-    "06 - Daily/20240821.md",
-    "99 - Meta/Preloaded Classes/202403091325 General Tweaks CSS Classes.md",
-    "99 - Meta/Preloaded Classes/202401211512 Notebook CSS Classes.md",
-    "99 - Meta/TagsRoutes/logs/logMessage.md"
+    "06 - Daily/01 - Daily"
   ]
 }

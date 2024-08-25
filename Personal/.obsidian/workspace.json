@@ -224,15 +224,15 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "random-note:Open random note": false,
+      "zk-prefixer:Create new unique note": false,
+      "periodic-notes:Open today": false,
       "templater-obsidian:Templater": false,
       "obsidian-kindle-plugin:Sync your Kindle highlights": false,
       "obsidian-kanban:Create new board": false,
-      "dbfolder:Create a new database table": false,
-      "zk-prefixer:Create new unique note": false,
-      "periodic-notes:Open today": false
+      "dbfolder:Create a new database table": false
     }
   },
-  "active": "768172b1506de106",
+  "active": "0c2d1fa0795f9d83",
   "lastOpenFiles": [
     "0 - Periodic Notes/2024/Daily/20-08-2024.md",
     "0 - Periodic Notes/2024/Daily/24-08-2024.md",

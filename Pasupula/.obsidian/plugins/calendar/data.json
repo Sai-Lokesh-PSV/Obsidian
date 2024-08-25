@@ -3,7 +3,7 @@
   "weekStart": "locale",
   "wordsPerDot": 250,
   "showWeeklyNote": true,
-  "weeklyNoteFormat": "gggg-[W]ww",
+  "weeklyNoteFormat": "[W]gggg-[W]ww",
   "weeklyNoteTemplate": "",
   "weeklyNoteFolder": "",
   "localeOverride": "system-default"
