@@ -36,5 +36,6 @@
   "heatmap-calendar",
   "obsidian-charts",
   "journals",
-  "templater-obsidian"
+  "templater-obsidian",
+  "automatic-table-of-contents"
 ]

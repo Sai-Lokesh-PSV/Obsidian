@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0 - Periodic Notes/2024/Daily/24-08-2024.md",
+                "file": "0 - Periodic Notes/2024/Daily/29-08-2024.md",
                 "mode": "source",
                 "backlinks": false,
                 "source": false
@@ -113,7 +113,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "0 - Periodic Notes/2024/Daily/24-08-2024.md",
+                "file": "0 - Periodic Notes/2024/Daily/29-08-2024.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -130,7 +130,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "0 - Periodic Notes/2024/Daily/24-08-2024.md",
+                "file": "0 - Periodic Notes/2024/Daily/29-08-2024.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               }
@@ -153,7 +153,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "0 - Periodic Notes/2024/Daily/24-08-2024.md"
+                "file": "0 - Periodic Notes/2024/Daily/29-08-2024.md"
               }
             }
           },
@@ -175,7 +175,7 @@
             "state": {
               "type": "file-properties",
               "state": {
-                "file": "0 - Periodic Notes/2024/Daily/24-08-2024.md"
+                "file": "0 - Periodic Notes/2024/Daily/29-08-2024.md"
               }
             }
           }
@@ -225,17 +225,25 @@
       "command-palette:Open command palette": false,
       "random-note:Open random note": false,
       "zk-prefixer:Create new unique note": false,
-      "periodic-notes:Open today": false,
       "templater-obsidian:Templater": false,
       "obsidian-kindle-plugin:Sync your Kindle highlights": false,
       "obsidian-kanban:Create new board": false,
-      "dbfolder:Create a new database table": false
+      "dbfolder:Create a new database table": false,
+      "periodic-notes:Open today": false
     }
   },
-  "active": "0c2d1fa0795f9d83",
+  "active": "768172b1506de106",
   "lastOpenFiles": [
-    "0 - Periodic Notes/2024/Daily/20-08-2024.md",
+    "0 - Periodic Notes/2024/Daily/28-08-2024.md",
+    "0 - Periodic Notes/2024/Daily/29-08-2024.md",
+    "Visual Science.md",
+    "2 - Area/Podcasts/How to enhance Focus and Improve Productivity.md",
+    "2 - Area/Gap Learning.md",
+    "0 - Periodic Notes/2024/Daily/27-08-2024.md",
+    "Algorithm.md",
+    "VIT Q&A.md",
     "0 - Periodic Notes/2024/Daily/24-08-2024.md",
+    "0 - Periodic Notes/2024/Daily/20-08-2024.md",
     "Tags",
     "Book.md",
     "Geo Fencing.md",
@@ -243,24 +251,16 @@
     "List.md",
     "Quotes.md",
     "Internship.md",
-    "Algorithm.md",
     "Untitled Kanban.md",
     "How to Debate.md",
     "0 - Periodic Notes/2024/Daily/19-08-2024.md",
     "0 - Periodic Notes/2024/Daily/18-08-2024.md",
-    "2 - Area/Gap Learning.md",
     "0 - Periodic Notes/0 - Periodic Notes.md",
     "0 - Periodic Notes/2024/Daily/17-08-2024.md",
     "0 - Periodic Notes/2024/Daily/10-08-2024.md",
     "0 - Periodic Notes/2024/Daily/11-08-2024.md",
     "0 - Periodic Notes/2024/Daily/13-08-2024.md",
     "0 - Periodic Notes/2024/Daily/14-08-2024.md",
-    "0 - Periodic Notes/2024/Daily/Untitled 1.md",
-    "0 - Periodic Notes/2024/Daily/Untitled.md",
-    "0 - Periodic Notes/2024/Daily/Untitled 2.md",
-    "0 - Periodic Notes/2024/Daily/12-08-2024.md",
-    "VIT Q&A.md",
-    "BTech.md",
     "0 - Periodic Notes/2024/Yearly",
     "0 - Periodic Notes/2024/Quaterly",
     "0 - Periodic Notes/2024/Monthly",

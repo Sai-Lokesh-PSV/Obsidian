@@ -6,11 +6,11 @@
     "emojiStyle": "native",
     "iconColor": null,
     "recentlyUsedIcons": [
+      "FabYoutube",
       "LiCode2",
       "BoBxCalendarWeek",
       "BoBxNews",
-      "BoBxPodcast",
-      "BoBxsDetail"
+      "BoBxPodcast"
     ],
     "recentlyUsedIconsSize": 5,
     "rules": [
@@ -105,5 +105,6 @@
   "02 - Areas/03 - News Articles": "BoBxNews",
   "06 - Daily/02 - Weekly": "BoBxCalendarWeek",
   "02 - Areas/01 - Mini Essays": "BoBxsDetail",
-  "01 - Projects/02 - C++ Projects": "LiCode2"
+  "01 - Projects/02 - C++ Projects": "LiCode2",
+  "02 - Areas/04 - Youtube": "FabYoutube"
 }

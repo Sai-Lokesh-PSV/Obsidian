@@ -5,7 +5,8 @@
   "attachmentFolderPath": "99 - Meta/attachments",
   "promptDelete": false,
   "userIgnoreFilters": [
-    "99 - Meta/"
+    "99 - Meta/",
+    "TagsRoutes/"
   ],
   "showFrontmatter": true,
   "propertiesInDocument": "visible",

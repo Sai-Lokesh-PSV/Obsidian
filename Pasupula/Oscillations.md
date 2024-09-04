@@ -3,7 +3,6 @@ cssclasses:
   - pen-green
   - page-white
 ---
-
 # Understanding Oscillations
 
 ## Day 1: Introduction to Oscillations

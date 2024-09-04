@@ -4,23 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "747347d08d0d3df8",
+        "id": "2fe156050a6dc27b",
         "type": "tabs",
         "children": [
           {
-            "id": "564083f80cfe7a1f",
+            "id": "e674ac4845cd6e75",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "06 - Daily/01 - Daily/20240825.md",
+                "file": "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "stacked": true
+        ]
       }
     ],
     "direction": "vertical"
@@ -75,8 +74,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 3
+        ]
       },
       {
         "id": "4c6e953f04eb45f3",
@@ -84,23 +82,18 @@
         "dimension": 35.788381742738586,
         "children": [
           {
-            "id": "5b0dc9fb6766d0d2",
-            "type": "leaf",
-            "state": {
-              "type": "recent-files",
-              "state": {}
-            }
-          },
-          {
             "id": "8e23ed9f117c9880",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "TagsRoutes/logs/logMessage.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -113,53 +106,8 @@
       {
         "id": "dde9ec7339977198",
         "type": "tabs",
-        "dimension": 54.96031746031746,
+        "dimension": 27.48015873015873,
         "children": [
-          {
-            "id": "c1a739e6382b6e03",
-            "type": "leaf",
-            "state": {
-              "type": "calendar",
-              "state": {}
-            }
-          },
-          {
-            "id": "4f9c5b9a26de5eea",
-            "type": "leaf",
-            "state": {
-              "type": "journal-calendar",
-              "state": {}
-            }
-          },
-          {
-            "id": "f55a02a19b0273ca",
-            "type": "leaf",
-            "state": {
-              "type": "backlink",
-              "state": {
-                "file": "06 - Daily/01 - Daily/20240825.md",
-                "collapseAll": false,
-                "extraContext": false,
-                "sortOrder": "alphabetical",
-                "showSearch": false,
-                "searchQuery": "",
-                "backlinkCollapsed": false,
-                "unlinkedCollapsed": true
-              }
-            }
-          },
-          {
-            "id": "6b7088c08c8bfe94",
-            "type": "leaf",
-            "state": {
-              "type": "outgoing-link",
-              "state": {
-                "file": "06 - Daily/01 - Daily/20240825.md",
-                "linksCollapsed": false,
-                "unlinkedCollapsed": true
-              }
-            }
-          },
           {
             "id": "95c3bd9849d71aae",
             "type": "leaf",
@@ -172,7 +120,44 @@
             }
           },
           {
-            "id": "86e4a90ea31d7f5c",
+            "id": "0899b5b6af5cf25d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "492758276af3375e",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "efba9a4eca133e04",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "2738e19bf690b416",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -184,27 +169,40 @@
             }
           },
           {
-            "id": "080a9b615ac352ba",
+            "id": "8f7c6e0c9111e013",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "06 - Daily/01 - Daily/20240825.md"
+                "file": "99 - Meta/00 - Templates/(TEMPLATE) Daily.md"
               }
             }
           },
           {
-            "id": "68f455e54dbdc490",
+            "id": "d426ed707c07de40",
             "type": "leaf",
             "state": {
-              "type": "file-properties",
-              "state": {
-                "file": "06 - Daily/01 - Daily/20240825.md"
-              }
+              "type": "journal-calendar",
+              "state": {}
             }
           }
         ],
-        "currentTab": 6
+        "currentTab": 1
+      },
+      {
+        "id": "dfbef80721333ec4",
+        "type": "tabs",
+        "dimension": 27.48015873015873,
+        "children": [
+          {
+            "id": "5b0dc9fb6766d0d2",
+            "type": "leaf",
+            "state": {
+              "type": "recent-files",
+              "state": {}
+            }
+          }
+        ]
       },
       {
         "id": "8db31c9212fe96d4",
@@ -212,22 +210,23 @@
         "dimension": 45.03968253968254,
         "children": [
           {
-            "id": "1658bd34563ffeda",
-            "type": "leaf",
-            "state": {
-              "type": "timer-view",
-              "state": {}
-            }
-          },
-          {
             "id": "bd49f45478c7d00a",
             "type": "leaf",
             "state": {
               "type": "mathpad-view",
               "state": {}
             }
+          },
+          {
+            "id": "fc93f3ef47d5c4fe",
+            "type": "leaf",
+            "state": {
+              "type": "timer-view",
+              "state": {}
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -260,43 +259,44 @@
       "tags-routes:Open tags routes": false
     }
   },
-  "active": "564083f80cfe7a1f",
+  "active": "e674ac4845cd6e75",
   "lastOpenFiles": [
-    "06 - Daily/01 - Daily/20240825.md",
-    "01 - Projects/02 - C++ Projects/00 - C++ Projects.md",
     "TagsRoutes/logs/logMessage.md",
+    "06 - Daily/01 - Daily/20240903.md",
     "Untitled.md",
-    "01 - Projects/02 - C++ Projects/Bank Management System.md",
-    "1.  Bookshop Management System.md",
-    "01 - Projects/02 - C++ Projects/Student Record Management System.md",
-    "01 - Projects/02 - C++ Projects/Contact Management System.md",
-    "01 - Projects/02 - C++ Projects/Bookshop Management System.md",
-    "2024-08-26.md",
-    "01 - Projects/Untitled",
-    "99 - Meta/00 - Templates/Date.md",
+    "00 - Maps of Content/00 MOC.md",
     "Probability and statistics.md",
-    "Templates Testing.md",
-    "99 - Meta/00 - Templates/(TEMPLATE) Weekly.md",
-    "99 - Meta/00 - Templates/(TEMPLATE) Trial.md",
-    "testing.md",
+    "03 - Resources/20240903 Youtube Channels for learning.md",
+    "3Blue1Brown.md",
+    "02 - Areas/01 - Mini Essays/202409031149.md",
+    "02 - Areas/01 - Mini Essays/202408240501 About Writing.md",
+    "02 - Areas/04 - Youtube/Paper Sizes Explained.md",
+    "99 - Meta/Preloaded Classes/202401211512 Notebook CSS Classes.md",
+    "02 - Areas/02 - Podcasts/How to Enhance Focus and Improve Productivity.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
+    "02 - Areas/03 - News Articles/Gap Learning.md",
+    "06 - Daily/01 - Daily/20240830.md",
+    "Gap Learning.md",
+    "01 - Projects/02 - C++ Projects/01 Bookshop Management System.md",
+    "01 - Projects/02 - C++ Projects/00 - C++ Projects.md",
+    "02 - Areas/01 - Mini Essays/20240829.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Unique.md",
+    "06 - Daily/01 - Daily/20240829.md",
     "Setting up my bullet journal.md",
     "Quotes.md",
-    "202408251322.md",
+    "Oscillations.md",
+    "Discrete Mathematics.md",
+    "2024-08-26.md",
+    "screenshot-20240828-095718Z-selected.png",
+    "02 - Areas/04 - Youtube",
+    "01 - Projects/Untitled",
     "TagsRoutes/reports",
     "TagsRoutes/logs",
     "TagsRoutes",
     "01 - Projects/02 - C++ Projects",
-    "2024-W33.md",
-    "99 - Meta/00 - Templates/(TEMPLATE) Unique.md",
-    "99 - Meta/00 - Templates/2024-08-25.md",
-    "99 - Meta/00 - Templates/2024-08-24.md",
-    "06 - Daily/01 - Daily/20240824.md",
     "99 - Meta/00 - Templates/Untitled",
-    "99 - Meta/00 - Templates/(TEMPLATE) Daily (Vanilla).md",
-    "99 - Meta/00 - Templates/2024-08-04.md",
     "06 - Daily/04 - Montly",
     "06 - Daily/03 - Quaterly",
-    "06 - Daily/02 - Weekly",
-    "06 - Daily/01 - Daily"
+    "06 - Daily/02 - Weekly"
   ]
 }
