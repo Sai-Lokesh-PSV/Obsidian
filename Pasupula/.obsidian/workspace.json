@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "2fe156050a6dc27b",
+        "id": "1e319298386fec3f",
         "type": "tabs",
         "children": [
           {
-            "id": "e674ac4845cd6e75",
+            "id": "b9b08e3dbe63cd62",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -85,12 +81,8 @@
             "id": "8e23ed9f117c9880",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TagsRoutes/logs/logMessage.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "graph",
+              "state": {}
             }
           }
         ]
@@ -106,7 +98,7 @@
       {
         "id": "dde9ec7339977198",
         "type": "tabs",
-        "dimension": 27.48015873015873,
+        "dimension": 31.547619047619047,
         "children": [
           {
             "id": "95c3bd9849d71aae",
@@ -125,7 +117,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -150,7 +141,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -173,9 +163,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "99 - Meta/00 - Templates/(TEMPLATE) Daily.md"
-              }
+              "state": {}
             }
           },
           {
@@ -185,14 +173,22 @@
               "type": "journal-calendar",
               "state": {}
             }
+          },
+          {
+            "id": "29cfbdd54d4c45ed",
+            "type": "leaf",
+            "state": {
+              "type": "chronology-calendar-view",
+              "state": {}
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 7
       },
       {
         "id": "dfbef80721333ec4",
         "type": "tabs",
-        "dimension": 27.48015873015873,
+        "dimension": 23.41269841269841,
         "children": [
           {
             "id": "5b0dc9fb6766d0d2",
@@ -256,37 +252,38 @@
       "pomodoro-timer:Toggle timer panel": false,
       "workspaces:Manage workspace layouts": false,
       "callout-manager:Insert Callout": false,
+      "chronology:Open Chronology": false,
       "tags-routes:Open tags routes": false
     }
   },
-  "active": "e674ac4845cd6e75",
+  "active": "b9b08e3dbe63cd62",
   "lastOpenFiles": [
-    "TagsRoutes/logs/logMessage.md",
-    "06 - Daily/01 - Daily/20240903.md",
-    "Untitled.md",
-    "00 - Maps of Content/00 MOC.md",
-    "Probability and statistics.md",
-    "03 - Resources/20240903 Youtube Channels for learning.md",
-    "3Blue1Brown.md",
     "02 - Areas/01 - Mini Essays/202409031149.md",
-    "02 - Areas/01 - Mini Essays/202408240501 About Writing.md",
-    "02 - Areas/04 - Youtube/Paper Sizes Explained.md",
-    "99 - Meta/Preloaded Classes/202401211512 Notebook CSS Classes.md",
-    "02 - Areas/02 - Podcasts/How to Enhance Focus and Improve Productivity.md",
-    "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
-    "02 - Areas/03 - News Articles/Gap Learning.md",
-    "06 - Daily/01 - Daily/20240830.md",
-    "Gap Learning.md",
-    "01 - Projects/02 - C++ Projects/01 Bookshop Management System.md",
-    "01 - Projects/02 - C++ Projects/00 - C++ Projects.md",
-    "02 - Areas/01 - Mini Essays/20240829.md",
-    "99 - Meta/00 - Templates/(TEMPLATE) Unique.md",
-    "06 - Daily/01 - Daily/20240829.md",
-    "Setting up my bullet journal.md",
+    "02 - Areas/01 - Mini Essays/202408090250.md",
+    "06 - Daily/01 - Daily/20240909.md",
+    "202408091253 Nelson Mandela's History.md",
+    "06 - Daily/01 - Daily/20240908.md",
     "Quotes.md",
+    "Probability and statistics.md",
     "Oscillations.md",
     "Discrete Mathematics.md",
-    "2024-08-26.md",
+    "Untitled.md",
+    "Untitled 1.md",
+    "06 - Daily/01 - Daily/20240907.md",
+    "06 - Daily/01 - Daily/20240910.md",
+    "06 - Daily/01 - Daily/20240917.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
+    "06 - Daily/01 - Daily/20240911.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Weekly.md",
+    "99 - Meta/00 - Templates/Date.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Trial.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Unique.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Daily (Vanilla).md",
+    "03 - Resources/20240903 Youtube Channels for learning.md",
+    "01 - Projects/02 - C++ Projects/07 Sudoku Game.md",
+    "01 - Projects/02 - C++ Projects/00 - C++ Projects.md",
+    "01 - Projects/02 - C++ Projects/20 Address Book.md",
+    "01 - Projects/02 - C++ Projects/19 Digital Piano.md",
     "screenshot-20240828-095718Z-selected.png",
     "02 - Areas/04 - Youtube",
     "01 - Projects/Untitled",

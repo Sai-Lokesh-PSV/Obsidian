@@ -1,6 +1,6 @@
 {
   "format": "YYYYMMDD",
   "folder": "06 - Daily/01 - Daily",
-  "template": "99 - Meta/00 - Templates/(TEMPLATE) Daily (Vanilla)",
+  "template": "99 - Meta/00 - Templates/(TEMPLATE) Daily",
   "autorun": true
 }
