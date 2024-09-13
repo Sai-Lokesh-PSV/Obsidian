@@ -1,2 +1,0 @@
-
-The LYT (Linking Your Thinking) Workshop is an intensive online course developed by Nick Milo. It focuses on enhancing personal knowledge management skills through the use of linked thinking and digital note-taking. Participants learn to create a flexible, networked system of notes that evolves with their thinking. The workshop covers concepts like MOCs (Maps of Content), fluid frameworks, and PKM (Personal Knowledge Management) software usage, emphasizing the development of a personalized, adaptable system for capturing and connecting ideas.
