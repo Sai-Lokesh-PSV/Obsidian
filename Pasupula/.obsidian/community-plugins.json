@@ -10,7 +10,6 @@
   "tag-wrangler",
   "recent-files-obsidian",
   "obsidian-text-format",
-  "calendar",
   "homepage",
   "obsidian-advanced-slides",
   "tags-routes",
@@ -37,6 +36,5 @@
   "obsidian-charts",
   "journals",
   "templater-obsidian",
-  "automatic-table-of-contents",
-  "chronology"
+  "automatic-table-of-contents"
 ]

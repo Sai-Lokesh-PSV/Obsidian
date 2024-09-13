@@ -1,6 +1,6 @@
 {
   "accentColor": "#43cfea",
-  "cssTheme": "ProtocolBlue",
+  "cssTheme": "Vanilla AMOLED",
   "interfaceFontFamily": "JetBrainsMono Nerd Font",
   "textFontFamily": "JetBrainsMono Nerd Font",
   "monospaceFontFamily": "JetBrainsMono Nerd Font",
@@ -14,7 +14,9 @@
     "Colored Sidebar Items",
     "Minecraft",
     "CyanVoxel's General Tweaks",
-    "Daily Note Themes"
+    "Daily Note Themes",
+    "kanban",
+    "styles"
   ],
   "translucency": false,
   "theme": "obsidian",
