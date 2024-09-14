@@ -4,22 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "b1b13e5a43450424",
+        "id": "8014b142a5d48752",
         "type": "tabs",
         "children": [
           {
-            "id": "47578e0cb32d8f7d",
+            "id": "68b231d614334d8c",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "07 - Archives/Archives.md",
+                "file": "01 - Projects/02 - C++ Projects/00 - C++ Projects.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "a49b47d7b1e42bfb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "02 - Areas/02 - Podcasts/202408281424 How to Enhance Focus and Improve Productivity.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -129,7 +142,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "07 - Archives/Archives.md",
+                "file": "02 - Areas/02 - Podcasts/202408281424 How to Enhance Focus and Improve Productivity.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -146,7 +159,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "07 - Archives/Archives.md",
+                "file": "02 - Areas/02 - Podcasts/202408281424 How to Enhance Focus and Improve Productivity.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -170,7 +183,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "07 - Archives/Archives.md"
+                "file": "02 - Areas/02 - Podcasts/202408281424 How to Enhance Focus and Improve Productivity.md"
               }
             }
           },
@@ -181,17 +194,9 @@
               "type": "journal-calendar",
               "state": {}
             }
-          },
-          {
-            "id": "29cfbdd54d4c45ed",
-            "type": "leaf",
-            "state": {
-              "type": "chronology-calendar-view",
-              "state": {}
-            }
           }
         ],
-        "currentTab": 6
+        "currentTab": 5
       },
       {
         "id": "dfbef80721333ec4",
@@ -234,8 +239,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 396.5,
-    "collapsed": true
+    "width": 396.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -264,35 +268,35 @@
       "tags-routes:Open tags routes": false
     }
   },
-  "active": "47578e0cb32d8f7d",
+  "active": "a49b47d7b1e42bfb",
   "lastOpenFiles": [
-    "05 - Fleeting/Fleeting.md",
-    "07 - Archives/Archives.md",
-    "04 - Permanent/Permanent.md",
-    "06 - Daily/01 - Daily/20240913.md",
-    "Untitled.md",
-    "screenshot-20240824-155003Z-all.png",
-    "02 - Areas/04 - Youtube/202408281524 Paper Sizes Explained.md",
-    "02 - Areas/04 - Youtube/A and B Series.excalidraw.md",
-    "06 - Daily/01 - Daily/20240911.md",
     "Computer Science.md",
-    "Quotes.md",
-    "Probability and statistics.md",
-    "Oscillations.md",
-    "06 - Daily/02 - Weekly/W37 e-matrix.md",
-    "01 - Projects/02 - C++ Projects/03 Student Record Management System.md",
-    "06 - Daily/01 - Daily/20240909.md",
     "02 - Areas/02 - Podcasts/202408281424 How to Enhance Focus and Improve Productivity.md",
     "01 - Projects/02 - C++ Projects/00 - C++ Projects.md",
-    "02 - Areas/03 - News Articles/202408281423 Gap Learning.md",
-    "03 - Resources/202409092050 GitHub Pages.md",
+    "01 - Projects/02 - C++ Projects/20 Address Book.md",
+    "01 - Projects/02 - C++ Projects/19 Digital Piano.md",
+    "01 - Projects/02 - C++ Projects/18 Hotel Booking System.md",
+    "01 - Projects/02 - C++ Projects/17 Payroll Management System.md",
+    "01 - Projects/02 - C++ Projects/16 3D Bounce Ball Game.md",
+    "01 - Projects/02 - C++ Projects/15 Bike Race Game.md",
+    "01 - Projects/02 - C++ Projects/14 Academic Search Engine.md",
+    "01 - Projects/02 - C++ Projects/07 Sudoku Game.md",
+    "01 - Projects/02 - C++ Projects/13 Tic-Tac-Toe.md",
+    "01 - Projects/02 - C++ Projects/12 Digital Calculator.md",
+    "01 - Projects/02 - C++ Projects/11 Face Detection App.md",
+    "01 - Projects/02 - C++ Projects/10 Sales Management System.md",
+    "01 - Projects/02 - C++ Projects/09 Casino Number Guessing Game.md",
+    "01 - Projects/02 - C++ Projects/08 Trading Application Project.md",
+    "01 - Projects/02 - C++ Projects/06 Credit Card Validator.md",
+    "01 - Projects/02 - C++ Projects/05 Car Rental System.md",
+    "01 - Projects/02 - C++ Projects/04 Contact Management System.md",
+    "01 - Projects/02 - C++ Projects/03 Student Record Management System.md",
+    "01 - Projects/02 - C++ Projects/02 Bank Management System.md",
     "01 - Projects/02 - C++ Projects/01 Bookshop Management System.md",
-    "02 - Areas/01 - Mini Essays/202409031149.md",
-    "02 - Areas/01 - Mini Essays/202408090250.md",
-    "202408091253 Nelson Mandela's History.md",
-    "06 - Daily/01 - Daily/20240908.md",
-    "Discrete Mathematics.md",
-    "Untitled 1.md",
+    "TagsRoutes/logs/logMessage.md",
+    "06 - Daily/01 - Daily/20240913.md",
+    "07 - Archives/Archives.md",
+    "screenshot-20240824-155003Z-all.png",
     "screenshot-20240828-095718Z-selected.png",
     "02 - Areas/04 - Youtube",
     "01 - Projects/Untitled",
