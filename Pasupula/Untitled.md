@@ -1,1 +1,3 @@
-![[screenshot-20240824-155003Z-all.png]]
+bot 9 . ai
+dukhan CTO
+

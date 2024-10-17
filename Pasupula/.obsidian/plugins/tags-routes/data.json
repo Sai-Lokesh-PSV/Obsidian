@@ -1,187 +1,931 @@
 {
+  "saveSpecVer": 10103,
   "enableSave": true,
   "enableShow": true,
-  "currentSlot": 1,
-  "customSlot": {
-    "0": {
-      "broken_file_link_center": "true",
-      "broken_file_link_line": "false",
+  "currentSlotNum": 1,
+  "themeSlotNum": {
+    "dark": 1,
+    "light": 1
+  },
+  "openInCurrentTab": false,
+  "enableTagsReaction": true,
+  "snapShotFolder": "graph-screenshot",
+  "currentTheme": "dark",
+  "customSlot": null,
+  "dark": [
+    {
       "node_size": 5,
       "node_repulsion": 0,
-      "link_distance": 5,
+      "link_distance": 17,
       "link_width": 1,
       "link_particle_size": 2,
       "link_particle_number": 2,
-      "toggle_global_map": false,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Default dark",
       "colorMap": {
-        "markdown": "#00ff00",
-        "attachment": "#ffff00",
-        "broken": "#ff0000",
-        "excalidraw": "#00ffff",
-        "tag": "#ff00ff",
-        "nodeHighlightColor": "#3333ff",
-        "nodeFocusColor": "#FF3333",
-        "linkHighlightColor": "#ffffff",
-        "linkNormalColor": "#ffffff",
-        "linkParticleColor": "#ffffff",
-        "linkParticleHighlightColor": "#ff00ff"
-      },
-      "md_color": "green",
-      "attachment_color": "yellow",
-      "broken_color": "red",
-      "excllidraw_file_color": "#00ffff",
-      "tag_color": "#ff00ff",
-      "link_particle_color": "#ffffff"
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#000003"
+        }
+      }
     },
-    "1": {
-      "broken_file_link_center": "true",
-      "broken_file_link_line": "false",
+    {
       "node_size": 5,
       "node_repulsion": 0,
-      "link_distance": 5,
+      "link_distance": 17,
       "link_width": 1,
       "link_particle_size": 2,
       "link_particle_number": 2,
-      "toggle_global_map": false,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Default dark",
       "colorMap": {
-        "markdown": "#00ff00",
-        "attachment": "#ffff00",
-        "broken": "#ff0000",
-        "excalidraw": "#00ffff",
-        "tag": "#ff00ff",
-        "nodeHighlightColor": "#3333ff",
-        "nodeFocusColor": "#FF3333",
-        "linkHighlightColor": "#ffffff",
-        "linkNormalColor": "#ffffff",
-        "linkParticleColor": "#ffffff",
-        "linkParticleHighlightColor": "#ff00ff"
-      },
-      "md_color": "green",
-      "attachment_color": "yellow",
-      "broken_color": "red",
-      "excllidraw_file_color": "#00ffff",
-      "tag_color": "#ff00ff",
-      "link_particle_color": "#ffffff"
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#000003"
+        }
+      }
     },
-    "2": {
-      "broken_file_link_center": "true",
-      "broken_file_link_line": "false",
+    {
       "node_size": 5,
       "node_repulsion": 0,
-      "link_distance": 5,
+      "link_distance": 17,
       "link_width": 1,
       "link_particle_size": 2,
       "link_particle_number": 2,
-      "toggle_global_map": false,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Default dark",
       "colorMap": {
-        "markdown": "#00ff00",
-        "attachment": "#ffff00",
-        "broken": "#ff0000",
-        "excalidraw": "#00ffff",
-        "tag": "#ff00ff",
-        "nodeHighlightColor": "#3333ff",
-        "nodeFocusColor": "#FF3333",
-        "linkHighlightColor": "#ffffff",
-        "linkNormalColor": "#ffffff",
-        "linkParticleColor": "#ffffff",
-        "linkParticleHighlightColor": "#ff00ff"
-      },
-      "md_color": "green",
-      "attachment_color": "yellow",
-      "broken_color": "red",
-      "excllidraw_file_color": "#00ffff",
-      "tag_color": "#ff00ff",
-      "link_particle_color": "#ffffff"
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#000003"
+        }
+      }
     },
-    "3": {
-      "broken_file_link_center": "true",
-      "broken_file_link_line": "false",
+    {
       "node_size": 5,
       "node_repulsion": 0,
-      "link_distance": 5,
+      "link_distance": 17,
       "link_width": 1,
       "link_particle_size": 2,
       "link_particle_number": 2,
-      "toggle_global_map": false,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Default dark",
       "colorMap": {
-        "markdown": "#00ff00",
-        "attachment": "#ffff00",
-        "broken": "#ff0000",
-        "excalidraw": "#00ffff",
-        "tag": "#ff00ff",
-        "nodeHighlightColor": "#3333ff",
-        "nodeFocusColor": "#FF3333",
-        "linkHighlightColor": "#ffffff",
-        "linkNormalColor": "#ffffff",
-        "linkParticleColor": "#ffffff",
-        "linkParticleHighlightColor": "#ff00ff"
-      },
-      "md_color": "green",
-      "attachment_color": "yellow",
-      "broken_color": "red",
-      "excllidraw_file_color": "#00ffff",
-      "tag_color": "#ff00ff",
-      "link_particle_color": "#ffffff"
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#000003"
+        }
+      }
     },
-    "4": {
-      "broken_file_link_center": "true",
-      "broken_file_link_line": "false",
+    {
       "node_size": 5,
       "node_repulsion": 0,
-      "link_distance": 5,
+      "link_distance": 17,
       "link_width": 1,
       "link_particle_size": 2,
       "link_particle_number": 2,
-      "toggle_global_map": false,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Default dark",
       "colorMap": {
-        "markdown": "#00ff00",
-        "attachment": "#ffff00",
-        "broken": "#ff0000",
-        "excalidraw": "#00ffff",
-        "tag": "#ff00ff",
-        "nodeHighlightColor": "#3333ff",
-        "nodeFocusColor": "#FF3333",
-        "linkHighlightColor": "#ffffff",
-        "linkNormalColor": "#ffffff",
-        "linkParticleColor": "#ffffff",
-        "linkParticleHighlightColor": "#ff00ff"
-      },
-      "md_color": "green",
-      "attachment_color": "yellow",
-      "broken_color": "red",
-      "excllidraw_file_color": "#00ffff",
-      "tag_color": "#ff00ff",
-      "link_particle_color": "#ffffff"
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#000003"
+        }
+      }
     },
-    "5": {
-      "broken_file_link_center": "true",
-      "broken_file_link_line": "false",
+    {
       "node_size": 5,
       "node_repulsion": 0,
-      "link_distance": 5,
+      "link_distance": 17,
       "link_width": 1,
       "link_particle_size": 2,
       "link_particle_number": 2,
-      "toggle_global_map": false,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Default dark",
       "colorMap": {
-        "markdown": "#00ff00",
-        "attachment": "#ffff00",
-        "broken": "#ff0000",
-        "excalidraw": "#00ffff",
-        "tag": "#ff00ff",
-        "nodeHighlightColor": "#3333ff",
-        "nodeFocusColor": "#FF3333",
-        "linkHighlightColor": "#ffffff",
-        "linkNormalColor": "#ffffff",
-        "linkParticleColor": "#ffffff",
-        "linkParticleHighlightColor": "#ff00ff"
-      },
-      "md_color": "green",
-      "attachment_color": "yellow",
-      "broken_color": "red",
-      "excllidraw_file_color": "#00ffff",
-      "tag_color": "#ff00ff",
-      "link_particle_color": "#ffffff"
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#000003"
+        }
+      }
     }
-  }
+  ],
+  "light": [
+    {
+      "node_size": 5,
+      "node_repulsion": 0,
+      "link_distance": 5,
+      "link_width": 1,
+      "link_particle_size": 2,
+      "link_particle_number": 2,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Defalt light",
+      "colorMap": {
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#ffffff"
+        }
+      }
+    },
+    {
+      "node_size": 5,
+      "node_repulsion": 0,
+      "link_distance": 5,
+      "link_width": 1,
+      "link_particle_size": 2,
+      "link_particle_number": 2,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Defalt light",
+      "colorMap": {
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#ffffff"
+        }
+      }
+    },
+    {
+      "node_size": 5,
+      "node_repulsion": 0,
+      "link_distance": 5,
+      "link_width": 1,
+      "link_particle_size": 2,
+      "link_particle_number": 2,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Defalt light",
+      "colorMap": {
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#ffffff"
+        }
+      }
+    },
+    {
+      "node_size": 5,
+      "node_repulsion": 0,
+      "link_distance": 5,
+      "link_width": 1,
+      "link_particle_size": 2,
+      "link_particle_number": 2,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Defalt light",
+      "colorMap": {
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#ffffff"
+        }
+      }
+    },
+    {
+      "node_size": 5,
+      "node_repulsion": 0,
+      "link_distance": 5,
+      "link_width": 1,
+      "link_particle_size": 2,
+      "link_particle_number": 2,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Defalt light",
+      "colorMap": {
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#ffffff"
+        }
+      }
+    },
+    {
+      "node_size": 5,
+      "node_repulsion": 0,
+      "link_distance": 5,
+      "link_width": 1,
+      "link_particle_size": 2,
+      "link_particle_number": 2,
+      "text_color_angle": 0,
+      "bloom_strength": 2,
+      "toggle_global_map": true,
+      "toggle_label_display": false,
+      "toggle_highlight_track_mode": false,
+      "colorMapSource": "Defalt light",
+      "colorMap": {
+        "markdown": {
+          "name": "default",
+          "value": "#00ff00"
+        },
+        "attachment": {
+          "name": "default",
+          "value": "#ffff00"
+        },
+        "broken": {
+          "name": "default",
+          "value": "#ff0000"
+        },
+        "excalidraw": {
+          "name": "default",
+          "value": "#00ffff"
+        },
+        "pdf": {
+          "name": "default",
+          "value": "#0000ff"
+        },
+        "tag": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "frontmatter_tag": {
+          "name": "default",
+          "value": "#fa8072"
+        },
+        "screenshot": {
+          "name": "default",
+          "value": "#7f00ff"
+        },
+        "nodeHighlightColor": {
+          "name": "default",
+          "value": "#3333ff"
+        },
+        "nodeFocusColor": {
+          "name": "default",
+          "value": "#ff3333"
+        },
+        "linkHighlightColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkNormalColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleColor": {
+          "name": "default",
+          "value": "#ffffff"
+        },
+        "linkParticleHighlightColor": {
+          "name": "default",
+          "value": "#ff00ff"
+        },
+        "backgroundColor": {
+          "name": "default",
+          "value": "#ffffff"
+        }
+      }
+    }
+  ]
 }

@@ -51,9 +51,6 @@
   "shiba-theme-settings@@folder-colorful-custom-color5@@dark": "#2F537E",
   "shiba-theme-settings@@folder-colorful-custom-color6@@dark": "#22436A",
   "shiba-theme-settings@@tag-background@@dark": "#497989",
-  "anuppuccin-theme-settings@@anuppuccin-light-theme-accents": "ctp-accent-light-teal",
-  "anuppuccin-theme-settings@@anuppuccin-accent-toggle": true,
-  "anuppuccin-theme-settings@@anuppuccin-theme-accents": "ctp-accent-sky",
   "mado-miniflow@@toggle-tab-design": true,
   "mado-miniflow@@toggle-note-radius": false,
   "mado-miniflow@@toggle-wave-background": false,
@@ -68,5 +65,16 @@
   "mado-miniflow@@toggle-tab-section": false,
   "mado-miniflow@@toggle-note-header": false,
   "mado-miniflow@@toggle-scrollbar": true,
-  "mado-miniflow@@toggle-status-bar": true
+  "mado-miniflow@@toggle-status-bar": true,
+  "anuppuccin-theme-settings@@anuppuccin-theme-light": "ctp-rosepine-light",
+  "anuppuccin-theme-settings@@anuppuccin-theme-dark": "ctp-mocha-old",
+  "anuppuccin-theme-settings@@anuppuccin-light-theme-accents": "ctp-accent-light-sky",
+  "anuppuccin-theme-settings@@anuppuccin-theme-accents": "ctp-accent-red",
+  "anuppuccin-theme-settings@@anp-callout-color-toggle": true,
+  "anuppuccin-theme-settings@@anp-custom-checkboxes": true,
+  "anuppuccin-theme-settings@@anp-speech-bubble": true,
+  "anuppuccin-theme-settings@@anp-alt-rainbow-style": "anp-simple-rainbow-color-toggle",
+  "anuppuccin-theme-settings@@anp-rainbow-file-toggle": true,
+  "anuppuccin-theme-settings@@anp-full-rainbow-text-color-toggle-light": true,
+  "anuppuccin-theme-settings@@anp-full-rainbow-text-color-toggle-dark": false
 }

@@ -2063,8 +2063,17 @@ var require_ngraph5 = __commonJS({
 var main_exports = {};
 __export(main_exports, {
   DEFAULT_DISPLAY_SETTINGS: () => DEFAULT_DISPLAY_SETTINGS,
-  default: () => TagsRoutes2,
-  defaultolorMap: () => defaultolorMap
+  DEFAULT_DISPLAY_SETTINGS_DARK: () => DEFAULT_DISPLAY_SETTINGS_DARK,
+  DEFAULT_DISPLAY_SETTINGS_LIGHT: () => DEFAULT_DISPLAY_SETTINGS_LIGHT,
+  currentSaveSpecVer: () => currentSaveSpecVer,
+  currentVersion: () => currentVersion,
+  defaltColorMap: () => defaltColorMap2,
+  default: () => TagsRoutes3,
+  defaultolorMapDark: () => defaultolorMapDark,
+  defaultolorMapLight: () => defaultolorMapLight,
+  globalDirectory: () => globalDirectory,
+  globalProgramControl: () => globalProgramControl,
+  minSaveSpecVer: () => minSaveSpecVer
 });
 module.exports = __toCommonJS(main_exports);
 var import_obsidian6 = require("obsidian");
@@ -20018,6 +20027,405 @@ var Scene = class extends Object3D {
     return data;
   }
 };
+var InterleavedBuffer = class {
+  constructor(array, stride) {
+    this.isInterleavedBuffer = true;
+    this.array = array;
+    this.stride = stride;
+    this.count = array !== void 0 ? array.length / stride : 0;
+    this.usage = StaticDrawUsage;
+    this.updateRange = { offset: 0, count: -1 };
+    this.version = 0;
+    this.uuid = generateUUID();
+  }
+  onUploadCallback() {
+  }
+  set needsUpdate(value) {
+    if (value === true)
+      this.version++;
+  }
+  setUsage(value) {
+    this.usage = value;
+    return this;
+  }
+  copy(source) {
+    this.array = new source.array.constructor(source.array);
+    this.count = source.count;
+    this.stride = source.stride;
+    this.usage = source.usage;
+    return this;
+  }
+  copyAt(index1, attribute, index22) {
+    index1 *= this.stride;
+    index22 *= attribute.stride;
+    for (let i = 0, l = this.stride; i < l; i++) {
+      this.array[index1 + i] = attribute.array[index22 + i];
+    }
+    return this;
+  }
+  set(value, offset = 0) {
+    this.array.set(value, offset);
+    return this;
+  }
+  clone(data) {
+    if (data.arrayBuffers === void 0) {
+      data.arrayBuffers = {};
+    }
+    if (this.array.buffer._uuid === void 0) {
+      this.array.buffer._uuid = generateUUID();
+    }
+    if (data.arrayBuffers[this.array.buffer._uuid] === void 0) {
+      data.arrayBuffers[this.array.buffer._uuid] = this.array.slice(0).buffer;
+    }
+    const array = new this.array.constructor(data.arrayBuffers[this.array.buffer._uuid]);
+    const ib = new this.constructor(array, this.stride);
+    ib.setUsage(this.usage);
+    return ib;
+  }
+  onUpload(callback) {
+    this.onUploadCallback = callback;
+    return this;
+  }
+  toJSON(data) {
+    if (data.arrayBuffers === void 0) {
+      data.arrayBuffers = {};
+    }
+    if (this.array.buffer._uuid === void 0) {
+      this.array.buffer._uuid = generateUUID();
+    }
+    if (data.arrayBuffers[this.array.buffer._uuid] === void 0) {
+      data.arrayBuffers[this.array.buffer._uuid] = Array.from(new Uint32Array(this.array.buffer));
+    }
+    return {
+      uuid: this.uuid,
+      buffer: this.array.buffer._uuid,
+      type: this.array.constructor.name,
+      stride: this.stride
+    };
+  }
+};
+var _vector$5 = /* @__PURE__ */ new Vector3();
+var InterleavedBufferAttribute = class {
+  constructor(interleavedBuffer, itemSize, offset, normalized = false) {
+    this.isInterleavedBufferAttribute = true;
+    this.name = "";
+    this.data = interleavedBuffer;
+    this.itemSize = itemSize;
+    this.offset = offset;
+    this.normalized = normalized;
+  }
+  get count() {
+    return this.data.count;
+  }
+  get array() {
+    return this.data.array;
+  }
+  set needsUpdate(value) {
+    this.data.needsUpdate = value;
+  }
+  applyMatrix4(m2) {
+    for (let i = 0, l = this.data.count; i < l; i++) {
+      _vector$5.fromBufferAttribute(this, i);
+      _vector$5.applyMatrix4(m2);
+      this.setXYZ(i, _vector$5.x, _vector$5.y, _vector$5.z);
+    }
+    return this;
+  }
+  applyNormalMatrix(m2) {
+    for (let i = 0, l = this.count; i < l; i++) {
+      _vector$5.fromBufferAttribute(this, i);
+      _vector$5.applyNormalMatrix(m2);
+      this.setXYZ(i, _vector$5.x, _vector$5.y, _vector$5.z);
+    }
+    return this;
+  }
+  transformDirection(m2) {
+    for (let i = 0, l = this.count; i < l; i++) {
+      _vector$5.fromBufferAttribute(this, i);
+      _vector$5.transformDirection(m2);
+      this.setXYZ(i, _vector$5.x, _vector$5.y, _vector$5.z);
+    }
+    return this;
+  }
+  setX(index5, x2) {
+    if (this.normalized)
+      x2 = normalize(x2, this.array);
+    this.data.array[index5 * this.data.stride + this.offset] = x2;
+    return this;
+  }
+  setY(index5, y2) {
+    if (this.normalized)
+      y2 = normalize(y2, this.array);
+    this.data.array[index5 * this.data.stride + this.offset + 1] = y2;
+    return this;
+  }
+  setZ(index5, z2) {
+    if (this.normalized)
+      z2 = normalize(z2, this.array);
+    this.data.array[index5 * this.data.stride + this.offset + 2] = z2;
+    return this;
+  }
+  setW(index5, w) {
+    if (this.normalized)
+      w = normalize(w, this.array);
+    this.data.array[index5 * this.data.stride + this.offset + 3] = w;
+    return this;
+  }
+  getX(index5) {
+    let x2 = this.data.array[index5 * this.data.stride + this.offset];
+    if (this.normalized)
+      x2 = denormalize(x2, this.array);
+    return x2;
+  }
+  getY(index5) {
+    let y2 = this.data.array[index5 * this.data.stride + this.offset + 1];
+    if (this.normalized)
+      y2 = denormalize(y2, this.array);
+    return y2;
+  }
+  getZ(index5) {
+    let z2 = this.data.array[index5 * this.data.stride + this.offset + 2];
+    if (this.normalized)
+      z2 = denormalize(z2, this.array);
+    return z2;
+  }
+  getW(index5) {
+    let w = this.data.array[index5 * this.data.stride + this.offset + 3];
+    if (this.normalized)
+      w = denormalize(w, this.array);
+    return w;
+  }
+  setXY(index5, x2, y2) {
+    index5 = index5 * this.data.stride + this.offset;
+    if (this.normalized) {
+      x2 = normalize(x2, this.array);
+      y2 = normalize(y2, this.array);
+    }
+    this.data.array[index5 + 0] = x2;
+    this.data.array[index5 + 1] = y2;
+    return this;
+  }
+  setXYZ(index5, x2, y2, z2) {
+    index5 = index5 * this.data.stride + this.offset;
+    if (this.normalized) {
+      x2 = normalize(x2, this.array);
+      y2 = normalize(y2, this.array);
+      z2 = normalize(z2, this.array);
+    }
+    this.data.array[index5 + 0] = x2;
+    this.data.array[index5 + 1] = y2;
+    this.data.array[index5 + 2] = z2;
+    return this;
+  }
+  setXYZW(index5, x2, y2, z2, w) {
+    index5 = index5 * this.data.stride + this.offset;
+    if (this.normalized) {
+      x2 = normalize(x2, this.array);
+      y2 = normalize(y2, this.array);
+      z2 = normalize(z2, this.array);
+      w = normalize(w, this.array);
+    }
+    this.data.array[index5 + 0] = x2;
+    this.data.array[index5 + 1] = y2;
+    this.data.array[index5 + 2] = z2;
+    this.data.array[index5 + 3] = w;
+    return this;
+  }
+  clone(data) {
+    if (data === void 0) {
+      console.log("THREE.InterleavedBufferAttribute.clone(): Cloning an interleaved buffer attribute will de-interleave buffer data.");
+      const array = [];
+      for (let i = 0; i < this.count; i++) {
+        const index5 = i * this.data.stride + this.offset;
+        for (let j = 0; j < this.itemSize; j++) {
+          array.push(this.data.array[index5 + j]);
+        }
+      }
+      return new BufferAttribute(new this.array.constructor(array), this.itemSize, this.normalized);
+    } else {
+      if (data.interleavedBuffers === void 0) {
+        data.interleavedBuffers = {};
+      }
+      if (data.interleavedBuffers[this.data.uuid] === void 0) {
+        data.interleavedBuffers[this.data.uuid] = this.data.clone(data);
+      }
+      return new InterleavedBufferAttribute(data.interleavedBuffers[this.data.uuid], this.itemSize, this.offset, this.normalized);
+    }
+  }
+  toJSON(data) {
+    if (data === void 0) {
+      console.log("THREE.InterleavedBufferAttribute.toJSON(): Serializing an interleaved buffer attribute will de-interleave buffer data.");
+      const array = [];
+      for (let i = 0; i < this.count; i++) {
+        const index5 = i * this.data.stride + this.offset;
+        for (let j = 0; j < this.itemSize; j++) {
+          array.push(this.data.array[index5 + j]);
+        }
+      }
+      return {
+        itemSize: this.itemSize,
+        type: this.array.constructor.name,
+        array,
+        normalized: this.normalized
+      };
+    } else {
+      if (data.interleavedBuffers === void 0) {
+        data.interleavedBuffers = {};
+      }
+      if (data.interleavedBuffers[this.data.uuid] === void 0) {
+        data.interleavedBuffers[this.data.uuid] = this.data.toJSON(data);
+      }
+      return {
+        isInterleavedBufferAttribute: true,
+        itemSize: this.itemSize,
+        data: this.data.uuid,
+        offset: this.offset,
+        normalized: this.normalized
+      };
+    }
+  }
+};
+var SpriteMaterial = class extends Material {
+  constructor(parameters) {
+    super();
+    this.isSpriteMaterial = true;
+    this.type = "SpriteMaterial";
+    this.color = new Color(16777215);
+    this.map = null;
+    this.alphaMap = null;
+    this.rotation = 0;
+    this.sizeAttenuation = true;
+    this.transparent = true;
+    this.fog = true;
+    this.setValues(parameters);
+  }
+  copy(source) {
+    super.copy(source);
+    this.color.copy(source.color);
+    this.map = source.map;
+    this.alphaMap = source.alphaMap;
+    this.rotation = source.rotation;
+    this.sizeAttenuation = source.sizeAttenuation;
+    this.fog = source.fog;
+    return this;
+  }
+};
+var _geometry;
+var _intersectPoint = /* @__PURE__ */ new Vector3();
+var _worldScale = /* @__PURE__ */ new Vector3();
+var _mvPosition = /* @__PURE__ */ new Vector3();
+var _alignedPosition = /* @__PURE__ */ new Vector2();
+var _rotatedPosition = /* @__PURE__ */ new Vector2();
+var _viewWorldMatrix = /* @__PURE__ */ new Matrix4();
+var _vA = /* @__PURE__ */ new Vector3();
+var _vB = /* @__PURE__ */ new Vector3();
+var _vC = /* @__PURE__ */ new Vector3();
+var _uvA = /* @__PURE__ */ new Vector2();
+var _uvB = /* @__PURE__ */ new Vector2();
+var _uvC = /* @__PURE__ */ new Vector2();
+var Sprite = class extends Object3D {
+  constructor(material = new SpriteMaterial()) {
+    super();
+    this.isSprite = true;
+    this.type = "Sprite";
+    if (_geometry === void 0) {
+      _geometry = new BufferGeometry();
+      const float32Array = new Float32Array([
+        -0.5,
+        -0.5,
+        0,
+        0,
+        0,
+        0.5,
+        -0.5,
+        0,
+        1,
+        0,
+        0.5,
+        0.5,
+        0,
+        1,
+        1,
+        -0.5,
+        0.5,
+        0,
+        0,
+        1
+      ]);
+      const interleavedBuffer = new InterleavedBuffer(float32Array, 5);
+      _geometry.setIndex([0, 1, 2, 0, 2, 3]);
+      _geometry.setAttribute("position", new InterleavedBufferAttribute(interleavedBuffer, 3, 0, false));
+      _geometry.setAttribute("uv", new InterleavedBufferAttribute(interleavedBuffer, 2, 3, false));
+    }
+    this.geometry = _geometry;
+    this.material = material;
+    this.center = new Vector2(0.5, 0.5);
+  }
+  raycast(raycaster, intersects) {
+    if (raycaster.camera === null) {
+      console.error('THREE.Sprite: "Raycaster.camera" needs to be set in order to raycast against sprites.');
+    }
+    _worldScale.setFromMatrixScale(this.matrixWorld);
+    _viewWorldMatrix.copy(raycaster.camera.matrixWorld);
+    this.modelViewMatrix.multiplyMatrices(raycaster.camera.matrixWorldInverse, this.matrixWorld);
+    _mvPosition.setFromMatrixPosition(this.modelViewMatrix);
+    if (raycaster.camera.isPerspectiveCamera && this.material.sizeAttenuation === false) {
+      _worldScale.multiplyScalar(-_mvPosition.z);
+    }
+    const rotation = this.material.rotation;
+    let sin, cos;
+    if (rotation !== 0) {
+      cos = Math.cos(rotation);
+      sin = Math.sin(rotation);
+    }
+    const center = this.center;
+    transformVertex(_vA.set(-0.5, -0.5, 0), _mvPosition, center, _worldScale, sin, cos);
+    transformVertex(_vB.set(0.5, -0.5, 0), _mvPosition, center, _worldScale, sin, cos);
+    transformVertex(_vC.set(0.5, 0.5, 0), _mvPosition, center, _worldScale, sin, cos);
+    _uvA.set(0, 0);
+    _uvB.set(1, 0);
+    _uvC.set(1, 1);
+    let intersect = raycaster.ray.intersectTriangle(_vA, _vB, _vC, false, _intersectPoint);
+    if (intersect === null) {
+      transformVertex(_vB.set(-0.5, 0.5, 0), _mvPosition, center, _worldScale, sin, cos);
+      _uvB.set(0, 1);
+      intersect = raycaster.ray.intersectTriangle(_vA, _vC, _vB, false, _intersectPoint);
+      if (intersect === null) {
+        return;
+      }
+    }
+    const distance = raycaster.ray.origin.distanceTo(_intersectPoint);
+    if (distance < raycaster.near || distance > raycaster.far)
+      return;
+    intersects.push({
+      distance,
+      point: _intersectPoint.clone(),
+      uv: Triangle.getInterpolation(_intersectPoint, _vA, _vB, _vC, _uvA, _uvB, _uvC, new Vector2()),
+      face: null,
+      object: this
+    });
+  }
+  copy(source, recursive) {
+    super.copy(source, recursive);
+    if (source.center !== void 0)
+      this.center.copy(source.center);
+    this.material = source.material;
+    return this;
+  }
+};
+function transformVertex(vertexPosition, mvPosition, center, scale, sin, cos) {
+  _alignedPosition.subVectors(vertexPosition, center).addScalar(0.5).multiply(scale);
+  if (sin !== void 0) {
+    _rotatedPosition.x = cos * _alignedPosition.x - sin * _alignedPosition.y;
+    _rotatedPosition.y = sin * _alignedPosition.x + cos * _alignedPosition.y;
+  } else {
+    _rotatedPosition.copy(_alignedPosition);
+  }
+  vertexPosition.copy(mvPosition);
+  vertexPosition.x += _rotatedPosition.x;
+  vertexPosition.y += _rotatedPosition.y;
+  vertexPosition.applyMatrix4(_viewWorldMatrix);
+}
 var LineBasicMaterial = class extends Material {
   constructor(parameters) {
     super();
@@ -20171,6 +20579,13 @@ var Line = class extends Object3D {
         }
       }
     }
+  }
+};
+var CanvasTexture = class extends Texture {
+  constructor(canvas, mapping, wrapS, wrapT, magFilter, minFilter, format2, type, anisotropy) {
+    super(canvas, mapping, wrapS, wrapT, magFilter, minFilter, format2, type, anisotropy);
+    this.isCanvasTexture = true;
+    this.needsUpdate = true;
   }
 };
 var Curve = class {
@@ -21276,6 +21691,80 @@ var TubeGeometry = class extends BufferGeometry {
       data.radialSegments,
       data.closed
     );
+  }
+};
+var MeshStandardMaterial = class extends Material {
+  constructor(parameters) {
+    super();
+    this.isMeshStandardMaterial = true;
+    this.defines = { "STANDARD": "" };
+    this.type = "MeshStandardMaterial";
+    this.color = new Color(16777215);
+    this.roughness = 1;
+    this.metalness = 0;
+    this.map = null;
+    this.lightMap = null;
+    this.lightMapIntensity = 1;
+    this.aoMap = null;
+    this.aoMapIntensity = 1;
+    this.emissive = new Color(0);
+    this.emissiveIntensity = 1;
+    this.emissiveMap = null;
+    this.bumpMap = null;
+    this.bumpScale = 1;
+    this.normalMap = null;
+    this.normalMapType = TangentSpaceNormalMap;
+    this.normalScale = new Vector2(1, 1);
+    this.displacementMap = null;
+    this.displacementScale = 1;
+    this.displacementBias = 0;
+    this.roughnessMap = null;
+    this.metalnessMap = null;
+    this.alphaMap = null;
+    this.envMap = null;
+    this.envMapIntensity = 1;
+    this.wireframe = false;
+    this.wireframeLinewidth = 1;
+    this.wireframeLinecap = "round";
+    this.wireframeLinejoin = "round";
+    this.flatShading = false;
+    this.fog = true;
+    this.setValues(parameters);
+  }
+  copy(source) {
+    super.copy(source);
+    this.defines = { "STANDARD": "" };
+    this.color.copy(source.color);
+    this.roughness = source.roughness;
+    this.metalness = source.metalness;
+    this.map = source.map;
+    this.lightMap = source.lightMap;
+    this.lightMapIntensity = source.lightMapIntensity;
+    this.aoMap = source.aoMap;
+    this.aoMapIntensity = source.aoMapIntensity;
+    this.emissive.copy(source.emissive);
+    this.emissiveMap = source.emissiveMap;
+    this.emissiveIntensity = source.emissiveIntensity;
+    this.bumpMap = source.bumpMap;
+    this.bumpScale = source.bumpScale;
+    this.normalMap = source.normalMap;
+    this.normalMapType = source.normalMapType;
+    this.normalScale.copy(source.normalScale);
+    this.displacementMap = source.displacementMap;
+    this.displacementScale = source.displacementScale;
+    this.displacementBias = source.displacementBias;
+    this.roughnessMap = source.roughnessMap;
+    this.metalnessMap = source.metalnessMap;
+    this.alphaMap = source.alphaMap;
+    this.envMap = source.envMap;
+    this.envMapIntensity = source.envMapIntensity;
+    this.wireframe = source.wireframe;
+    this.wireframeLinewidth = source.wireframeLinewidth;
+    this.wireframeLinecap = source.wireframeLinecap;
+    this.wireframeLinejoin = source.wireframeLinejoin;
+    this.flatShading = source.flatShading;
+    this.fog = source.fog;
+    return this;
   }
 };
 var MeshLambertMaterial = class extends Material {
@@ -22727,6 +23216,26 @@ if (typeof window !== "undefined") {
 
 // src/util/util.ts
 var import_obsidian = require("obsidian");
+function DebugMsg(level, ...args) {
+  if (level <= globalProgramControl.debugLevel) {
+    switch (level) {
+      case 1 /* ERROR */:
+        console.error("%c [ERROR] %c", "color: white;background-color: red;", "color: black;", ...args);
+        break;
+      case 2 /* WARN */:
+        console.warn("%c [WARN] %c", "color: white;background-color: orange;", "color: black;", ...args);
+        break;
+      case 3 /* INFO */:
+        console.info("%c [INFO] %c", "color: white;background-color: blue;", "color: black;", ...args);
+        break;
+      case 4 /* DEBUG */:
+        console.debug("%c [DEBUG] %c", "color: black;background-color: lime;", "color: black;", ...args);
+        break;
+      default:
+        break;
+    }
+  }
+}
 var setViewType = (view, mode) => {
   if (view && view.getViewType() === "markdown") {
     switch (mode) {
@@ -22765,8 +23274,14 @@ var getFileType = (filePath) => {
       } else {
         return "markdown";
       }
+    case "pdf":
+      return "pdf";
   }
-  return "attachment";
+  if (filePath.contains("attachments"))
+    return "attachment";
+  if (middlePart == null ? void 0 : middlePart.contains("graph-screenshot-"))
+    return "screenshot";
+  return "other";
 };
 var filterStrings = ["TagsRoutes", "AnotherString"];
 var shouldRemove = (path, filterList) => {
@@ -22785,10 +23300,20 @@ async function showFile(filePath) {
   }
   clearTimeout(timeout2);
   if (file && file instanceof import_obsidian.TFile) {
-    const leaf = this.app.workspace.getLeaf(false);
-    await leaf.openFile(file);
-    setViewType(leaf.view, "preview");
-  } else {
+    const leaves = this.app.workspace.getLeavesOfType("markdown");
+    const existingLeaf = leaves.find((leaf) => {
+      var _a;
+      return ((_a = leaf.view.file) == null ? void 0 : _a.path) === filePath;
+    });
+    if (existingLeaf) {
+      this.app.workspace.setActiveLeaf(existingLeaf);
+      await existingLeaf.openFile(file);
+      setViewType(existingLeaf.view, "preview");
+    } else {
+      const leaf = this.app.workspace.getLeaf(false);
+      await leaf.openFile(file);
+      setViewType(leaf.view, "preview");
+    }
   }
 }
 function getLineTime(line) {
@@ -22800,6 +23325,149 @@ function getLineTime(line) {
   } else
     return 0;
 }
+var namedColor = /* @__PURE__ */ new Map([
+  ["aliceblue", "#f0f8ff"],
+  ["antiquewhite", "#faebd7"],
+  ["aqua", "#00ffff"],
+  ["aquamarine", "#7fffd4"],
+  ["azure", "#f0ffff"],
+  ["beige", "#f5f5dc"],
+  ["bisque", "#ffe4c4"],
+  ["black", "#000000"],
+  ["blanchedalmond", "#ffebcd"],
+  ["blue", "#0000ff"],
+  ["blueviolet", "#8a2be2"],
+  ["brown", "#a52a2a"],
+  ["burlywood", "#deb887"],
+  ["cadetblue", "#5f9ea0"],
+  ["chartreuse", "#7fff00"],
+  ["chocolate", "#d2691e"],
+  ["coral", "#ff7f50"],
+  ["cornflowerblue", "#6495ed"],
+  ["cornsilk", "#fff8dc"],
+  ["crimson", "#dc143c"],
+  ["cyan", "#00ffff"],
+  ["darkblue", "#00008b"],
+  ["darkcyan", "#008b8b"],
+  ["darkgoldenrod", "#b8860b"],
+  ["darkgray", "#a9a9a9"],
+  ["darkgreen", "#006400"],
+  ["darkkhaki", "#bdb76b"],
+  ["darkmagenta", "#8b008b"],
+  ["darkolivegreen", "#556b2f"],
+  ["darkorange", "#ff8c00"],
+  ["darkorchid", "#9932cc"],
+  ["darkred", "#8b0000"],
+  ["darksalmon", "#e9967a"],
+  ["darkseagreen", "#8fbc8f"],
+  ["darkslateblue", "#483d8b"],
+  ["darkslategray", "#2f4f4f"],
+  ["darkturquoise", "#00ced1"],
+  ["darkviolet", "#9400d3"],
+  ["deeppink", "#ff1493"],
+  ["deepskyblue", "#00bfff"],
+  ["dimgray", "#696969"],
+  ["dodgerblue", "#1e90ff"],
+  ["firebrick", "#b22222"],
+  ["floralwhite", "#fffaf0"],
+  ["forestgreen", "#228b22"],
+  ["fuchsia", "#ff00ff"],
+  ["gainsboro", "#dcdcdc"],
+  ["ghostwhite", "#f8f8ff"],
+  ["gold", "#ffd700"],
+  ["goldenrod", "#daa520"],
+  ["gray", "#808080"],
+  ["green", "#008000"],
+  ["greenyellow", "#adff2f"],
+  ["honeydew", "#f0fff0"],
+  ["hotpink", "#ff69b4"],
+  ["indianred ", "#cd5c5c"],
+  ["indigo", "#4b0082"],
+  ["ivory", "#fffff0"],
+  ["khaki", "#f0e68c"],
+  ["lavender", "#e6e6fa"],
+  ["lavenderblush", "#fff0f5"],
+  ["lawngreen", "#7cfc00"],
+  ["lemonchiffon", "#fffacd"],
+  ["lightblue", "#add8e6"],
+  ["lightcoral", "#f08080"],
+  ["lightcyan", "#e0ffff"],
+  ["lightgoldenrodyellow", "#fafad2"],
+  ["lightgrey", "#d3d3d3"],
+  ["lightgreen", "#90ee90"],
+  ["lightpink", "#ffb6c1"],
+  ["lightsalmon", "#ffa07a"],
+  ["lightseagreen", "#20b2aa"],
+  ["lightskyblue", "#87cefa"],
+  ["lightslategray", "#778899"],
+  ["lightsteelblue", "#b0c4de"],
+  ["lightyellow", "#ffffe0"],
+  ["lime", "#00ff00"],
+  ["limegreen", "#32cd32"],
+  ["linen", "#faf0e6"],
+  ["magenta", "#ff00ff"],
+  ["maroon", "#800000"],
+  ["mediumaquamarine", "#66cdaa"],
+  ["mediumblue", "#0000cd"],
+  ["mediumorchid", "#ba55d3"],
+  ["mediumpurple", "#9370d8"],
+  ["mediumseagreen", "#3cb371"],
+  ["mediumslateblue", "#7b68ee"],
+  ["mediumspringgreen", "#00fa9a"],
+  ["mediumturquoise", "#48d1cc"],
+  ["mediumvioletred", "#c71585"],
+  ["midnightblue", "#191970"],
+  ["mintcream", "#f5fffa"],
+  ["mistyrose", "#ffe4e1"],
+  ["moccasin", "#ffe4b5"],
+  ["navajowhite", "#ffdead"],
+  ["navy", "#000080"],
+  ["oldlace", "#fdf5e6"],
+  ["olive", "#808000"],
+  ["olivedrab", "#6b8e23"],
+  ["orange", "#ffa500"],
+  ["orangered", "#ff4500"],
+  ["orchid", "#da70d6"],
+  ["palegoldenrod", "#eee8aa"],
+  ["palegreen", "#98fb98"],
+  ["paleturquoise", "#afeeee"],
+  ["palevioletred", "#d87093"],
+  ["papayawhip", "#ffefd5"],
+  ["peachpuff", "#ffdab9"],
+  ["peru", "#cd853f"],
+  ["pink", "#ffc0cb"],
+  ["plum", "#dda0dd"],
+  ["powderblue", "#b0e0e6"],
+  ["purple", "#800080"],
+  ["rebeccapurple", "#663399"],
+  ["red", "#ff0000"],
+  ["rosybrown", "#bc8f8f"],
+  ["royalblue", "#4169e1"],
+  ["saddlebrown", "#8b4513"],
+  ["salmon", "#fa8072"],
+  ["sandybrown", "#f4a460"],
+  ["seagreen", "#2e8b57"],
+  ["seashell", "#fff5ee"],
+  ["sienna", "#a0522d"],
+  ["silver", "#c0c0c0"],
+  ["skyblue", "#87ceeb"],
+  ["slateblue", "#6a5acd"],
+  ["slategray", "#708090"],
+  ["snow", "#fffafa"],
+  ["springgreen", "#00ff7f"],
+  ["steelblue", "#4682b4"],
+  ["tan", "#d2b48c"],
+  ["teal", "#008080"],
+  ["thistle", "#d8bfd8"],
+  ["tomato", "#ff6347"],
+  ["turquoise", "#40e0d0"],
+  ["violet", "#ee82ee"],
+  ["wheat", "#f5deb3"],
+  ["white", "#ffffff"],
+  ["whitesmoke", "#f5f5f5"],
+  ["yellow", "#ffff00"],
+  ["yellowgreen", "#9acd32"]
+]);
 
 // node_modules/three/examples/jsm/controls/DragControls.js
 var _plane = new Plane();
@@ -25021,16 +25689,33 @@ function debounce(func, wait, options) {
 var debounce_default = debounce;
 
 // node_modules/kapsule/dist/kapsule.mjs
+function _arrayLikeToArray(r, a2) {
+  (null == a2 || a2 > r.length) && (a2 = r.length);
+  for (var e = 0, n = Array(a2); e < a2; e++)
+    n[e] = r[e];
+  return n;
+}
+function _arrayWithHoles(r) {
+  if (Array.isArray(r))
+    return r;
+}
+function _classCallCheck(a2, n) {
+  if (!(a2 instanceof n))
+    throw new TypeError("Cannot call a class as a function");
+}
+function _createClass(e, r, t) {
+  return Object.defineProperty(e, "prototype", {
+    writable: false
+  }), e;
+}
 function _iterableToArrayLimit(r, l) {
   var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (null != t) {
     var e, n, i, u, a2 = [], f = true, o = false;
     try {
-      if (i = (t = t.call(r)).next, 0 === l) {
-        if (Object(t) !== t)
-          return;
-        f = false;
-      } else
+      if (i = (t = t.call(r)).next, 0 === l)
+        ;
+      else
         for (; !(f = (e = i.call(t)).done) && (a2.push(e.value), a2.length !== l); f = true)
           ;
     } catch (r2) {
@@ -25047,76 +25732,19 @@ function _iterableToArrayLimit(r, l) {
     return a2;
   }
 }
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor)
-      descriptor.writable = true;
-    Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-  }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps)
-    _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps)
-    _defineProperties(Constructor, staticProps);
-  Object.defineProperty(Constructor, "prototype", {
-    writable: false
-  });
-  return Constructor;
-}
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr))
-    return arr;
-}
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o)
-    return;
-  if (typeof o === "string")
-    return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor)
-    n = o.constructor.name;
-  if (n === "Map" || n === "Set")
-    return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-    return _arrayLikeToArray(o, minLen);
-}
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length)
-    len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++)
-    arr2[i] = arr[i];
-  return arr2;
-}
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _toPrimitive(input, hint) {
-  if (typeof input !== "object" || input === null)
-    return input;
-  var prim = input[Symbol.toPrimitive];
-  if (prim !== void 0) {
-    var res = prim.call(input, hint || "default");
-    if (typeof res !== "object")
-      return res;
-    throw new TypeError("@@toPrimitive must return a primitive value.");
-  }
-  return (hint === "string" ? String : Number)(input);
+function _slicedToArray(r, e) {
+  return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
 }
-function _toPropertyKey(arg) {
-  var key = _toPrimitive(arg, "string");
-  return typeof key === "symbol" ? key : String(key);
+function _unsupportedIterableToArray(r, a2) {
+  if (r) {
+    if ("string" == typeof r)
+      return _arrayLikeToArray(r, a2);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a2) : void 0;
+  }
 }
 var Prop = /* @__PURE__ */ _createClass(function Prop2(name, _ref) {
   var _ref$default = _ref["default"], defaultVal = _ref$default === void 0 ? null : _ref$default, _ref$triggerUpdate = _ref.triggerUpdate, triggerUpdate = _ref$triggerUpdate === void 0 ? true : _ref$triggerUpdate, _ref$onChange = _ref.onChange, onChange13 = _ref$onChange === void 0 ? function(newVal, state) {
@@ -25381,7 +26009,7 @@ function _slicedToArray2(r, e) {
 function _toConsumableArray(r) {
   return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray2(r) || _nonIterableSpread();
 }
-function _toPrimitive2(t, r) {
+function _toPrimitive(t, r) {
   if ("object" != typeof t || !t)
     return t;
   var e = t[Symbol.toPrimitive];
@@ -25393,8 +26021,8 @@ function _toPrimitive2(t, r) {
   }
   return String(t);
 }
-function _toPropertyKey2(t) {
-  var i = _toPrimitive2(t, "string");
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, "string");
   return "symbol" == typeof i ? i : i + "";
 }
 function _unsupportedIterableToArray2(r, a2) {
@@ -25423,7 +26051,7 @@ var index4 = function() {
       var keyAccessor = _ref.keyAccessor, isProp = _ref.isProp;
       var key;
       if (isProp) {
-        var _itemVal = itemVal, propVal = _itemVal[keyAccessor], rest = _objectWithoutProperties(_itemVal, [keyAccessor].map(_toPropertyKey2));
+        var _itemVal = itemVal, propVal = _itemVal[keyAccessor], rest = _objectWithoutProperties(_itemVal, [keyAccessor].map(_toPropertyKey));
         key = propVal;
         itemVal = rest;
       } else {
@@ -25534,7 +26162,7 @@ function _objectSpread2(target) {
   return target;
 }
 function _defineProperty(obj, key, value) {
-  key = _toPropertyKey3(key);
+  key = _toPropertyKey2(key);
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value,
@@ -25623,7 +26251,7 @@ function _nonIterableSpread2() {
 function _nonIterableRest3() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _toPrimitive3(input, hint) {
+function _toPrimitive2(input, hint) {
   if (typeof input !== "object" || input === null)
     return input;
   var prim = input[Symbol.toPrimitive];
@@ -25635,8 +26263,8 @@ function _toPrimitive3(input, hint) {
   }
   return (hint === "string" ? String : Number)(input);
 }
-function _toPropertyKey3(arg) {
-  var key = _toPrimitive3(arg, "string");
+function _toPropertyKey2(arg) {
+  var key = _toPrimitive2(arg, "string");
   return typeof key === "symbol" ? key : String(key);
 }
 var _excluded = ["createObj", "updateObj", "exitObj", "objBindAttr", "dataBindAttr"];
@@ -26783,8 +27411,31 @@ function validateWCAG2Parms(parms) {
 }
 
 // node_modules/three-forcegraph/dist/three-forcegraph.mjs
+function _arrayLikeToArray4(r, a2) {
+  (null == a2 || a2 > r.length) && (a2 = r.length);
+  for (var e = 0, n = Array(a2); e < a2; e++)
+    n[e] = r[e];
+  return n;
+}
+function _arrayWithHoles4(r) {
+  if (Array.isArray(r))
+    return r;
+}
+function _arrayWithoutHoles3(r) {
+  if (Array.isArray(r))
+    return _arrayLikeToArray4(r);
+}
+function _assertThisInitialized(e) {
+  if (void 0 === e)
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  return e;
+}
 function _callSuper(t, o, e) {
   return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
+}
+function _classCallCheck2(a2, n) {
+  if (!(a2 instanceof n))
+    throw new TypeError("Cannot call a class as a function");
 }
 function _construct(t, e, r) {
   if (_isNativeReflectConstruct())
@@ -26792,7 +27443,38 @@ function _construct(t, e, r) {
   var o = [null];
   o.push.apply(o, e);
   var p = new (t.bind.apply(t, o))();
-  return r && _setPrototypeOf(p, r.prototype), p;
+  return p;
+}
+function _createClass2(e, r, t) {
+  return Object.defineProperty(e, "prototype", {
+    writable: false
+  }), e;
+}
+function _defineProperty2(e, r, t) {
+  return (r = _toPropertyKey3(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  }) : e[r] = t, e;
+}
+function _getPrototypeOf(t) {
+  return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function(t2) {
+    return t2.__proto__ || Object.getPrototypeOf(t2);
+  }, _getPrototypeOf(t);
+}
+function _inherits(t, e) {
+  if ("function" != typeof e && null !== e)
+    throw new TypeError("Super expression must either be null or a function");
+  t.prototype = Object.create(e && e.prototype, {
+    constructor: {
+      value: t,
+      writable: true,
+      configurable: true
+    }
+  }), Object.defineProperty(t, "prototype", {
+    writable: false
+  }), e && _setPrototypeOf(t, e);
 }
 function _isNativeReflectConstruct() {
   try {
@@ -26804,16 +27486,18 @@ function _isNativeReflectConstruct() {
     return !!t;
   })();
 }
+function _iterableToArray3(r) {
+  if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"])
+    return Array.from(r);
+}
 function _iterableToArrayLimit4(r, l) {
   var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (null != t) {
     var e, n, i, u, a2 = [], f = true, o = false;
     try {
-      if (i = (t = t.call(r)).next, 0 === l) {
-        if (Object(t) !== t)
-          return;
-        f = false;
-      } else
+      if (i = (t = t.call(r)).next, 0 === l)
+        ;
+      else
         for (; !(f = (e = i.call(t)).done) && (a2.push(e.value), a2.length !== l); f = true)
           ;
     } catch (r2) {
@@ -26829,6 +27513,12 @@ function _iterableToArrayLimit4(r, l) {
     }
     return a2;
   }
+}
+function _nonIterableRest4() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _nonIterableSpread3() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function ownKeys2(e, r) {
   var t = Object.keys(e);
@@ -26851,7 +27541,48 @@ function _objectSpread22(e) {
   }
   return e;
 }
-function _toPrimitive4(t, r) {
+function _objectWithoutProperties3(e, t) {
+  if (null == e)
+    return {};
+  var o, r, i = _objectWithoutPropertiesLoose3(e, t);
+  if (Object.getOwnPropertySymbols) {
+    var s = Object.getOwnPropertySymbols(e);
+    for (r = 0; r < s.length; r++)
+      o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]);
+  }
+  return i;
+}
+function _objectWithoutPropertiesLoose3(r, e) {
+  if (null == r)
+    return {};
+  var t = {};
+  for (var n in r)
+    if ({}.hasOwnProperty.call(r, n)) {
+      if (e.includes(n))
+        continue;
+      t[n] = r[n];
+    }
+  return t;
+}
+function _possibleConstructorReturn(t, e) {
+  if (e && ("object" == typeof e || "function" == typeof e))
+    return e;
+  if (void 0 !== e)
+    throw new TypeError("Derived constructors may only return object or undefined");
+  return _assertThisInitialized(t);
+}
+function _setPrototypeOf(t, e) {
+  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t2, e2) {
+    return t2.__proto__ = e2, t2;
+  }, _setPrototypeOf(t, e);
+}
+function _slicedToArray4(r, e) {
+  return _arrayWithHoles4(r) || _iterableToArrayLimit4(r, e) || _unsupportedIterableToArray4(r, e) || _nonIterableRest4();
+}
+function _toConsumableArray3(r) {
+  return _arrayWithoutHoles3(r) || _iterableToArray3(r) || _unsupportedIterableToArray4(r) || _nonIterableSpread3();
+}
+function _toPrimitive3(t, r) {
   if ("object" != typeof t || !t)
     return t;
   var e = t[Symbol.toPrimitive];
@@ -26863,9 +27594,9 @@ function _toPrimitive4(t, r) {
   }
   return ("string" === r ? String : Number)(t);
 }
-function _toPropertyKey4(t) {
-  var i = _toPrimitive4(t, "string");
-  return "symbol" == typeof i ? i : String(i);
+function _toPropertyKey3(t) {
+  var i = _toPrimitive3(t, "string");
+  return "symbol" == typeof i ? i : i + "";
 }
 function _typeof2(o) {
   "@babel/helpers - typeof";
@@ -26875,168 +27606,17 @@ function _typeof2(o) {
     return o2 && "function" == typeof Symbol && o2.constructor === Symbol && o2 !== Symbol.prototype ? "symbol" : typeof o2;
   }, _typeof2(o);
 }
-function _classCallCheck2(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
+function _unsupportedIterableToArray4(r, a2) {
+  if (r) {
+    if ("string" == typeof r)
+      return _arrayLikeToArray4(r, a2);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray4(r, a2) : void 0;
   }
 }
-function _defineProperties2(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor)
-      descriptor.writable = true;
-    Object.defineProperty(target, _toPropertyKey4(descriptor.key), descriptor);
-  }
-}
-function _createClass2(Constructor, protoProps, staticProps) {
-  if (protoProps)
-    _defineProperties2(Constructor.prototype, protoProps);
-  if (staticProps)
-    _defineProperties2(Constructor, staticProps);
-  Object.defineProperty(Constructor, "prototype", {
-    writable: false
-  });
-  return Constructor;
-}
-function _defineProperty2(obj, key, value) {
-  key = _toPropertyKey4(key);
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-  return obj;
-}
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  Object.defineProperty(subClass, "prototype", {
-    writable: false
-  });
-  if (superClass)
-    _setPrototypeOf(subClass, superClass);
-}
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf3(o2) {
-    return o2.__proto__ || Object.getPrototypeOf(o2);
-  };
-  return _getPrototypeOf(o);
-}
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf3(o2, p2) {
-    o2.__proto__ = p2;
-    return o2;
-  };
-  return _setPrototypeOf(o, p);
-}
-function _objectWithoutPropertiesLoose3(source, excluded) {
-  if (source == null)
-    return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0)
-      continue;
-    target[key] = source[key];
-  }
-  return target;
-}
-function _objectWithoutProperties3(source, excluded) {
-  if (source == null)
-    return {};
-  var target = _objectWithoutPropertiesLoose3(source, excluded);
-  var key, i;
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0)
-        continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key))
-        continue;
-      target[key] = source[key];
-    }
-  }
-  return target;
-}
-function _assertThisInitialized(self2) {
-  if (self2 === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return self2;
-}
-function _possibleConstructorReturn(self2, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  } else if (call !== void 0) {
-    throw new TypeError("Derived constructors may only return object or undefined");
-  }
-  return _assertThisInitialized(self2);
-}
-function _slicedToArray4(arr, i) {
-  return _arrayWithHoles4(arr) || _iterableToArrayLimit4(arr, i) || _unsupportedIterableToArray4(arr, i) || _nonIterableRest4();
-}
-function _toConsumableArray3(arr) {
-  return _arrayWithoutHoles3(arr) || _iterableToArray3(arr) || _unsupportedIterableToArray4(arr) || _nonIterableSpread3();
-}
-function _arrayWithoutHoles3(arr) {
-  if (Array.isArray(arr))
-    return _arrayLikeToArray4(arr);
-}
-function _arrayWithHoles4(arr) {
-  if (Array.isArray(arr))
-    return arr;
-}
-function _iterableToArray3(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null)
-    return Array.from(iter);
-}
-function _unsupportedIterableToArray4(o, minLen) {
-  if (!o)
-    return;
-  if (typeof o === "string")
-    return _arrayLikeToArray4(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor)
-    n = o.constructor.name;
-  if (n === "Map" || n === "Set")
-    return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-    return _arrayLikeToArray4(o, minLen);
-}
-function _arrayLikeToArray4(arr, len) {
-  if (len == null || len > arr.length)
-    len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++)
-    arr2[i] = arr[i];
-  return arr2;
-}
-function _nonIterableSpread3() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _nonIterableRest4() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-var materialDispose = function materialDispose2(material) {
+var _materialDispose = function materialDispose(material) {
   if (material instanceof Array) {
-    material.forEach(materialDispose2);
+    material.forEach(_materialDispose);
   } else {
     if (material.map) {
       material.map.dispose();
@@ -27044,25 +27624,25 @@ var materialDispose = function materialDispose2(material) {
     material.dispose();
   }
 };
-var deallocate = function deallocate2(obj) {
+var _deallocate = function deallocate(obj) {
   if (obj.geometry) {
     obj.geometry.dispose();
   }
   if (obj.material) {
-    materialDispose(obj.material);
+    _materialDispose(obj.material);
   }
   if (obj.texture) {
     obj.texture.dispose();
   }
   if (obj.children) {
-    obj.children.forEach(deallocate2);
+    obj.children.forEach(_deallocate);
   }
 };
 var emptyObject = function emptyObject2(obj) {
   while (obj.children.length) {
     var childObj = obj.children[0];
     obj.remove(childObj);
-    deallocate(childObj);
+    _deallocate(childObj);
   }
 };
 var _excluded2 = ["objFilter"];
@@ -27585,9 +28165,9 @@ var ForceGraph = index2({
               }
               var _linkWidth = Math.ceil(linkWidthAccessor(link) * 10) / 10;
               var _r = _linkWidth / 2;
-              var _geometry2 = new three$1.TubeGeometry(curve, curveResolution, _r, state.linkResolution, false);
+              var _geometry3 = new three$1.TubeGeometry(curve, curveResolution, _r, state.linkResolution, false);
               line.geometry.dispose();
-              line.geometry = _geometry2;
+              line.geometry = _geometry3;
             }
           }
         });
@@ -28100,19 +28680,20 @@ var ForceGraph = index2({
         });
         var maxDepth = Math.max.apply(Math, _toConsumableArray3(Object.values(nodeDepths || [])));
         var dagLevelDistance = state.dagLevelDistance || state.graphData.nodes.length / (maxDepth || 1) * DAG_LEVEL_NODE_RATIO * (["radialin", "radialout"].indexOf(state.dagMode) !== -1 ? 0.7 : 1);
-        if (state.dagMode) {
-          var getFFn = function getFFn2(fix, invert) {
-            return function(node) {
-              return !fix ? void 0 : (nodeDepths[node[state.nodeId]] - maxDepth / 2) * dagLevelDistance * (invert ? -1 : 1);
-            };
-          };
-          var fxFn = getFFn(["lr", "rl"].indexOf(state.dagMode) !== -1, state.dagMode === "rl");
-          var fyFn = getFFn(["td", "bu"].indexOf(state.dagMode) !== -1, state.dagMode === "td");
-          var fzFn = getFFn(["zin", "zout"].indexOf(state.dagMode) !== -1, state.dagMode === "zout");
+        if (["lr", "rl", "td", "bu", "zin", "zout"].includes(changedProps.dagMode)) {
+          var resetProp = ["lr", "rl"].includes(changedProps.dagMode) ? "fx" : ["td", "bu"].includes(changedProps.dagMode) ? "fy" : "fz";
           state.graphData.nodes.filter(state.dagNodeFilter).forEach(function(node) {
-            node.fx = fxFn(node);
-            node.fy = fyFn(node);
-            node.fz = fzFn(node);
+            return delete node[resetProp];
+          });
+        }
+        if (["lr", "rl", "td", "bu", "zin", "zout"].includes(state.dagMode)) {
+          var invert = ["rl", "td", "zout"].includes(state.dagMode);
+          var fixFn = function fixFn2(node) {
+            return (nodeDepths[node[state.nodeId]] - maxDepth / 2) * dagLevelDistance * (invert ? -1 : 1);
+          };
+          var _resetProp = ["lr", "rl"].includes(state.dagMode) ? "fx" : ["td", "bu"].includes(state.dagMode) ? "fy" : "fz";
+          state.graphData.nodes.filter(state.dagNodeFilter).forEach(function(node) {
+            return node[_resetProp] = fixFn(node);
           });
         }
         state.d3ForceLayout.force("dagRadial", ["radialin", "radialout"].indexOf(state.dagMode) !== -1 ? radial_default(function(node) {
@@ -28148,7 +28729,6 @@ function fromKapsule(kapsule) {
   var baseClass = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : Object;
   var initKapsuleWithSelf = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : false;
   var FromKapsule = /* @__PURE__ */ function(_baseClass) {
-    _inherits(FromKapsule2, _baseClass);
     function FromKapsule2() {
       var _this;
       _classCallCheck2(this, FromKapsule2);
@@ -28156,9 +28736,10 @@ function fromKapsule(kapsule) {
         args[_key] = arguments[_key];
       }
       _this = _callSuper(this, FromKapsule2, [].concat(args));
-      _this.__kapsuleInstance = kapsule().apply(void 0, [].concat(_toConsumableArray3(initKapsuleWithSelf ? [_assertThisInitialized(_this)] : []), args));
+      _this.__kapsuleInstance = kapsule().apply(void 0, [].concat(_toConsumableArray3(initKapsuleWithSelf ? [_this] : []), args));
       return _this;
     }
+    _inherits(FromKapsule2, _baseClass);
     return _createClass2(FromKapsule2);
   }(baseClass);
   Object.keys(kapsule()).forEach(function(m2) {
@@ -29659,12 +30240,12 @@ var Pass = class {
   }
 };
 var _camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
-var _geometry = new BufferGeometry();
-_geometry.setAttribute("position", new Float32BufferAttribute([-1, 3, 0, -1, -1, 0, 3, -1, 0], 3));
-_geometry.setAttribute("uv", new Float32BufferAttribute([0, 2, 0, 0, 2, 0], 2));
+var _geometry2 = new BufferGeometry();
+_geometry2.setAttribute("position", new Float32BufferAttribute([-1, 3, 0, -1, -1, 0, 3, -1, 0], 3));
+_geometry2.setAttribute("uv", new Float32BufferAttribute([0, 2, 0, 0, 2, 0], 2));
 var FullScreenQuad = class {
   constructor(material) {
-    this._mesh = new Mesh(_geometry, material);
+    this._mesh = new Mesh(_geometry2, material);
   }
   dispose() {
     this._mesh.geometry.dispose();
@@ -30008,7 +30589,7 @@ function _isNativeReflectConstruct2() {
     }));
   } catch (t2) {
   }
-  return (_isNativeReflectConstruct2 = function _isNativeReflectConstruct3() {
+  return (_isNativeReflectConstruct2 = function _isNativeReflectConstruct4() {
     return !!t;
   })();
 }
@@ -31587,15 +32168,22 @@ var update2 = TWEEN.update.bind(TWEEN);
 
 // node_modules/three-render-objects/dist/three-render-objects.mjs
 function styleInject(css, ref) {
-  ref = {};
-  ref.insertAt;
+  if (ref === void 0)
+    ref = {};
+  var insertAt = ref.insertAt;
   if (typeof document === "undefined") {
     return;
   }
   var head = document.head || document.getElementsByTagName("head")[0];
   var style = document.createElement("style");
   style.type = "text/css";
-  {
+  if (insertAt === "top") {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
     head.appendChild(style);
   }
   if (style.styleSheet) {
@@ -31606,6 +32194,32 @@ function styleInject(css, ref) {
 }
 var css_248z = ".scene-nav-info {\n  bottom: 5px;\n  width: 100%;\n  text-align: center;\n  color: slategrey;\n  opacity: 0.7;\n  font-size: 10px;\n}\n\n.scene-tooltip {\n  top: 0;\n  color: lavender;\n  font-size: 15px;\n}\n\n.scene-nav-info, .scene-tooltip {\n  position: absolute;\n  font-family: sans-serif;\n  pointer-events: none;\n  user-select: none;\n}\n\n.scene-container canvas:focus {\n  outline: none;\n}";
 styleInject(css_248z);
+function _arrayLikeToArray5(r, a2) {
+  (null == a2 || a2 > r.length) && (a2 = r.length);
+  for (var e = 0, n = Array(a2); e < a2; e++)
+    n[e] = r[e];
+  return n;
+}
+function _arrayWithHoles5(r) {
+  if (Array.isArray(r))
+    return r;
+}
+function _arrayWithoutHoles4(r) {
+  if (Array.isArray(r))
+    return _arrayLikeToArray5(r);
+}
+function _defineProperty3(e, r, t) {
+  return (r = _toPropertyKey4(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  }) : e[r] = t, e;
+}
+function _iterableToArray4(r) {
+  if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"])
+    return Array.from(r);
+}
 function _iterableToArrayLimit5(r, l) {
   var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
   if (null != t) {
@@ -31630,79 +32244,41 @@ function _iterableToArrayLimit5(r, l) {
     return a2;
   }
 }
-function _toPrimitive5(t, r) {
-  if ("object" != typeof t || !t)
-    return t;
-  var e = t[Symbol.toPrimitive];
-  if (void 0 !== e) {
-    var i = e.call(t, r);
-    if ("object" != typeof i)
-      return i;
-    throw new TypeError("@@toPrimitive must return a primitive value.");
-  }
-  return String(t);
-}
-function _toPropertyKey5(t) {
-  var i = _toPrimitive5(t, "string");
-  return "symbol" == typeof i ? i : i + "";
-}
-function _defineProperty3(obj, key, value) {
-  key = _toPropertyKey5(key);
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-  return obj;
-}
-function _slicedToArray5(arr, i) {
-  return _arrayWithHoles5(arr) || _iterableToArrayLimit5(arr, i) || _unsupportedIterableToArray5(arr, i) || _nonIterableRest5();
-}
-function _toConsumableArray4(arr) {
-  return _arrayWithoutHoles4(arr) || _iterableToArray4(arr) || _unsupportedIterableToArray5(arr) || _nonIterableSpread4();
-}
-function _arrayWithoutHoles4(arr) {
-  if (Array.isArray(arr))
-    return _arrayLikeToArray5(arr);
-}
-function _arrayWithHoles5(arr) {
-  if (Array.isArray(arr))
-    return arr;
-}
-function _iterableToArray4(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null)
-    return Array.from(iter);
-}
-function _unsupportedIterableToArray5(o, minLen) {
-  if (!o)
-    return;
-  if (typeof o === "string")
-    return _arrayLikeToArray5(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor)
-    n = o.constructor.name;
-  if (n === "Map" || n === "Set")
-    return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-    return _arrayLikeToArray5(o, minLen);
-}
-function _arrayLikeToArray5(arr, len) {
-  if (len == null || len > arr.length)
-    len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++)
-    arr2[i] = arr[i];
-  return arr2;
+function _nonIterableRest5() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _nonIterableSpread4() {
   throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _nonIterableRest5() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+function _slicedToArray5(r, e) {
+  return _arrayWithHoles5(r) || _iterableToArrayLimit5(r, e) || _unsupportedIterableToArray5(r, e) || _nonIterableRest5();
+}
+function _toConsumableArray4(r) {
+  return _arrayWithoutHoles4(r) || _iterableToArray4(r) || _unsupportedIterableToArray5(r) || _nonIterableSpread4();
+}
+function _toPrimitive4(t, r) {
+  if ("object" != typeof t || !t)
+    return t;
+  var e = t[Symbol.toPrimitive];
+  if (void 0 !== e) {
+    var i = e.call(t, r || "default");
+    if ("object" != typeof i)
+      return i;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r ? String : Number)(t);
+}
+function _toPropertyKey4(t) {
+  var i = _toPrimitive4(t, "string");
+  return "symbol" == typeof i ? i : i + "";
+}
+function _unsupportedIterableToArray5(r, a2) {
+  if (r) {
+    if ("string" == typeof r)
+      return _arrayLikeToArray5(r, a2);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray5(r, a2) : void 0;
+  }
 }
 var three2 = window.THREE ? window.THREE : {
   WebGLRenderer,
@@ -31834,7 +32410,7 @@ var threeRenderObjects = index2({
             state.hoverObj = topObject;
           }
         }
-        update2();
+        state.tweenGroup.update();
       }
       return this;
     },
@@ -31860,8 +32436,8 @@ var threeRenderObjects = index2({
         } else {
           var camPos = Object.assign({}, camera3.position);
           var camLookAt = getLookAt();
-          new Tween(camPos).to(finalPos, transitionDuration).easing(Easing.Quadratic.Out).onUpdate(setCameraPos).start();
-          new Tween(camLookAt).to(finalLookAt, transitionDuration / 3).easing(Easing.Quadratic.Out).onUpdate(setLookAt).start();
+          state.tweenGroup.add(new Tween(camPos).to(finalPos, transitionDuration).easing(Easing.Quadratic.Out).onUpdate(setCameraPos).start());
+          state.tweenGroup.add(new Tween(camLookAt).to(finalLookAt, transitionDuration / 3).easing(Easing.Quadratic.Out).onUpdate(setLookAt).start());
         }
         return this;
       }
@@ -31982,7 +32558,8 @@ var threeRenderObjects = index2({
     return {
       scene: new three2.Scene(),
       camera: new three2.PerspectiveCamera(),
-      clock: new three2.Clock()
+      clock: new three2.Clock(),
+      tweenGroup: new Group2()
     };
   },
   init: function init2(domNode, state) {
@@ -32177,7 +32754,7 @@ function styleInject2(css, ref) {
   if (ref === void 0)
     ref = {};
   var insertAt = ref.insertAt;
-  if (!css || typeof document === "undefined") {
+  if (typeof document === "undefined") {
     return;
   }
   var head = document.head || document.getElementsByTagName("head")[0];
@@ -32200,6 +32777,31 @@ function styleInject2(css, ref) {
 }
 var css_248z2 = ".graph-info-msg {\n  top: 50%;\n  width: 100%;\n  text-align: center;\n  color: lavender;\n  opacity: 0.7;\n  font-size: 22px;\n  position: absolute;\n  font-family: Sans-serif;\n}\n\n.scene-container .clickable {\n  cursor: pointer;\n}\n\n.scene-container .grabbable {\n  cursor: move;\n  cursor: grab;\n  cursor: -moz-grab;\n  cursor: -webkit-grab;\n}\n\n.scene-container .grabbable:active {\n  cursor: grabbing;\n  cursor: -moz-grabbing;\n  cursor: -webkit-grabbing;\n}";
 styleInject2(css_248z2);
+function _arrayLikeToArray6(r, a2) {
+  (null == a2 || a2 > r.length) && (a2 = r.length);
+  for (var e = 0, n = Array(a2); e < a2; e++)
+    n[e] = r[e];
+  return n;
+}
+function _arrayWithoutHoles5(r) {
+  if (Array.isArray(r))
+    return _arrayLikeToArray6(r);
+}
+function _defineProperty4(e, r, t) {
+  return (r = _toPropertyKey5(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  }) : e[r] = t, e;
+}
+function _iterableToArray5(r) {
+  if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"])
+    return Array.from(r);
+}
+function _nonIterableSpread5() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
 function ownKeys3(e, r) {
   var t = Object.keys(e);
   if (Object.getOwnPropertySymbols) {
@@ -32221,7 +32823,10 @@ function _objectSpread23(e) {
   }
   return e;
 }
-function _toPrimitive6(t, r) {
+function _toConsumableArray5(r) {
+  return _arrayWithoutHoles5(r) || _iterableToArray5(r) || _unsupportedIterableToArray6(r) || _nonIterableSpread5();
+}
+function _toPrimitive5(t, r) {
   if ("object" != typeof t || !t)
     return t;
   var e = t[Symbol.toPrimitive];
@@ -32233,57 +32838,17 @@ function _toPrimitive6(t, r) {
   }
   return ("string" === r ? String : Number)(t);
 }
-function _toPropertyKey6(t) {
-  var i = _toPrimitive6(t, "string");
+function _toPropertyKey5(t) {
+  var i = _toPrimitive5(t, "string");
   return "symbol" == typeof i ? i : i + "";
 }
-function _defineProperty4(obj, key, value) {
-  key = _toPropertyKey6(key);
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
+function _unsupportedIterableToArray6(r, a2) {
+  if (r) {
+    if ("string" == typeof r)
+      return _arrayLikeToArray6(r, a2);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray6(r, a2) : void 0;
   }
-  return obj;
-}
-function _toConsumableArray5(arr) {
-  return _arrayWithoutHoles5(arr) || _iterableToArray5(arr) || _unsupportedIterableToArray6(arr) || _nonIterableSpread5();
-}
-function _arrayWithoutHoles5(arr) {
-  if (Array.isArray(arr))
-    return _arrayLikeToArray6(arr);
-}
-function _iterableToArray5(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null)
-    return Array.from(iter);
-}
-function _unsupportedIterableToArray6(o, minLen) {
-  if (!o)
-    return;
-  if (typeof o === "string")
-    return _arrayLikeToArray6(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor)
-    n = o.constructor.name;
-  if (n === "Map" || n === "Set")
-    return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-    return _arrayLikeToArray6(o, minLen);
-}
-function _arrayLikeToArray6(arr, len) {
-  if (len == null || len > arr.length)
-    len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++)
-    arr2[i] = arr[i];
-  return arr2;
-}
-function _nonIterableSpread5() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function linkKapsule(kapsulePropName, kapsuleType) {
   var dummyK = new kapsuleType();
@@ -32990,16 +33555,26 @@ var settingGroup = class {
     this.plugin = plugin;
     this.rootContainer = document.createElement("div");
     this.rootContainer.id = id;
+    if (type === "group") {
+      this.rootContainer.addClass("tree-item");
+      this.rootContainer.addClass("graph-control-section");
+    }
     if (type === "flex-box") {
       this.holdContainer = this.rootContainer.createDiv("div");
       this.holdContainer.addClass("setting-flex-box");
       return this;
     }
-    this.headContainer = this.rootContainer.createEl("div", { cls: "title-bar" });
+    if (type === "normal-box") {
+      this.holdContainer = this.rootContainer.createDiv("div");
+      return this;
+    }
+    this.headContainer = this.rootContainer.createEl("div");
     this.holdContainer = this.rootContainer.createDiv("div");
-    this.holdContainer.addClass("group-holder");
     if (type === "group") {
-      this.handleButton = new import_obsidian2.ExtraButtonComponent(this.headContainer.createEl("span", { cls: "group-bar-button" })).setIcon("chevron-down").setTooltip("Close " + name).onClick(() => {
+      this.handleButton = new import_obsidian2.ExtraButtonComponent(this.headContainer.createEl("div", { cls: "tree-item-icon collapse-icon" })).setIcon("chevron-down").setTooltip("Close " + name);
+      this.headContainer.createEl("div", { cls: "tree-item-inner graph-control-section-header" }).textContent = name;
+      this.headContainer.addClass("tree-item-self");
+      this.headContainer.onclick = () => {
         if (this.holdContainer.style.display === "none") {
           this.holdContainer.style.display = "inline";
           this.handleButton.setTooltip("Close " + name);
@@ -33009,12 +33584,14 @@ var settingGroup = class {
           this.handleButton.setTooltip("Open " + name);
           this.handleButton.setIcon("chevron-down");
         }
-      });
-      this.headContainer.createEl("span", { cls: "group-bar-text" }).textContent = name;
+      };
+      this.headContainer.addClass("mod-collapsible");
+      this.holdContainer.addClass("tree-item-children");
     } else if (type === "root") {
-      this.handleButton = new import_obsidian2.ExtraButtonComponent(this.headContainer.createEl("div", { cls: "root-title-bar" })).setTooltip("Open " + name).onClick(() => {
+      this.handleButton = new import_obsidian2.ExtraButtonComponent(this.headContainer).setTooltip("Open " + name).onClick(() => {
         if (!this._goAction && this.holdContainer.style.display == "none" && this._baseContainer.style.opacity == "100") {
           this._baseContainer.style.opacity = "0";
+          this._baseContainer.addClass("is-close");
           this.handleButton.setTooltip("Show settings button");
           return;
         }
@@ -33028,12 +33605,18 @@ var settingGroup = class {
           this.holdContainer.style.display = "block";
           this.handleButton.setTooltip("Close " + name);
           this.handleButton.setIcon("x");
+          this._baseContainer.removeClass("is-close");
+          this.headContainer.addClasses(["graph-controls-button", "mod-close"]);
+          this.handleButton.extraSettingsEl.addClass("narrow-icon-style");
           this._goAction = false;
         } else {
           this.holdContainer.style.display = "none";
           this.handleButton.setTooltip("Open " + name);
+          this._baseContainer.addClass("is-close");
           if (this._goAction == false) {
             this.handleButton.setTooltip("Hide this button");
+            this.headContainer.removeClasses(["graph-controls-button", "mod-close"]);
+            this.handleButton.extraSettingsEl.removeClass("narrow-icon-style");
           }
           this.handleButton.setIcon("settings");
         }
@@ -33064,25 +33647,55 @@ var settingGroup = class {
     return this;
   }
   hideAll() {
-    const subholders = Array.from(this.rootContainer.getElementsByClassName("group-holder"));
+    const subholders = Array.from(this.rootContainer.getElementsByClassName("tree-item-children"));
     subholders.forEach((element) => {
       if (element instanceof HTMLElement) {
         element.style.display = "none";
       }
     });
+    this._baseContainer.addClass("is-close");
+    this._baseContainer.style.padding = "0px";
   }
   show() {
     this.holdContainer.style.display = "block";
     return this;
   }
+  addExButton(buttonIcon, buttonDesc, buttonCallback) {
+    new import_obsidian2.ExtraButtonComponent(this.holdContainer.createEl("div", { cls: "group-link-button" })).setIcon(buttonIcon).setTooltip(buttonDesc).onClick(buttonCallback);
+    return this;
+  }
   addButton(buttonText, buttonClass, buttonCallback) {
     const button = this.holdContainer.createEl("div").createEl("button", { text: buttonText, cls: buttonClass });
+    button.addClass("mod-cta");
     button.addEventListener("click", buttonCallback);
+    return this;
+  }
+  getLastElement(ref) {
+    ref.value = this.holdContainer.lastChild;
+    return this;
+  }
+  addDropdown(name, options, defaultValue, cb, cls = ".setting-item-inline") {
+    let _dropdwon;
+    const dropdwon = new import_obsidian2.Setting(this.holdContainer).setName(name).addDropdown(
+      (dropDown) => _dropdwon = dropDown.addOptions(
+        options
+        /* {
+            broken: "broken",
+            md: "md",
+            pdf:"pdf"
+        } */
+      ).setValue("broken").onChange(async (value) => cb(value))
+    );
+    dropdwon.setClass(cls);
+    if (_dropdwon !== void 0) {
+      _dropdwon.setValue("broken");
+      this.plugin.view._controls.push({ id: name, control: _dropdwon });
+    }
     return this;
   }
   addSlider(name, min2, max2, step, defaultNum, cb, cls = "setting-item-block") {
     let _slider;
-    const slider = new import_obsidian2.Setting(this.holdContainer).setName(name).setClass("mod-slider").addSlider((slider2) => _slider = slider2.setLimits(min2, max2, step).setValue(defaultNum).setDynamicTooltip().onChange(async (value) => cb(value)));
+    const slider = new import_obsidian2.Setting(this.holdContainer).setName(name).addSlider((slider2) => _slider = slider2.setLimits(min2, max2, step).setValue(defaultNum).setDynamicTooltip().onChange(async (value) => cb(value)));
     slider.setClass(cls);
     if (_slider !== void 0) {
       _slider.setValue(defaultNum);
@@ -33137,10 +33750,494 @@ var settingGroup = class {
   }
 };
 
+// node_modules/three-spritetext/dist/three-spritetext.mjs
+function _arrayLikeToArray7(r, a2) {
+  (null == a2 || a2 > r.length) && (a2 = r.length);
+  for (var e = 0, n = Array(a2); e < a2; e++)
+    n[e] = r[e];
+  return n;
+}
+function _arrayWithHoles6(r) {
+  if (Array.isArray(r))
+    return r;
+}
+function _arrayWithoutHoles6(r) {
+  if (Array.isArray(r))
+    return _arrayLikeToArray7(r);
+}
+function _assertThisInitialized3(e) {
+  if (void 0 === e)
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  return e;
+}
+function _callSuper2(t, o, e) {
+  return o = _getPrototypeOf3(o), _possibleConstructorReturn2(t, _isNativeReflectConstruct3() ? Reflect.construct(o, e || [], _getPrototypeOf3(t).constructor) : o.apply(t, e));
+}
+function _classCallCheck3(a2, n) {
+  if (!(a2 instanceof n))
+    throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t];
+    o.enumerable = o.enumerable || false, o.configurable = true, "value" in o && (o.writable = true), Object.defineProperty(e, _toPropertyKey6(o.key), o);
+  }
+}
+function _createClass3(e, r, t) {
+  return r && _defineProperties(e.prototype, r), Object.defineProperty(e, "prototype", {
+    writable: false
+  }), e;
+}
+function _getPrototypeOf3(t) {
+  return _getPrototypeOf3 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function(t2) {
+    return t2.__proto__ || Object.getPrototypeOf(t2);
+  }, _getPrototypeOf3(t);
+}
+function _inherits2(t, e) {
+  if ("function" != typeof e && null !== e)
+    throw new TypeError("Super expression must either be null or a function");
+  t.prototype = Object.create(e && e.prototype, {
+    constructor: {
+      value: t,
+      writable: true,
+      configurable: true
+    }
+  }), Object.defineProperty(t, "prototype", {
+    writable: false
+  }), e && _setPrototypeOf3(t, e);
+}
+function _isNativeReflectConstruct3() {
+  try {
+    var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+    }));
+  } catch (t2) {
+  }
+  return (_isNativeReflectConstruct3 = function() {
+    return !!t;
+  })();
+}
+function _iterableToArray6(r) {
+  if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"])
+    return Array.from(r);
+}
+function _iterableToArrayLimit6(r, l) {
+  var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+  if (null != t) {
+    var e, n, i, u, a2 = [], f = true, o = false;
+    try {
+      if (i = (t = t.call(r)).next, 0 === l) {
+        if (Object(t) !== t)
+          return;
+        f = false;
+      } else
+        for (; !(f = (e = i.call(t)).done) && (a2.push(e.value), a2.length !== l); f = true)
+          ;
+    } catch (r2) {
+      o = true, n = r2;
+    } finally {
+      try {
+        if (!f && null != t.return && (u = t.return(), Object(u) !== u))
+          return;
+      } finally {
+        if (o)
+          throw n;
+      }
+    }
+    return a2;
+  }
+}
+function _nonIterableRest6() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _nonIterableSpread6() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _possibleConstructorReturn2(t, e) {
+  if (e && ("object" == typeof e || "function" == typeof e))
+    return e;
+  if (void 0 !== e)
+    throw new TypeError("Derived constructors may only return object or undefined");
+  return _assertThisInitialized3(t);
+}
+function _setPrototypeOf3(t, e) {
+  return _setPrototypeOf3 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t2, e2) {
+    return t2.__proto__ = e2, t2;
+  }, _setPrototypeOf3(t, e);
+}
+function _slicedToArray6(r, e) {
+  return _arrayWithHoles6(r) || _iterableToArrayLimit6(r, e) || _unsupportedIterableToArray7(r, e) || _nonIterableRest6();
+}
+function _toConsumableArray6(r) {
+  return _arrayWithoutHoles6(r) || _iterableToArray6(r) || _unsupportedIterableToArray7(r) || _nonIterableSpread6();
+}
+function _toPrimitive6(t, r) {
+  if ("object" != typeof t || !t)
+    return t;
+  var e = t[Symbol.toPrimitive];
+  if (void 0 !== e) {
+    var i = e.call(t, r);
+    if ("object" != typeof i)
+      return i;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return String(t);
+}
+function _toPropertyKey6(t) {
+  var i = _toPrimitive6(t, "string");
+  return "symbol" == typeof i ? i : i + "";
+}
+function _unsupportedIterableToArray7(r, a2) {
+  if (r) {
+    if ("string" == typeof r)
+      return _arrayLikeToArray7(r, a2);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray7(r, a2) : void 0;
+  }
+}
+var three4 = typeof window !== "undefined" && window.THREE ? window.THREE : {
+  CanvasTexture,
+  Sprite,
+  SpriteMaterial,
+  SRGBColorSpace
+};
+var _default14 = /* @__PURE__ */ function(_three$Sprite) {
+  function _default15() {
+    var _this;
+    var text = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "";
+    var textHeight = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 10;
+    var color = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : "rgba(255, 255, 255, 1)";
+    _classCallCheck3(this, _default15);
+    _this = _callSuper2(this, _default15, [new three4.SpriteMaterial()]);
+    _this._text = "".concat(text);
+    _this._textHeight = textHeight;
+    _this._color = color;
+    _this._backgroundColor = false;
+    _this._padding = 0;
+    _this._borderWidth = 0;
+    _this._borderRadius = 0;
+    _this._borderColor = "white";
+    _this._strokeWidth = 0;
+    _this._strokeColor = "white";
+    _this._fontFace = "system-ui";
+    _this._fontSize = 90;
+    _this._fontWeight = "normal";
+    _this._canvas = document.createElement("canvas");
+    _this._genCanvas();
+    return _this;
+  }
+  _inherits2(_default15, _three$Sprite);
+  return _createClass3(_default15, [{
+    key: "text",
+    get: function get2() {
+      return this._text;
+    },
+    set: function set2(text) {
+      this._text = text;
+      this._genCanvas();
+    }
+  }, {
+    key: "textHeight",
+    get: function get2() {
+      return this._textHeight;
+    },
+    set: function set2(textHeight) {
+      this._textHeight = textHeight;
+      this._genCanvas();
+    }
+  }, {
+    key: "color",
+    get: function get2() {
+      return this._color;
+    },
+    set: function set2(color) {
+      this._color = color;
+      this._genCanvas();
+    }
+  }, {
+    key: "backgroundColor",
+    get: function get2() {
+      return this._backgroundColor;
+    },
+    set: function set2(color) {
+      this._backgroundColor = color;
+      this._genCanvas();
+    }
+  }, {
+    key: "padding",
+    get: function get2() {
+      return this._padding;
+    },
+    set: function set2(padding) {
+      this._padding = padding;
+      this._genCanvas();
+    }
+  }, {
+    key: "borderWidth",
+    get: function get2() {
+      return this._borderWidth;
+    },
+    set: function set2(borderWidth) {
+      this._borderWidth = borderWidth;
+      this._genCanvas();
+    }
+  }, {
+    key: "borderRadius",
+    get: function get2() {
+      return this._borderRadius;
+    },
+    set: function set2(borderRadius) {
+      this._borderRadius = borderRadius;
+      this._genCanvas();
+    }
+  }, {
+    key: "borderColor",
+    get: function get2() {
+      return this._borderColor;
+    },
+    set: function set2(borderColor) {
+      this._borderColor = borderColor;
+      this._genCanvas();
+    }
+  }, {
+    key: "fontFace",
+    get: function get2() {
+      return this._fontFace;
+    },
+    set: function set2(fontFace) {
+      this._fontFace = fontFace;
+      this._genCanvas();
+    }
+  }, {
+    key: "fontSize",
+    get: function get2() {
+      return this._fontSize;
+    },
+    set: function set2(fontSize) {
+      this._fontSize = fontSize;
+      this._genCanvas();
+    }
+  }, {
+    key: "fontWeight",
+    get: function get2() {
+      return this._fontWeight;
+    },
+    set: function set2(fontWeight) {
+      this._fontWeight = fontWeight;
+      this._genCanvas();
+    }
+  }, {
+    key: "strokeWidth",
+    get: function get2() {
+      return this._strokeWidth;
+    },
+    set: function set2(strokeWidth) {
+      this._strokeWidth = strokeWidth;
+      this._genCanvas();
+    }
+  }, {
+    key: "strokeColor",
+    get: function get2() {
+      return this._strokeColor;
+    },
+    set: function set2(strokeColor) {
+      this._strokeColor = strokeColor;
+      this._genCanvas();
+    }
+  }, {
+    key: "_genCanvas",
+    value: function _genCanvas() {
+      var _this2 = this;
+      var canvas = this._canvas;
+      var ctx = canvas.getContext("2d");
+      var border = Array.isArray(this.borderWidth) ? this.borderWidth : [this.borderWidth, this.borderWidth];
+      var relBorder = border.map(function(b) {
+        return b * _this2.fontSize * 0.1;
+      });
+      var borderRadius = Array.isArray(this.borderRadius) ? this.borderRadius : [this.borderRadius, this.borderRadius, this.borderRadius, this.borderRadius];
+      var relBorderRadius = borderRadius.map(function(b) {
+        return b * _this2.fontSize * 0.1;
+      });
+      var padding = Array.isArray(this.padding) ? this.padding : [this.padding, this.padding];
+      var relPadding = padding.map(function(p) {
+        return p * _this2.fontSize * 0.1;
+      });
+      var lines = this.text.split("\n");
+      var font = "".concat(this.fontWeight, " ").concat(this.fontSize, "px ").concat(this.fontFace);
+      ctx.font = font;
+      var innerWidth = Math.max.apply(Math, _toConsumableArray6(lines.map(function(line) {
+        return ctx.measureText(line).width;
+      })));
+      var innerHeight = this.fontSize * lines.length;
+      canvas.width = innerWidth + relBorder[0] * 2 + relPadding[0] * 2;
+      canvas.height = innerHeight + relBorder[1] * 2 + relPadding[1] * 2;
+      if (this.borderWidth) {
+        ctx.strokeStyle = this.borderColor;
+        if (relBorder[0]) {
+          var hb = relBorder[0] / 2;
+          ctx.lineWidth = relBorder[0];
+          ctx.beginPath();
+          ctx.moveTo(hb, relBorderRadius[0]);
+          ctx.lineTo(hb, canvas.height - relBorderRadius[3]);
+          ctx.moveTo(canvas.width - hb, relBorderRadius[1]);
+          ctx.lineTo(canvas.width - hb, canvas.height - relBorderRadius[2]);
+          ctx.stroke();
+        }
+        if (relBorder[1]) {
+          var _hb = relBorder[1] / 2;
+          ctx.lineWidth = relBorder[1];
+          ctx.beginPath();
+          ctx.moveTo(Math.max(relBorder[0], relBorderRadius[0]), _hb);
+          ctx.lineTo(canvas.width - Math.max(relBorder[0], relBorderRadius[1]), _hb);
+          ctx.moveTo(Math.max(relBorder[0], relBorderRadius[3]), canvas.height - _hb);
+          ctx.lineTo(canvas.width - Math.max(relBorder[0], relBorderRadius[2]), canvas.height - _hb);
+          ctx.stroke();
+        }
+        if (this.borderRadius) {
+          var cornerWidth = Math.max.apply(Math, _toConsumableArray6(relBorder));
+          var _hb2 = cornerWidth / 2;
+          ctx.lineWidth = cornerWidth;
+          ctx.beginPath();
+          [!!relBorderRadius[0] && [relBorderRadius[0], _hb2, _hb2, relBorderRadius[0]], !!relBorderRadius[1] && [canvas.width - relBorderRadius[1], canvas.width - _hb2, _hb2, relBorderRadius[1]], !!relBorderRadius[2] && [canvas.width - relBorderRadius[2], canvas.width - _hb2, canvas.height - _hb2, canvas.height - relBorderRadius[2]], !!relBorderRadius[3] && [relBorderRadius[3], _hb2, canvas.height - _hb2, canvas.height - relBorderRadius[3]]].filter(function(d) {
+            return d;
+          }).forEach(function(_ref) {
+            var _ref2 = _slicedToArray6(_ref, 4), x0 = _ref2[0], x1 = _ref2[1], y0 = _ref2[2], y1 = _ref2[3];
+            ctx.moveTo(x0, y0);
+            ctx.quadraticCurveTo(x1, y0, x1, y1);
+          });
+          ctx.stroke();
+        }
+      }
+      if (this.backgroundColor) {
+        ctx.fillStyle = this.backgroundColor;
+        if (!this.borderRadius) {
+          ctx.fillRect(relBorder[0], relBorder[1], canvas.width - relBorder[0] * 2, canvas.height - relBorder[1] * 2);
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(relBorder[0], relBorderRadius[0]);
+          [
+            [relBorder[0], relBorderRadius[0], canvas.width - relBorderRadius[1], relBorder[1], relBorder[1], relBorder[1]],
+            // t
+            [canvas.width - relBorder[0], canvas.width - relBorder[0], canvas.width - relBorder[0], relBorder[1], relBorderRadius[1], canvas.height - relBorderRadius[2]],
+            // r
+            [canvas.width - relBorder[0], canvas.width - relBorderRadius[2], relBorderRadius[3], canvas.height - relBorder[1], canvas.height - relBorder[1], canvas.height - relBorder[1]],
+            // b
+            [relBorder[0], relBorder[0], relBorder[0], canvas.height - relBorder[1], canvas.height - relBorderRadius[3], relBorderRadius[0]]
+            // t
+          ].forEach(function(_ref3) {
+            var _ref4 = _slicedToArray6(_ref3, 6), x0 = _ref4[0], x1 = _ref4[1], x2 = _ref4[2], y0 = _ref4[3], y1 = _ref4[4], y2 = _ref4[5];
+            ctx.quadraticCurveTo(x0, y0, x1, y1);
+            ctx.lineTo(x2, y2);
+          });
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+      ctx.translate.apply(ctx, _toConsumableArray6(relBorder));
+      ctx.translate.apply(ctx, _toConsumableArray6(relPadding));
+      ctx.font = font;
+      ctx.fillStyle = this.color;
+      ctx.textBaseline = "bottom";
+      var drawTextStroke = this.strokeWidth > 0;
+      if (drawTextStroke) {
+        ctx.lineWidth = this.strokeWidth * this.fontSize / 10;
+        ctx.strokeStyle = this.strokeColor;
+      }
+      lines.forEach(function(line, index5) {
+        var lineX = (innerWidth - ctx.measureText(line).width) / 2;
+        var lineY = (index5 + 1) * _this2.fontSize;
+        drawTextStroke && ctx.strokeText(line, lineX, lineY);
+        ctx.fillText(line, lineX, lineY);
+      });
+      if (this.material.map)
+        this.material.map.dispose();
+      var texture = this.material.map = new three4.CanvasTexture(canvas);
+      texture.colorSpace = three4.SRGBColorSpace;
+      var yScale = this.textHeight * lines.length + border[1] * 2 + padding[1] * 2;
+      this.scale.set(yScale * canvas.width / canvas.height, yScale, 0);
+    }
+  }, {
+    key: "clone",
+    value: function clone2() {
+      return new this.constructor(this.text, this.textHeight, this.color).copy(this);
+    }
+  }, {
+    key: "copy",
+    value: function copy(source) {
+      three4.Sprite.prototype.copy.call(this, source);
+      this.color = source.color;
+      this.backgroundColor = source.backgroundColor;
+      this.padding = source.padding;
+      this.borderWidth = source.borderWidth;
+      this.borderColor = source.borderColor;
+      this.fontFace = source.fontFace;
+      this.fontSize = source.fontSize;
+      this.fontWeight = source.fontWeight;
+      this.strokeWidth = source.strokeWidth;
+      this.strokeColor = source.strokeColor;
+      return this;
+    }
+  }]);
+}(three4.Sprite);
+
 // src/views/TagsRoutes.ts
 var VIEW_TYPE_TAGS_ROUTES = "tags-routes";
 var filesDataMap = /* @__PURE__ */ new Map();
-var logFilePath = "TagsRoutes/logs/logMessage.md";
+var darkStyle = class {
+  // Constructor to initialize properties
+  constructor(name, plugin) {
+    this.name = name;
+    this.plugin = plugin;
+  }
+  // Implement the addStyle method
+  addStyle(container) {
+    var _a, _b;
+    DebugMsg(4 /* DEBUG */, `Adding style: ${this.name}`);
+    this.plugin.view.clearHightlightNodes();
+    this.Graph = this.plugin.view.Graph;
+    this.Graph.backgroundColor(((_a = this.plugin.settings.customSlot) == null ? void 0 : _a[0].colorMap.backgroundColor.value) || "#000003");
+    this.Graph.nodeThreeObject(this.plugin.view.createNodeThreeObject);
+    this.Graph.lights()[0].intensity = 1;
+    this.bloomPass = new UnrealBloomPass(
+      { x: container.clientWidth, y: container.clientHeight },
+      /*2.0,*/
+      ((_b = this.plugin.settings.customSlot) == null ? void 0 : _b[0].bloom_strength) || 2,
+      0.5,
+      0
+    );
+    this.plugin.view.Graph.postProcessingComposer().addPass(this.bloomPass);
+  }
+  // Implement the removeStyle method
+  removeStyle(container) {
+    DebugMsg(4 /* DEBUG */, `Removing style: ${this.name}`);
+    this.plugin.view.Graph.postProcessingComposer().removePass(this.bloomPass);
+  }
+};
+var lightStyle = class {
+  // Constructor to initialize properties
+  constructor(name, plugin) {
+    this.name = name;
+    this.plugin = plugin;
+  }
+  // Implement the addStyle method
+  addStyle(container) {
+    var _a;
+    DebugMsg(4 /* DEBUG */, `Adding style: ${this.name}`);
+    this.plugin.view.clearHightlightNodes();
+    this.Graph = this.plugin.view.Graph;
+    this.Graph.backgroundColor(((_a = this.plugin.settings.customSlot) == null ? void 0 : _a[0].colorMap.backgroundColor.value) || "#ffffff");
+    this.Graph.nodeThreeObject(this.plugin.view.createNodeThreeObjectLight);
+    this.Graph.lights()[0].intensity = 0.2;
+    const light = new DirectionalLight(16777215, 1);
+    light.position.set(5, 10, 7.5);
+    light.castShadow = true;
+    this.Graph.scene().add(light);
+  }
+  // Implement the removeStyle method
+  removeStyle(container) {
+    DebugMsg(4 /* DEBUG */, `Removing style: ${this.name}`);
+    this.Graph.scene().remove(this.Graph.lights()[1]);
+  }
+};
 var TagRoutesView = class extends import_obsidian4.ItemView {
   constructor(leaf, plugin) {
     super(leaf);
@@ -33149,12 +34246,18 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
       links: []
     };
     this._controls = [];
+    this.container = this.containerEl.children[1];
+    this.currentVisualString = "";
+    this.doingSwitchVisual = false;
+    this.saveButtonRef = { value: null };
     this.hoveredNodes = /* @__PURE__ */ new Set();
     this.hoveredNodesLinks = /* @__PURE__ */ new Set();
     this.selectedNodes = /* @__PURE__ */ new Set();
     this.selectedNodesLinks = /* @__PURE__ */ new Set();
     this.highlightNodes = /* @__PURE__ */ new Set();
     this.highlightLinks = /* @__PURE__ */ new Set();
+    this.orphanToLink = "broken";
+    this.colorAngle = -45;
     this.distanceFactor = 2;
     this.createdFile = false;
     this.logMessages = [];
@@ -33170,7 +34273,29 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.getNodeVisible = this.getNodeVisible.bind(this);
     this.getLinkVisible = this.getLinkVisible.bind(this);
     this.onResetGraph = this.onResetGraph.bind(this);
-    this.currentSlot = this.plugin.settings.currentSlot;
+    this.createNodeThreeObject = this.createNodeThreeObject.bind(this);
+    this.currentSlotNum = this.plugin.settings.currentSlotNum;
+    this.createNodeThreeObjectLight = this.createNodeThreeObjectLight.bind(this);
+    this.updateColor = this.updateColor.bind(this);
+    this.getNodeColorByType = this.getNodeColorByType.bind(this);
+    this.switchTheme = this.switchTheme.bind(this);
+    this.onToggleLabelDisplay = this.onToggleLabelDisplay.bind(this);
+    this.onToggleHighlightTrackMode = this.onToggleHighlightTrackMode.bind(this);
+    this.onTextColorAngle = this.onTextColorAngle.bind(this);
+    this.onBloomStrength = this.onBloomStrength.bind(this);
+    this.setSaveButton = this.setSaveButton.bind(this);
+    this.onToggleFreezeNodePosition = this.onToggleFreezeNodePosition.bind(this);
+    this.visuals = {
+      dark: new darkStyle("dark", this.plugin),
+      light: new lightStyle("light", this.plugin)
+    };
+    this.onDropdown = this.onDropdown.bind(this);
+    this.onLinkButton = this.onLinkButton.bind(this);
+    this.onUnlinkButton = this.onUnlinkButton.bind(this);
+    this.linkNodeByType = this.linkNodeByType.bind(this);
+    this.unlinkNodeByType = this.unlinkNodeByType.bind(this);
+    this.applyNodeSize = this.applyNodeSize.bind(this);
+    this.onToggleLabelDisplay = this.onToggleLabelDisplay.bind(this);
   }
   getViewType() {
     return VIEW_TYPE_TAGS_ROUTES;
@@ -33178,12 +34303,360 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
   getDisplayText() {
     return "Tags routes";
   }
+  getIcon() {
+    return "waypoints";
+  }
+  getComputedColorForSelector(selector) {
+    const tempElement = document.createElement("div");
+    tempElement.style.display = "none";
+    tempElement.className = selector.replace(/^\./, "").replace(/\./g, " ");
+    document.body.appendChild(tempElement);
+    const computedStyle = window.getComputedStyle(tempElement);
+    const color = computedStyle.color;
+    document.body.removeChild(tempElement);
+    return this.rgbStrToHex(color);
+  }
+  rgbStrToHex(color) {
+    if (color.startsWith("#")) {
+      return color.slice(0, 7);
+    }
+    const parts = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(?:\d+(?:\.\d+)?))?\)$/);
+    if (!parts) {
+      DebugMsg(2 /* WARN */, "Invalid color format");
+      throw new Error("Invalid color format");
+    }
+    const r = parseInt(parts[1]).toString(16).padStart(2, "0");
+    const g = parseInt(parts[2]).toString(16).padStart(2, "0");
+    const b = parseInt(parts[3]).toString(16).padStart(2, "0");
+    return `#${r}${g}${b}`;
+  }
+  rgbToHex(rgb2) {
+    return "#" + rgb2.map((x2) => {
+      const hex = Math.round(x2 * 255).toString(16);
+      return hex.length === 1 ? "0" + hex : hex;
+    }).join("");
+  }
+  hexToRgb(hex) {
+    hex = hex.replace(/^#/, "");
+    const bigint = parseInt(hex, 16);
+    const r = bigint >> 16 & 255;
+    const g = bigint >> 8 & 255;
+    const b = bigint & 255;
+    return [r, g, b];
+  }
+  rgbToHsl(r, g, b) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    const max2 = Math.max(r, g, b);
+    const min2 = Math.min(r, g, b);
+    let h = 0, s;
+    const l = (max2 + min2) / 2;
+    if (max2 === min2) {
+      h = s = 0;
+    } else {
+      const d = max2 - min2;
+      s = l > 0.5 ? d / (2 - max2 - min2) : d / (max2 + min2);
+      switch (max2) {
+        case r:
+          h = (g - b) / d + (g < b ? 6 : 0);
+          break;
+        case g:
+          h = (b - r) / d + 2;
+          break;
+        case b:
+          h = (r - g) / d + 4;
+          break;
+      }
+      h /= 6;
+    }
+    return [h, s, l];
+  }
+  hslToRgb(h, s, l) {
+    let r, g, b;
+    if (s === 0) {
+      r = g = b = l;
+    } else {
+      const hue2rgb2 = (p2, q2, t) => {
+        if (t < 0)
+          t += 1;
+        if (t > 1)
+          t -= 1;
+        if (t < 1 / 6)
+          return p2 + (q2 - p2) * 6 * t;
+        if (t < 1 / 2)
+          return q2;
+        if (t < 2 / 3)
+          return p2 + (q2 - p2) * (2 / 3 - t) * 6;
+        return p2;
+      };
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
+      r = hue2rgb2(p, q, h + 1 / 3);
+      g = hue2rgb2(p, q, h);
+      b = hue2rgb2(p, q, h - 1 / 3);
+    }
+    return [r, g, b];
+  }
+  getContrastingColor(hexColor, angle1) {
+    let angle = angle1 * 45;
+    angle = angle % 360;
+    if (angle < 0)
+      angle += 360;
+    const rgb2 = this.hexToRgb(hexColor);
+    const [h, s, l] = this.rgbToHsl(rgb2[0], rgb2[1], rgb2[2]);
+    const newHue = (h + angle / 360) % 1;
+    const [r, g, b] = this.hslToRgb(newHue, s, l);
+    return this.rgbToHex([r, g, b]);
+  }
+  applyThemeColor() {
+    var _a, _b;
+    if (!this.plugin.settings.customSlot)
+      return;
+    this.plugin.settings.customSlot[0].colorMap["markdown"] = {
+      name: "theme",
+      value: this.getComputedColorForSelector(".graph-view.color-fill")
+    };
+    this.plugin.settings.customSlot[0].colorMap["tag"] = {
+      name: "theme",
+      value: this.getComputedColorForSelector(".graph-view.color-fill-tag")
+    };
+    this.plugin.settings.customSlot[0].colorMap["attachment"] = {
+      name: "theme",
+      value: this.getComputedColorForSelector(".graph-view.color-fill-attachment")
+    };
+    this.plugin.settings.customSlot[0].colorMap["nodeFocusColor"] = {
+      name: "theme",
+      value: this.getComputedColorForSelector(".graph-view.color-fill-focused")
+    };
+    this.plugin.settings.customSlot[0].colorMap["nodeHighlightColor"] = {
+      name: "theme",
+      value: this.getComputedColorForSelector(".graph-view.color-fill-highlight")
+    };
+    this.plugin.settings.customSlot[0].colorMap["linkHighlightColor"] = {
+      name: "theme",
+      value: this.getComputedColorForSelector(".graph-view.color-line-highlight")
+    };
+    this.plugin.settings.customSlot[0].colorMap["linkNormalColor"] = {
+      name: "theme",
+      value: this.getComputedColorForSelector(".graph-view.color-line")
+    };
+    this.plugin.settings.customSlot[0].colorMap["broken"] = {
+      name: "theme",
+      value: this.getComputedColorForSelector(".graph-view.color-fill-unresolved")
+    };
+    this.clearHightlightNodes();
+    if (this.currentVisualString === "light") {
+      this.plugin.settings.customSlot[0].colorMap["backgroundColor"] = {
+        name: "theme",
+        value: getComputedStyle(this.app.workspace.containerEl).getPropertyValue("--background-primary").toLowerCase()
+      };
+      this.Graph.backgroundColor(this.plugin.settings.customSlot[0].colorMap["backgroundColor"].value);
+    } else if (this.currentVisualString === "dark") {
+    }
+    this.updateColor();
+    this.updateHighlight();
+    const isDarkMode = document.body.classList.contains("theme-dark");
+    const colorMapSource = `'${((_b = (_a = this.app.vault) == null ? void 0 : _a.config) == null ? void 0 : _b.cssTheme) || "Obsidian"}' - ${isDarkMode ? "dark" : "light"} `;
+    this.plugin.settings.customSlot[0].colorMapSource = colorMapSource;
+    DebugMsg(4 /* DEBUG */, "current colormap: ", colorMapSource);
+    new import_obsidian3.Notice(`Tags routes: Color imported from  ${colorMapSource}`);
+    new import_obsidian3.Notice(`Tags routes: Use 'Save' to make the changes effective next time.`);
+    this.setSaveButton(true);
+  }
+  setSaveButton(needSave) {
+    if (this.saveButtonRef.value) {
+      if (needSave) {
+        this.saveButtonRef.value.addClass("tags-routes-need-save");
+      } else {
+        this.saveButtonRef.value.removeClass("tags-routes-need-save");
+      }
+    }
+  }
+  /*
+      Make sure the customSlot has been swtiched to wanted theme before call this
+  */
+  async switchTheme(visual) {
+    var _a;
+    if (this.currentVisualString !== visual) {
+      (_a = this.visualProcessor) == null ? void 0 : _a.removeStyle(this.container);
+      this.visualProcessor = this.visuals[visual];
+      this.visualProcessor.addStyle(this.container);
+      this.currentVisualString = visual;
+      this.doingSwitchVisual = true;
+      return true;
+    }
+    return false;
+  }
+  async captureAndSaveScreenshot(insert) {
+    this.Graph.renderer().render(this.Graph.scene(), this.Graph.camera());
+    this.Graph.postProcessingComposer().render();
+    const gl = this.Graph.renderer().getContext();
+    const width = gl.drawingBufferWidth;
+    const height = gl.drawingBufferHeight;
+    const buffer = new Uint8Array(width * height * 4);
+    gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, buffer);
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext("2d");
+    if (!context)
+      return;
+    const imageData = context.createImageData(width, height);
+    imageData.data.set(buffer);
+    context.putImageData(imageData, 0, 0);
+    context.scale(1, -1);
+    context.translate(0, -height);
+    context.drawImage(canvas, 0, 0);
+    const dataURL = canvas.toDataURL("image/png");
+    const base64Data = dataURL.split(",")[1];
+    const arrayBuffer = Uint8Array.from(atob(base64Data), (c2) => c2.charCodeAt(0)).buffer;
+    createFolderIfNotExists(this.plugin.settings.snapShotFolder);
+    const filePath = `${this.plugin.settings.snapShotFolder}/graph-screenshot-${(0, import_obsidian3.moment)(Date.now()).format("YYYY-MM-DD-HH-mm-ss")}.png`;
+    const file = await this.app.vault.createBinary(filePath, arrayBuffer);
+    if (insert) {
+      this.insertImageToCurrentNote(file);
+    } else {
+      new import_obsidian3.Notice("Screenshot saved.");
+    }
+  }
+  async insertImageToCurrentNote(file) {
+    let activeLeaf = null;
+    const leaves = this.app.workspace.getLeavesOfType("markdown");
+    if (leaves.length > 0) {
+      activeLeaf = leaves.find((leaf) => {
+        const container = leaf.view.containerEl;
+        const parentContainer = container.closest(".workspace-leaf");
+        return parentContainer && parentContainer.style.display !== "none";
+      }) || null;
+    }
+    if (activeLeaf) {
+      const state = activeLeaf.view.getState();
+      DebugMsg(4 /* DEBUG */, state);
+      if (state.mode === "source") {
+        const editor = activeLeaf.view.editor;
+        const cursor = editor.getCursor();
+        editor.replaceRange(`![[${file.path}]]`, cursor);
+        new import_obsidian3.Notice("Screenshot saved and inserted into note.");
+      } else {
+        new import_obsidian3.Notice("Screenshot saved but no editing note found to insert.");
+        DebugMsg(4 /* DEBUG */, "No markdown note is active: Insert to note canceled, only save screenshot.");
+      }
+    } else {
+      new import_obsidian3.Notice("Screenshot saved but no markdown note is active.");
+    }
+  }
+  createNodeThreeObjectLight(node) {
+    var _a;
+    const group = new Group();
+    let nodeSize = node.connections || 1;
+    if (node.type === "tag")
+      nodeSize = node.instanceNum || 1;
+    nodeSize = Math.log2(nodeSize) * 5;
+    const geometry = new SphereGeometry(nodeSize < 3 ? 3 : nodeSize, 16, 16);
+    let color = this.getNodeColorByType(node);
+    const material = new MeshBasicMaterial({ color });
+    const material0 = new MeshStandardMaterial({
+      color,
+      //    blending: THREE.AdditiveBlending,
+      emissive: color,
+      emissiveIntensity: 0.3
+    });
+    material0.opacity = 0.9;
+    material0.transparent = true;
+    const mesh = new Mesh(geometry, material0);
+    group.add(mesh);
+    const parts = node.id.split("/");
+    let node_text_name = "";
+    if (node.type == "other") {
+      node_text_name = node.id;
+    } else {
+      if (node.type == "tag") {
+        node_text_name = parts[parts.length - 1];
+      } else {
+        let node_full_name = parts[parts.length - 1];
+        let partsName = node_full_name.split(".");
+        if (partsName.length > 1) {
+          partsName.length = partsName.length - (node.type === "excalidraw" ? 2 : 1);
+        }
+        node_text_name = partsName.join(".");
+      }
+    }
+    const sprite = new _default14(node_text_name + " (" + (node.type == "tag" ? node.instanceNum : node.connections) + ")");
+    sprite.material.depthWrite = false;
+    sprite.color = this.getContrastingColor(color, ((_a = this.plugin.settings.customSlot) == null ? void 0 : _a[0].text_color_angle) || 0);
+    sprite.visible = false;
+    sprite.textHeight = 0;
+    sprite.position.set(0, -nodeSize - 20, 0);
+    group.add(sprite);
+    sprite.raycast = () => {
+    };
+    node._ThreeGroup = group;
+    node._ThreeMesh = mesh;
+    node._Sprite = sprite;
+    return group;
+  }
+  createNodeThreeObject(node) {
+    var _a;
+    DebugMsg(4 /* DEBUG */, "createNodeThreeObject called");
+    const group = new Group();
+    let nodeSize = node.connections || 1;
+    if (node.type === "tag")
+      nodeSize = node.instanceNum || 1;
+    nodeSize = Math.log2(nodeSize) * 5;
+    const geometry = new SphereGeometry(nodeSize < 3 ? 3 : nodeSize, 16, 16);
+    let color = this.getNodeColorByType(node);
+    const material = new MeshBasicMaterial({ color });
+    const mesh = new Mesh(geometry, material);
+    group.add(mesh);
+    const parts = node.id.split("/");
+    let node_text_name = "";
+    if (node.type == "other") {
+      node_text_name = node.id;
+    } else {
+      if (node.type == "tag") {
+        node_text_name = parts[parts.length - 1];
+      } else {
+        let node_full_name = parts[parts.length - 1];
+        let partsName = node_full_name.split(".");
+        if (partsName.length > 1) {
+          partsName.length = partsName.length - (node.type === "excalidraw" ? 2 : 1);
+        }
+        node_text_name = partsName.join(".");
+      }
+    }
+    const sprite = new _default14(node_text_name + " (" + (node.type == "tag" ? node.instanceNum : node.connections) + ")");
+    sprite.material.depthWrite = false;
+    sprite.color = this.getContrastingColor(color, ((_a = this.plugin.settings.customSlot) == null ? void 0 : _a[0].text_color_angle) || 0);
+    sprite.visible = false;
+    sprite.textHeight = 0;
+    sprite.position.set(0, -nodeSize - 20, 0);
+    group.add(sprite);
+    sprite.raycast = () => {
+    };
+    node._ThreeGroup = group;
+    node._ThreeMesh = mesh;
+    node._Sprite = sprite;
+    return group;
+  }
+  getCameraDistance(node) {
+    let nodeSize = node.connections || 1;
+    const maxdistance = 640;
+    const minDistance = 150;
+    let distance = 640;
+    if (nodeSize < 10) {
+      distance = minDistance + nodeSize / 10 * (maxdistance - minDistance);
+    }
+    return distance;
+  }
   /**
    * Handle the highlight data change of a clicked node
    * @param node | null
    * 
    */
   highlightOnNodeClick(node) {
+    if (!this.plugin.settings.customSlot)
+      return;
     if (!node && !this.selectedNodes.size || node && this.selectedNode === node)
       return;
     if (this.plugin.settings.customSlot[0].toggle_global_map) {
@@ -33208,38 +34681,74 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
         this.selectedNodes.clear();
         this.selectedNodesLinks.clear();
         this.selectedNode = node;
-        if (node) {
-          this.selectedNodes.add(node);
-          if (node.neighbors) {
-            node.neighbors.forEach((neighbor) => {
-              this.selectedNodes.add(neighbor);
-            });
-          }
-          if (node.links) {
-            node.links.forEach((link) => {
-              this.selectedNodesLinks.add(link);
-            });
+        if (this.plugin.settings.customSlot[0].toggle_highlight_track_mode && node) {
+          this.getNeighbors(node, { nodes: this.selectedNodes, links: this.selectedNodesLinks });
+        } else {
+          if (node) {
+            this.selectedNodes.add(node);
+            if (node.neighbors) {
+              node.neighbors.forEach((neighbor) => {
+                this.selectedNodes.add(neighbor);
+              });
+            }
+            if (node.links) {
+              node.links.forEach((link) => {
+                this.selectedNodesLinks.add(link);
+              });
+            }
           }
         }
+      } else {
+        this.selectedNode = node;
       }
     }
     this.updateHighlight();
   }
   highlightOnNodeRightClick(node) {
-    if (node) {
-      this.selectedNodes.add(node);
-      if (node.neighbors) {
-        node.neighbors.forEach((neighbor) => {
-          this.selectedNodes.add(neighbor);
-        });
-      }
-      if (node.links) {
-        node.links.forEach((link) => {
-          this.selectedNodesLinks.add(link);
-        });
+    if (!this.plugin.settings.customSlot)
+      return;
+    if (node)
+      this.selectedNode = node;
+    if (this.plugin.settings.customSlot[0].toggle_highlight_track_mode && node) {
+      this.getNeighbors(node, { nodes: this.selectedNodes, links: this.selectedNodesLinks });
+    } else {
+      if (node) {
+        this.selectedNodes.add(node);
+        if (node.neighbors) {
+          node.neighbors.forEach((neighbor) => {
+            this.selectedNodes.add(neighbor);
+          });
+        }
+        if (node.links) {
+          node.links.forEach((link) => {
+            this.selectedNodesLinks.add(link);
+          });
+        }
       }
     }
     this.updateHighlight();
+  }
+  async getNeighbors(node, highLightSet) {
+    let retNodes = highLightSet.nodes;
+    let retLinks = highLightSet.links;
+    if (node.links) {
+      node.links.forEach((link) => {
+        if (!retLinks.has(link)) {
+          retLinks.add(link);
+        }
+      });
+    }
+    retNodes.add(node);
+    if (node.neighbors) {
+      node.neighbors.forEach((neighbor) => {
+        var _a;
+        if (!retNodes.has(neighbor)) {
+          retNodes.add(neighbor);
+          if (((_a = node.neighbors) == null ? void 0 : _a.length) && node.neighbors.length <= 500)
+            this.getNeighbors(neighbor, highLightSet);
+        }
+      });
+    }
   }
   /**
    * Node will be null when hover ended
@@ -33247,22 +34756,28 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
    * @returns 
    */
   highlightOnNodeHover(node) {
+    if (!this.plugin.settings.customSlot)
+      return;
     if (!node && !this.hoveredNodes.size || node && this.hoverNode === node)
       return;
     this.hoverNode = node;
     this.hoveredNodes.clear();
     this.hoveredNodesLinks.clear();
-    if (node) {
-      this.hoveredNodes.add(node);
-      if (node.neighbors) {
-        node.neighbors.forEach((neighbor) => {
-          this.hoveredNodes.add(neighbor);
-        });
-      }
-      if (node.links) {
-        node.links.forEach((link) => {
-          this.hoveredNodesLinks.add(link);
-        });
+    if (this.plugin.settings.customSlot[0].toggle_highlight_track_mode && node) {
+      this.getNeighbors(node, { nodes: this.hoveredNodes, links: this.hoveredNodesLinks });
+    } else {
+      if (node) {
+        this.hoveredNodes.add(node);
+        if (node.neighbors) {
+          node.neighbors.forEach((neighbor) => {
+            this.hoveredNodes.add(neighbor);
+          });
+        }
+        if (node.links) {
+          node.links.forEach((link) => {
+            this.hoveredNodesLinks.add(link);
+          });
+        }
       }
     }
     this.updateHighlight();
@@ -33278,6 +34793,8 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.updateHighlight();
   }
   getNodeVisible(node) {
+    if (!this.plugin.settings.customSlot)
+      return false;
     if (this.plugin.settings.customSlot[0].toggle_global_map)
       return true;
     if (this.highlightNodes.size != 0) {
@@ -33288,6 +34805,8 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     ;
   }
   getLinkVisible(link) {
+    if (!this.plugin.settings.customSlot)
+      return true;
     if (this.plugin.settings.customSlot[0].toggle_global_map)
       return true;
     if (this.highlightLinks.size != 0 || this.selectedNode || this.hoverNode) {
@@ -33296,14 +34815,39 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
       return true;
     }
   }
+  updateColor1() {
+    if (!this.plugin.settings.customSlot)
+      return;
+    this.plugin.view.clearHightlightNodes();
+    if (this.currentVisualString === "light") {
+      this.Graph.nodeThreeObject(this.plugin.view.createNodeThreeObjectLight);
+    } else if (this.currentVisualString === "dark") {
+      this.Graph.nodeThreeObject(this.plugin.view.createNodeThreeObject);
+    }
+    this.Graph.backgroundColor(this.plugin.settings.customSlot[0].colorMap["backgroundColor"].value);
+    this.Graph.linkColor(this.Graph.linkColor());
+    return;
+  }
   updateColor() {
+    if (!this.plugin.settings.customSlot)
+      return;
     this.Graph.graphData().nodes.forEach((node) => {
-      const obj = node.__threeObj;
+      var _a, _b, _c;
+      const color = this.getNodeColorByType(node);
+      const obj = node._ThreeMesh;
       if (obj) {
-        obj.material.color.set(this.getNodeColorByType(node));
-        return;
+        if (this.currentVisualString === "dark") {
+          obj.material.color.set(color);
+        } else {
+          obj.material.color.set(color);
+          (_b = (_a = obj.material) == null ? void 0 : _a.emissive) == null ? void 0 : _b.set(color);
+        }
+      }
+      if (node._Sprite) {
+        node._Sprite.color = this.getContrastingColor(this.getNodeColorByType(node), ((_c = this.plugin.settings.customSlot) == null ? void 0 : _c[0].text_color_angle) || 0);
       }
     });
+    this.Graph.backgroundColor(this.plugin.settings.customSlot[0].colorMap["backgroundColor"].value);
     this.Graph.linkColor(this.Graph.linkColor());
   }
   updateHighlight() {
@@ -33313,26 +34857,59 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.highlightLinks.clear();
     this.selectedNodesLinks.forEach((link) => this.highlightLinks.add(link));
     this.hoveredNodesLinks.forEach((link) => this.highlightLinks.add(link));
-    this.Graph.graphData().nodes.forEach((node) => {
-      const obj = node.__threeObj;
-      if (obj) {
-        if (this.plugin.settings.customSlot[0].toggle_global_map) {
-          obj.material.color.set(this.getNodeColorByType(node));
-          obj.visible = true;
-        } else {
-          if (this.highlightNodes.has(node)) {
-            obj.material.color.set(this.getNodeColorByType(node));
+    DebugMsg(4 /* DEBUG */, "update highlight entered");
+    DebugMsg(4 /* DEBUG */, "selected node:", this.selectedNode);
+    DebugMsg(4 /* DEBUG */, "selected nodes:", this.selectedNodes);
+    DebugMsg(4 /* DEBUG */, "hovered node:", this.hoverNode);
+    DebugMsg(4 /* DEBUG */, "hovered nodes:", this.hoveredNodes);
+    DebugMsg(4 /* DEBUG */, "highlight nodes:", this.highlightNodes);
+    this.Graph.graphData().nodes.forEach(
+      (node) => {
+        var _a, _b, _c, _d, _e;
+        const obj = node._ThreeMesh;
+        if (obj) {
+          if (this.plugin.settings.customSlot) {
+            if (this.plugin.settings.customSlot[0].toggle_global_map) {
+              obj.material.color.set(this.getNodeColorByType(node));
+              if (this.currentVisualString === "light") {
+                (_b = (_a = obj.material) == null ? void 0 : _a.emissive) == null ? void 0 : _b.set(this.getNodeColorByType(node));
+              }
+              obj.visible = true;
+            } else {
+              if (this.highlightNodes.has(node)) {
+                obj.material.color.set(this.getNodeColorByType(node));
+                if (this.currentVisualString === "light") {
+                  (_d = (_c = obj.material) == null ? void 0 : _c.emissive) == null ? void 0 : _d.set(this.getNodeColorByType(node));
+                }
+              }
+              obj.visible = this.getNodeVisible(node);
+            }
           }
-          obj.visible = this.getNodeVisible(node);
+        }
+        if (node._Sprite && node._Sprite.visible) {
+          node._Sprite.visible = false;
+          node._Sprite.textHeight = 0;
+        }
+        const showSpriteText = ((_e = this.plugin.settings.customSlot) == null ? void 0 : _e[0].toggle_label_display) || false;
+        if (this.highlightNodes.has(node) && node.type !== "attachment" && node.type !== "broken" && node.type !== "screenshot") {
+          if (showSpriteText && node._Sprite) {
+            node._Sprite.visible = true;
+            node._Sprite.textHeight = 18;
+          }
         }
       }
-    });
+    );
+    DebugMsg(4 /* DEBUG */, "update highlight before exit");
+    if (this.hoverNode && this.hoverNode._Sprite) {
+      this.hoverNode._Sprite.visible = true;
+      this.hoverNode._Sprite.textHeight = 18;
+    }
     this.Graph.linkWidth(this.Graph.linkWidth()).linkDirectionalParticles(this.Graph.linkDirectionalParticles()).linkVisibility(this.Graph.linkVisibility());
   }
   focusGraphNodeById(filePath) {
     const node = this.gData.nodes.find((node2) => node2.id === filePath);
     if (node && node.x && node.y && node.z) {
-      const distance = 640;
+      const distance = this.getCameraDistance(node);
       const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
       const newPos = {
         x: node.x * distRatio,
@@ -33341,6 +34918,18 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
       };
       this.Graph.cameraPosition(newPos, node, 3e3);
       this.highlightOnNodeClick(node);
+    }
+    const file = this.app.vault.getAbstractFileByPath(filePath);
+    if (!file || !(file instanceof import_obsidian4.TFile)) {
+      return;
+    }
+    const fileExplorerView = this.plugin.app.workspace.getLeavesOfType("file-explorer")[0];
+    if (fileExplorerView) {
+      try {
+        fileExplorerView.view.revealInFolder(file);
+      } catch (error) {
+        console.error("Error revealing file in folder:", error);
+      }
     }
   }
   focusGraphTag(tag) {
@@ -33353,33 +34942,153 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     return button;
   }
   onLinkDistance(value) {
-    this.Graph.d3Force("link").distance(value * 10);
+    var _a;
+    if (!this.plugin.settings.customSlot)
+      return;
+    (_a = this.Graph.d3Force("link")) == null ? void 0 : _a.distance(value * 10);
     this.Graph.d3ReheatSimulation();
     this.plugin.settings.customSlot[0].link_distance = value;
     this.plugin.saveSettings();
   }
   onLinkWidth(value) {
+    if (!this.plugin.settings.customSlot)
+      return;
     this.Graph.linkWidth((link) => this.highlightLinks.has(link) ? 2 * value : value);
     this.plugin.settings.customSlot[0].link_width = value;
     this.plugin.saveSettings();
   }
+  onTextColorAngle(value) {
+    if (!this.plugin.settings.customSlot)
+      return;
+    this.plugin.settings.customSlot[0].text_color_angle = value;
+    this.Graph.graphData().nodes.forEach((n) => {
+      var _a;
+      if (n._Sprite) {
+        n._Sprite.color = this.getContrastingColor(this.getNodeColorByType(n), ((_a = this.plugin.settings.customSlot) == null ? void 0 : _a[0].text_color_angle) || 0);
+      }
+    });
+    this.updateHighlight();
+    this.plugin.saveSettings();
+  }
+  onBloomStrength(value) {
+    if (!this.plugin.settings.customSlot)
+      return;
+    if (this.currentVisualString !== "dark")
+      return;
+    this.visualProcessor.bloomPass.strength = value;
+    this.plugin.settings.customSlot[0].bloom_strength = value;
+    this.plugin.saveSettings();
+  }
   onLinkParticleNumber(value) {
+    if (!this.plugin.settings.customSlot)
+      return;
     this.Graph.linkDirectionalParticles((link) => this.highlightLinks.has(link) ? value * 2 : value);
     this.plugin.settings.customSlot[0].link_particle_number = value;
     this.plugin.saveSettings();
   }
   onLinkParticleSize(value) {
+    if (!this.plugin.settings.customSlot)
+      return;
     this.Graph.linkDirectionalParticleWidth((link) => this.highlightLinks.has(link) ? value * 2 : value);
     this.plugin.settings.customSlot[0].link_particle_size = value;
     this.plugin.saveSettings();
   }
+  onToggleFreezeNodePosition(value) {
+    if (!this.plugin.settings.customSlot)
+      return;
+    if (value) {
+      this.Graph.graphData().nodes.forEach((node) => {
+        node.fx = node.x;
+        node.fy = node.y;
+        node.fz = node.z;
+      });
+      this.Graph.enableNodeDrag(false);
+    } else {
+      this.Graph.graphData().nodes.forEach((node) => {
+        node.fx = void 0;
+        node.fy = void 0;
+        node.fz = void 0;
+      });
+      this.Graph.enableNodeDrag(true);
+    }
+  }
+  getHighlightOnSelectedNode(selectedNode) {
+    if (!this.plugin.settings.customSlot)
+      return;
+    const node = selectedNode;
+    if (this.plugin.settings.customSlot[0].toggle_highlight_track_mode && this.selectedNode) {
+      this.getNeighbors(node, { nodes: this.selectedNodes, links: this.selectedNodesLinks });
+    } else {
+      if (node) {
+        this.selectedNodes.add(node);
+        if (node.neighbors) {
+          node.neighbors.forEach((neighbor) => {
+            this.selectedNodes.add(neighbor);
+          });
+        }
+        if (node.links) {
+          node.links.forEach((link) => {
+            this.selectedNodesLinks.add(link);
+          });
+        }
+      }
+    }
+  }
+  onToggleHighlightTrackMode(value) {
+    if (!this.plugin.settings.customSlot)
+      return;
+    this.plugin.settings.customSlot[0].toggle_highlight_track_mode = value;
+    this.plugin.saveSettings();
+    let tmpNode = null;
+    if (this.selectedNode)
+      tmpNode = this.selectedNode;
+    this.clearHightlightNodes();
+    if (tmpNode) {
+      this.selectedNode = tmpNode;
+      this.getHighlightOnSelectedNode(this.selectedNode);
+    }
+    this.updateHighlight();
+  }
+  onToggleLabelDisplay(value) {
+    if (!this.plugin.settings.customSlot)
+      return;
+    this.plugin.settings.customSlot[0].toggle_label_display = value;
+    this.plugin.saveSettings();
+    this.updateHighlight();
+  }
   onToggleGlobalMap(value) {
+    if (!this.plugin.settings.customSlot)
+      return;
     this.plugin.settings.customSlot[0].toggle_global_map = value;
     this.plugin.saveSettings();
   }
   onText(value) {
   }
+  applyNodeSize() {
+    if (!this.plugin.settings.customSlot)
+      return;
+    const value = this.plugin.settings.customSlot[0].node_size;
+    let scaleValue = (value / 5 - 1) * 0.6 + 1;
+    this.Graph.graphData().nodes.forEach((node) => {
+      const obj = node.__threeObj;
+      if (obj) {
+        obj.scale.set(scaleValue, scaleValue, scaleValue);
+      }
+    });
+  }
+  onNodeSize_import(value) {
+    if (!this.plugin.settings.customSlot)
+      return;
+    this.clearHightlightNodes();
+    this.Graph.nodeThreeObject((node) => {
+      return this.createNodeThreeObject(node);
+    });
+    this.plugin.settings.customSlot[0].node_size = value;
+    this.plugin.saveSettings();
+  }
   onNodeSize(value) {
+    if (!this.plugin.settings.customSlot)
+      return;
     let scaleValue = (value / 5 - 1) * 0.6 + 1;
     this.Graph.graphData().nodes.forEach((node) => {
       const obj = node.__threeObj;
@@ -33391,49 +35100,150 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.plugin.saveSettings();
   }
   onNodeRepulsion(value) {
+    var _a;
+    if (!this.plugin.settings.customSlot)
+      return;
     this.plugin.settings.customSlot[0].node_repulsion = value;
     this.plugin.saveSettings();
     if (value === 0)
       return;
-    this.Graph.d3Force("charge").strength(-30 - value * 300);
+    (_a = this.Graph.d3Force("charge")) == null ? void 0 : _a.strength(-30 - value * 300);
     this.Graph.d3Force("x", x_default4(0).strength(0.19)).d3Force("y", y_default3(0).strength(0.19)).d3Force("z", z_default2(0).strength(0.19));
     this.Graph.d3ReheatSimulation();
     return;
   }
-  connectExcalidrawNodes() {
-    const unconnectedExcalidrawNodes = this.gData.nodes.filter(
-      (node) => node.type === "excalidraw" && !this.gData.links.some((link) => link.sourceId === node.id || link.targetId === node.id)
-    );
-    if (unconnectedExcalidrawNodes.length === 0)
+  onLinkButton(linkStar) {
+    this.linkNodeByType(this.orphanToLink, linkStar);
+  }
+  onUnlinkButton() {
+    this.unlinkNodeByType(this.orphanToLink);
+  }
+  linkNodeByType(fileType, linkStar = true) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
+    this.clearHightlightNodes();
+    let links = this.gData.links;
+    let nodes = this.gData.nodes;
+    if (nodes.filter((node) => node.id === fileType).length != 0) {
       return;
-    const newExcalidrawNode = {
-      id: "excalidraw",
-      type: "excalidraw",
+    }
+    const typeNode = {
+      id: fileType,
+      type: fileType,
       x: 0,
       y: 0,
       z: 0,
-      connections: 0
+      connections: 0,
+      neighbors: [],
+      links: []
     };
-    this.gData.nodes.push(newExcalidrawNode);
-    unconnectedExcalidrawNodes.forEach((node) => {
-      this.gData.links.push({ source: newExcalidrawNode.id, target: node.id, sourceId: newExcalidrawNode.id, targetId: node.id });
-      newExcalidrawNode.connections += 1;
-      node.connections = (node.connections || 0) + 1;
+    const typeNodes = this.gData.nodes.filter((node) => node.type === fileType && node.connections == 0);
+    if (typeNodes.length == 0)
+      return;
+    typeNodes.forEach((node) => {
+      node.orphan = true;
+      node.links = [];
+      node.neighbors = [];
     });
+    if (linkStar) {
+      typeNodes.forEach((node) => {
+        var _a2, _b2, _c2, _d2;
+        let addLink = { source: typeNode.id, target: node.id, sourceId: typeNode.id, targetId: node.id };
+        links.push(addLink);
+        (_a2 = typeNode.neighbors) == null ? void 0 : _a2.push(node);
+        (_b2 = node.neighbors) == null ? void 0 : _b2.push(typeNode);
+        (_c2 = typeNode.links) == null ? void 0 : _c2.push(addLink);
+        (_d2 = node.links) == null ? void 0 : _d2.push(addLink);
+        this.selectedNodes.add(node);
+        this.selectedNodesLinks.add(addLink);
+      });
+      nodes.push(typeNode);
+      typeNodes.push(typeNode);
+      this.selectedNode = typeNode;
+      this.selectedNodes.add(typeNode);
+    } else {
+      for (let i = 0; i < typeNodes.length - 1; i++) {
+        let addLink = { source: typeNodes[i].id, target: typeNodes[i + 1].id, sourceId: typeNodes[i].id, targetId: typeNodes[i + 1].id };
+        links.push(addLink);
+        (_a = typeNodes[i].links) == null ? void 0 : _a.push(addLink);
+        (_b = typeNodes[i + 1].links) == null ? void 0 : _b.push(addLink);
+        (_c = typeNodes[i].neighbors) == null ? void 0 : _c.push(typeNodes[i + 1]);
+        (_d = typeNodes[i + 1].neighbors) == null ? void 0 : _d.push(typeNodes[i]);
+        this.selectedNodes.add(typeNodes[i]);
+        this.selectedNodesLinks.add(addLink);
+      }
+      this.selectedNodes.add(typeNodes[typeNodes.length - 1]);
+      this.selectedNode = typeNodes[0];
+    }
+    typeNodes.forEach((node) => {
+      node.connections = links.filter((link) => link.sourceId === node.id || link.targetId === node.id).length;
+    });
+    if (globalProgramControl.aimBeforeLink) {
+      if (linkStar) {
+        const node = { x: 0, y: 0, z: 1 };
+        const distance = 2700;
+        const distRatio = 1 + distance / Math.hypot((_e = node.x) != null ? _e : 0, (_f = node.y) != null ? _f : 0, (_g = node.z) != null ? _g : 0);
+        const newPos = node.x || node.y || node.z ? { x: ((_h = node.x) != null ? _h : 0) * distRatio, y: ((_i = node.y) != null ? _i : 0) * distRatio, z: ((_j = node.z) != null ? _j : 0) * distRatio } : { x: 0, y: 0, z: distance };
+        this.Graph.cameraPosition(
+          newPos,
+          // new position
+          { x: (_k = node.x) != null ? _k : 0, y: (_l = node.y) != null ? _l : 0, z: (_m = node.z) != null ? _m : 0 },
+          0
+          // ms transition duration
+        );
+      }
+    }
+    this.gData = { nodes, links };
+    let tmpSave;
+    if (this.plugin.settings.customSlot) {
+      tmpSave = this.plugin.settings.customSlot[0].toggle_global_map;
+      this.plugin.settings.customSlot[0].toggle_global_map = true;
+    }
+    this.Graph.refresh();
+    setTimeout(() => {
+      if (this.plugin.settings.customSlot) {
+        this.plugin.settings.customSlot[0].toggle_global_map = tmpSave || false;
+        this.updateHighlight();
+      }
+    }, 1e3);
+    setTimeout(() => {
+      this.Graph.graphData(this.gData);
+    }, 0);
+  }
+  unlinkNodeByType(fileType) {
+    this.clearHightlightNodes();
+    let links = [];
+    let nodes = [];
+    const linksOriginalCount = this.gData.links.length;
+    links = this.gData.links.filter((link) => {
+      const linkSource = link.source;
+      const linkTarget = link.target;
+      if (!((linkSource.type == fileType || linkTarget.type == fileType) && (linkSource.orphan == true || linkTarget.orphan == true))) {
+        return true;
+      } else if (
+        // restore node stage
+        (linkSource.type == fileType || linkTarget.type == fileType) && (linkSource.orphan == true || linkTarget.orphan == true)
+      ) {
+        linkSource.links = [];
+        linkSource.neighbors = [];
+        linkTarget.links = [];
+        linkTarget.neighbors = [];
+      }
+    });
+    if (links.length == linksOriginalCount)
+      return;
+    nodes = this.gData.nodes.filter((node) => node.id !== fileType);
+    nodes.forEach((node) => {
+      node.connections = links.filter((link) => link.sourceId === node.id || link.targetId === node.id).length;
+    });
+    this.gData = { nodes, links };
     this.Graph.graphData(this.gData);
+    this.updateHighlight();
   }
   onResetGraph() {
     this.clearHightlightNodes();
     this.gData = this.buildGdata();
     this.Graph.graphData(this.gData);
     this.Graph.refresh();
-  }
-  // 恢复 UnlinkedExcalidrawNodes 节点的方法
-  resetUnlinkedExcalidrawNodes() {
-    this.gData.links = this.gData.links.filter((link) => link.sourceId !== "excalidraw" && link.targetId !== "excalidraw");
-    this.gData.nodes = this.gData.nodes.filter((node) => node.id !== "excalidraw");
-    this.calculateConnections();
-    this.Graph.graphData(this.gData);
   }
   deepEqual(obj1, obj2) {
     if (obj1 === obj2)
@@ -33453,31 +35263,43 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     return true;
   }
   onSlotSliderChange(value) {
-    this.currentSlot = value;
-    console.log("Tags routes: set current slot: ", this.currentSlot);
-    if (!this.deepEqual(this.plugin.settings.customSlot[0], this.plugin.settings.customSlot[this.plugin.settings.currentSlot])) {
-      console.log("           setting changed, wait for save");
-      console.log("slot 0", this.plugin.settings.customSlot[0]);
-      console.log("slot ", this.currentSlot, this.plugin.settings.customSlot[this.plugin.settings.currentSlot]);
-      new import_obsidian3.Notice(`Tags routes: Settings changed, click 'Save' to save to slot ${this.currentSlot}`, 5e3);
+    DebugMsg(4 /* DEBUG */, "onSlotSliderChange entered");
+    if (!this.plugin.settings.customSlot)
+      return;
+    if (this.currentSlotNum == value && !this.doingSwitchVisual)
+      return;
+    if (this.doingSwitchVisual)
+      this.doingSwitchVisual = false;
+    DebugMsg(4 /* DEBUG */, "onSlotSliderChange go on");
+    this.currentSlotNum = value;
+    if (!this.deepEqual(this.plugin.settings.customSlot[0], this.plugin.settings.customSlot[this.plugin.settings.currentSlotNum])) {
+      DebugMsg(4 /* DEBUG */, `Tags routes: Settings changed, click 'Save' to save to slot ${this.currentSlotNum}`);
+      new import_obsidian3.Notice(`Tags routes: Settings changed, click 'Save' to save to slot ${this.currentSlotNum}`, 5e3);
+      this.setSaveButton(true);
       return;
     } else {
-      console.log("it is the same, go to load effects");
     }
-    console.log("load from slot: ", this.currentSlot);
-    this.plugin.settings.customSlot[0] = structuredClone(this.plugin.settings.customSlot[this.currentSlot]);
-    this.plugin.settings.currentSlot = this.currentSlot;
-    this.plugin.saveData(this.plugin.settings);
+    DebugMsg(4 /* DEBUG */, "Load from slot: ", this.currentSlotNum);
+    this.plugin.settings.customSlot[0] = structuredClone(this.plugin.settings.customSlot[this.currentSlotNum]);
+    this.plugin.settings.currentSlotNum = this.currentSlotNum;
+    this.plugin.settings.themeSlotNum[this.plugin.settings.currentTheme] = this.currentSlotNum;
+    this.plugin.saveSettings();
+    this.plugin.skipSave = true;
     this.applyChanges();
     this.updateColor();
-    new import_obsidian3.Notice(`Tags routes: Load slot ${this.currentSlot}`);
+    this.plugin.skipSave = false;
+    new import_obsidian3.Notice(`Tags routes: Load slot ${this.currentSlotNum}`);
   }
-  onSave() {
-    this.plugin.settings.customSlot[this.currentSlot] = structuredClone(this.plugin.settings.customSlot[0]);
-    this.plugin.settings.currentSlot = this.currentSlot;
-    this.plugin.saveData(this.plugin.settings);
-    console.log("save to slot: ", this.currentSlot);
-    new import_obsidian3.Notice(`Tags routes: Graph save to slot ${this.currentSlot}`);
+  onSettingsSave() {
+    if (!this.plugin.settings.customSlot)
+      return;
+    this.plugin.settings.customSlot[this.currentSlotNum] = structuredClone(this.plugin.settings.customSlot[0]);
+    this.plugin.settings.currentSlotNum = this.currentSlotNum;
+    this.plugin.settings.themeSlotNum[this.plugin.settings.currentTheme] = this.currentSlotNum;
+    this.plugin.saveSettings();
+    DebugMsg(4 /* DEBUG */, "[onSettingsSave] Save to slot: ", this.currentSlotNum);
+    new import_obsidian3.Notice(`Tags routes: Graph save to slot ${this.currentSlotNum}`);
+    this.setSaveButton(false);
   }
   setControlValue(controlId, controlArray, settings, settingKey) {
     const controlEntry = controlArray.find((v) => v.id === controlId);
@@ -33486,115 +35308,103 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     }
   }
   applyChanges() {
+    if (!this.plugin.settings.customSlot)
+      return;
     this.setControlValue(
       "Node size",
       this._controls,
-      this.plugin.settings.customSlot[this.currentSlot],
+      this.plugin.settings.customSlot[this.currentSlotNum],
       "node_size"
     );
     this.setControlValue(
       "Node repulsion",
       this._controls,
-      this.plugin.settings.customSlot[this.currentSlot],
+      this.plugin.settings.customSlot[this.currentSlotNum],
       "node_repulsion"
     );
     this.setControlValue(
       "Link distance",
       this._controls,
-      this.plugin.settings.customSlot[this.currentSlot],
+      this.plugin.settings.customSlot[this.currentSlotNum],
       "link_distance"
     );
     this.setControlValue(
       "Link width",
       this._controls,
-      this.plugin.settings.customSlot[this.currentSlot],
+      this.plugin.settings.customSlot[this.currentSlotNum],
       "link_width"
     );
     this.setControlValue(
       "Link particle size",
       this._controls,
-      this.plugin.settings.customSlot[this.currentSlot],
+      this.plugin.settings.customSlot[this.currentSlotNum],
       "link_particle_size"
     );
     this.setControlValue(
       "Link particle number",
       this._controls,
-      this.plugin.settings.customSlot[this.currentSlot],
+      this.plugin.settings.customSlot[this.currentSlotNum],
       "link_particle_number"
     );
+    this.setControlValue(
+      "Toggle global map",
+      this._controls,
+      this.plugin.settings.customSlot[this.currentSlotNum],
+      "toggle_global_map"
+    );
+    this.setControlValue(
+      "Toggle label display",
+      this._controls,
+      this.plugin.settings.customSlot[this.currentSlotNum],
+      "toggle_label_display"
+    );
+    this.setControlValue(
+      "Highlight connection paths",
+      this._controls,
+      this.plugin.settings.customSlot[this.currentSlotNum],
+      "toggle_highlight_track_mode"
+    );
+    this.setControlValue(
+      "Text color",
+      this._controls,
+      this.plugin.settings.customSlot[this.currentSlotNum],
+      "text_color_angle"
+    );
+    this.setControlValue(
+      "Bloom strength (dark mode)",
+      this._controls,
+      this.plugin.settings.customSlot[this.currentSlotNum],
+      "bloom_strength"
+    );
   }
-  onLoad() {
-    console.log("load from slot: ", this.currentSlot);
-    this.plugin.settings.customSlot[0] = structuredClone(this.plugin.settings.customSlot[this.currentSlot]);
-    this.plugin.settings.currentSlot = this.currentSlot;
-    this.plugin.saveData(this.plugin.settings);
-    this.applyChanges();
-    this.updateColor();
-    new import_obsidian3.Notice(`Tags routes: Graph load from slot ${this.currentSlot}`);
-  }
-  onReset() {
-    this.plugin.settings.customSlot[0] = structuredClone(DEFAULT_DISPLAY_SETTINGS);
-    this.plugin.settings.customSlot[this.currentSlot] = structuredClone(DEFAULT_DISPLAY_SETTINGS);
-    this.plugin.saveData(this.plugin.settings);
-    this.applyChanges();
-    this.updateColor();
-    new import_obsidian3.Notice(`Graph reset on slot ${this.currentSlot}`);
-  }
-  // 连接所有 broken 节点的方法
-  connectBrokenNodes(linkStar) {
-    var _a, _b, _c, _d;
-    this.clearHightlightNodes();
-    let links = this.gData.links;
-    let nodes = this.gData.nodes;
-    if (nodes.filter((node) => node.id === "broken").length != 0) {
+  onSettingsLoad() {
+    if (!this.plugin.settings.customSlot)
       return;
-    }
-    const brokenNode = {
-      id: "broken",
-      type: "broken",
-      x: 0,
-      y: 0,
-      z: 0,
-      connections: 0,
-      neighbors: [],
-      links: []
-    };
-    if (linkStar) {
-      const brokenNodes = this.gData.nodes.filter((node) => node.type === "broken");
-      brokenNodes.forEach((node) => {
-        var _a2, _b2, _c2;
-        let addLink = { source: brokenNode.id, target: node.id, sourceId: brokenNode.id, targetId: node.id };
-        links.push(addLink);
-        !node.neighbors && (node.neighbors = []);
-        (_a2 = brokenNode.neighbors) == null ? void 0 : _a2.push(node);
-        node.neighbors.push(brokenNode);
-        !node.links && (node.links = []);
-        (_b2 = brokenNode.links) == null ? void 0 : _b2.push(addLink);
-        addLink = { source: node.id, target: brokenNode.id, sourceId: node.id, targetId: brokenNode.id };
-        links.push(addLink);
-        (_c2 = node.links) == null ? void 0 : _c2.push(addLink);
-      });
-    } else {
-      const brokenNodes = this.gData.nodes.filter((node) => node.type === "broken");
-      for (let i = 0; i < brokenNodes.length - 1; i++) {
-        let addLink = { source: brokenNodes[i].id, target: brokenNodes[i + 1].id, sourceId: brokenNodes[i].id, targetId: brokenNodes[i + 1].id };
-        links.push(addLink);
-        (_a = brokenNodes[i].links) == null ? void 0 : _a.push(addLink);
-        addLink = { target: brokenNodes[i].id, source: brokenNodes[i + 1].id, targetId: brokenNodes[i].id, sourceId: brokenNodes[i + 1].id };
-        links.push(addLink);
-        (_b = brokenNodes[i + 1].links) == null ? void 0 : _b.push(addLink);
-        !brokenNodes[i].neighbors && (brokenNodes[i].neighbors = []);
-        !brokenNodes[i + 1].neighbors && (brokenNodes[i + 1].neighbors = []);
-        (_c = brokenNodes[i].neighbors) == null ? void 0 : _c.push(brokenNodes[i + 1]);
-        (_d = brokenNodes[i + 1].neighbors) == null ? void 0 : _d.push(brokenNodes[i]);
-      }
-    }
-    nodes.push(brokenNode);
-    nodes.forEach((node) => {
-      node.connections = links.filter((link) => link.sourceId === node.id || link.targetId === node.id).length;
-    });
-    this.Graph.graphData(this.gData);
-    this.Graph.refresh();
+    DebugMsg(4 /* DEBUG */, "Load from slot: ", this.currentSlotNum);
+    this.plugin.settings.customSlot[0] = structuredClone(this.plugin.settings.customSlot[this.currentSlotNum]);
+    this.plugin.settings.currentSlotNum = this.currentSlotNum;
+    this.plugin.saveSettings();
+    this.plugin.skipSave = true;
+    this.applyChanges();
+    this.updateColor();
+    this.plugin.skipSave = false;
+    new import_obsidian3.Notice(`Tags routes: Graph load from slot ${this.currentSlotNum}`);
+  }
+  onSettingsReset() {
+    if (!this.plugin.settings.customSlot)
+      return;
+    this.plugin.settings.customSlot[0] = structuredClone(DEFAULT_DISPLAY_SETTINGS[this.plugin.settings.currentTheme]);
+    this.plugin.settings.customSlot[this.currentSlotNum] = structuredClone(DEFAULT_DISPLAY_SETTINGS[this.plugin.settings.currentTheme]);
+    this.plugin.saveSettings();
+    this.plugin.skipSave = true;
+    this.applyChanges();
+    this.updateColor();
+    this.plugin.skipSave = false;
+    new import_obsidian3.Notice(`Graph reset on slot ${this.currentSlotNum}`);
+  }
+  onDropdown(value) {
+    this.orphanToLink = value;
+    DebugMsg(4 /* DEBUG */, value, "selected");
   }
   clearHightlightNodes() {
     this.selectedNode = null;
@@ -33605,24 +35415,6 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.hoveredNodesLinks.clear();
     this.highlightLinks.clear();
     this.highlightNodes.clear();
-  }
-  // 恢复 broken 节点的方法
-  resetBrokenNodes() {
-    this.clearHightlightNodes();
-    let links = [];
-    let nodes = [];
-    if (0) {
-      this.gData.links = this.gData.links.filter((link) => link.sourceId !== "broken" && link.targetId !== "broken");
-    } else {
-      links = this.gData.links.filter((link) => link.source.type !== "broken");
-    }
-    nodes = this.gData.nodes.filter((node) => node.id !== "broken");
-    nodes.forEach((node) => {
-      node.connections = links.filter((link) => link.sourceId === node.id || link.targetId === node.id).length;
-    });
-    this.gData = { nodes, links };
-    this.Graph.graphData(this.gData);
-    this.Graph.refresh();
   }
   // 计算连接数的方法
   calculateConnections() {
@@ -33639,6 +35431,8 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     });
   }
   getNodeColorByType(node) {
+    if (!this.plugin.settings.customSlot)
+      return "#ffffff";
     let color;
     switch (node.type) {
       case "markdown":
@@ -33646,16 +35440,20 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
       case "attachment":
       case "broken":
       case "excalidraw":
-        color = this.plugin.settings.customSlot[0].colorMap[node.type];
+      case "pdf":
+      case "frontmatter_tag":
+      case "screenshot":
+        color = this.plugin.settings.customSlot[0].colorMap[node.type].value;
         break;
       default:
         color = "#ffffff";
     }
     if (this.plugin.settings.customSlot[0].toggle_global_map) {
       if (this.highlightNodes.has(node))
-        color = this.plugin.settings.customSlot[0].colorMap["nodeHighlightColor"];
+        color = this.plugin.settings.customSlot[0].colorMap["nodeHighlightColor"].value;
       if (node === this.selectedNode || node === this.hoverNode)
-        color = this.plugin.settings.customSlot[0].colorMap["nodeFocusColor"];
+        color = this.plugin.settings.customSlot[0].colorMap["nodeFocusColor"].value;
+    } else {
     }
     return color;
   }
@@ -33664,12 +35462,15 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     const links = [];
     const tagSet = /* @__PURE__ */ new Set();
     const tagLinks = /* @__PURE__ */ new Set();
+    const frontmatterTagLinks = /* @__PURE__ */ new Set();
+    const frontmatterTagSet = /* @__PURE__ */ new Set();
     let fileNodeNum = 0;
     let FileLinkNum = 0;
     let TagNodeNum = 0;
     let TagLinkNum = 0;
     const resolvedLinks = this.app.metadataCache.resolvedLinks;
     const tagCount = /* @__PURE__ */ new Map();
+    const frontmatterTagCount = /* @__PURE__ */ new Map();
     for (const sourcePath in resolvedLinks) {
       if (!nodes.some((node) => node.id == sourcePath)) {
         nodes.push({ id: sourcePath, type: getFileType(sourcePath) });
@@ -33687,20 +35488,17 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.debugLogToFileM("", true);
     this.debugLogToFileM(`|File parse completed=>|| markdown and linked files nodes:| ${nodes.length}| total file links:| ${links.length}|`);
     filesDataMap.forEach((cache, filePath) => {
-      var _a, _b, _c;
+      var _a, _b;
       if ((cache == null ? void 0 : cache.frontmatter) && ((_a = cache == null ? void 0 : cache.frontmatter) == null ? void 0 : _a.tags) && cache.frontmatter.tags.contains("tag-report"))
         return;
       if (!nodes.some((node) => node.id == filePath)) {
-        nodes.push({ id: filePath, type: "broken" });
+        let fileType = getFileType(filePath);
+        if (fileType == "attachment")
+          fileType = "broken";
+        nodes.push({ id: filePath, type: fileType });
       }
       const fileTags = getTags(cache).map((cache2) => cache2.tag);
       const rootTags = /* @__PURE__ */ new Set();
-      if (((_b = cache == null ? void 0 : cache.frontmatter) == null ? void 0 : _b.tags) != void 0) {
-        (_c = cache == null ? void 0 : cache.frontmatter) == null ? void 0 : _c.tags.forEach((element) => {
-          if (element !== "excalidraw")
-            fileTags.push("#" + element);
-        });
-      }
       fileTags.forEach((fileTag) => {
         const tagParts = fileTag.split("/");
         let currentTag = "";
@@ -33725,6 +35523,49 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
         });
       });
       rootTags.forEach((rootTag) => {
+        links.push({ source: filePath, target: rootTag, sourceId: filePath, targetId: rootTag });
+      });
+      const frontmatterTags = [];
+      const frontmatterRootTags = /* @__PURE__ */ new Set();
+      if (((_b = cache == null ? void 0 : cache.frontmatter) == null ? void 0 : _b.tags) != void 0) {
+        let tags = cache.frontmatter.tags;
+        if (typeof tags === "string") {
+          tags = [tags];
+        }
+        if (Array.isArray(tags)) {
+          tags.forEach((element) => {
+            if (element !== "excalidraw") {
+              frontmatterTags.push(element);
+            }
+          });
+        } else {
+          console.error("Unexpected tags format:", tags);
+        }
+      }
+      frontmatterTags.forEach((fileTag) => {
+        const tagParts = fileTag.split("/");
+        let currentTag = "";
+        tagParts.forEach((part, index5) => {
+          currentTag += (index5 > 0 ? "/" : "") + part;
+          if (index5 === 0) {
+            frontmatterRootTags.add(currentTag);
+          }
+          frontmatterTagCount.set(currentTag, (frontmatterTagCount.get(currentTag) || 0) + 1);
+          if (!frontmatterTagSet.has(currentTag)) {
+            nodes.push({ id: currentTag, type: "frontmatter_tag" });
+            frontmatterTagSet.add(currentTag);
+          }
+          if (index5 > 0) {
+            const parentTag = tagParts.slice(0, index5).join("/");
+            const linkKey = `${parentTag}->${currentTag}`;
+            if (!tagLinks.has(linkKey)) {
+              links.push({ source: parentTag, target: currentTag, sourceId: parentTag, targetId: currentTag });
+              tagLinks.add(linkKey);
+            }
+          }
+        });
+      });
+      frontmatterRootTags.forEach((rootTag) => {
         links.push({ source: filePath, target: rootTag, sourceId: filePath, targetId: rootTag });
       });
     });
@@ -33769,28 +35610,56 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     this.debugLogToFileM("|tags num:| " + TagNodeNum + "| broken files: |" + brokennum + "| tag links:| " + TagLinkNum + "|");
     this.debugWriteToFile();
     if (this.plugin.settings.enableShow) {
-      showFile(logFilePath);
+      showFile(globalDirectory.logFilePath);
     }
     return { nodes, links };
+  }
+  getOrphanNodes(nodes) {
+    const orphanNodes = {};
+    nodes.forEach((node) => {
+      if (node.connections === 0) {
+        const extension = node.type;
+        orphanNodes[extension] = extension;
+      }
+    });
+    return orphanNodes;
   }
   createGraph(container) {
     container.addClass("tags-routes");
     const graphContainer = container.createEl("div", { cls: "graph-container" });
-    this.Graph = _3dForceGraph().width(container.clientWidth).height(container.clientHeight).backgroundColor("#000003").d3Force("link", link_default().distance((link) => {
+    graphContainer.id = "graph-container";
+    const tooltipBar = container.createEl("div", { cls: "tooltip-wrapper" });
+    const tooltips = tooltipBar.createEl("div", { cls: "tooltip-flexbox-container" });
+    const platform = import_obsidian3.Platform.isMobile ? "0" : import_obsidian3.Platform.isMacOS ? "1" : "2";
+    const controls3 = [
+      /* cameraPan */
+      ["Drag", "Click and Drag", "Hold LMB + Drag", "Pan:"],
+      /* cameraMove */
+      ["Drag with Two Fingers", "Click and Drag with Two Fingers", "Hold RMB + Drag", "Move:"],
+      /* cameraZoom */
+      ["Swipe with Two Fingers", "Swipe Up/Down with Two Fingers", "Scroll Up/Down", "Zoom:"]
+    ];
+    controls3.forEach((control) => {
+      tooltips.createEl("p", { cls: "tooltip-flexbox", text: `${control[3]} ${control[platform]}` });
+      tooltips.createEl("div", { cls: "tooltip-divider" });
+    });
+    const hideToolbar = tooltipBar.createEl("button", { text: "<", cls: "tooltip-flexbox-container-hide" });
+    hideToolbar.addEventListener("click", () => {
+      tooltipBar.classList.toggle("hidden");
+      hideToolbar.innerHTML = tooltipBar.hasClass("hidden") ? ">" : "<";
+    });
+    this.Graph = _3dForceGraph().backgroundColor("#000003").d3Force("link", link_default().distance((link) => {
       const distance = Math.max(link.source.connections, link.target.connections, link.source.instanceNum || 2, link.target.instanceNum || 2);
       return distance < 10 ? 20 : distance * this.distanceFactor;
-    }))(graphContainer).nodeVisibility(this.getNodeVisible).linkVisibility(this.getLinkVisible).linkColor((link) => this.highlightLinks.has(link) ? this.plugin.settings.customSlot[0].colorMap["linkHighlightColor"] : this.plugin.settings.customSlot[0].colorMap["linkNormalColor"]).linkWidth((link) => this.highlightLinks.has(link) ? 2 : 1).linkDirectionalParticles((link) => this.highlightLinks.has(link) ? 4 : 2).linkDirectionalParticleWidth((link) => this.highlightLinks.has(link) ? 3 : 0.5).linkDirectionalParticleColor((link) => this.highlightLinks.has(link) ? this.plugin.settings.customSlot[0].colorMap["linkParticleHighlightColor"] : this.plugin.settings.customSlot[0].colorMap["linkParticleColor"]).nodeLabel((node) => node.type == "tag" ? `${node.id} (${node.instanceNum})` : `${node.id} (${node.connections})`).nodeOpacity(0.9).nodeThreeObject((node) => {
-      let nodeSize = node.connections || 1;
-      if (node.type === "tag")
-        nodeSize = node.instanceNum || 1;
-      nodeSize = Math.log2(nodeSize) * 5;
-      const geometry = new SphereGeometry(nodeSize < 3 ? 3 : nodeSize, 16, 16);
-      let color = this.getNodeColorByType(node);
-      const material = new MeshBasicMaterial({ color });
-      return new Mesh(geometry, material);
-    }).onNodeClick((node) => {
+    }))(graphContainer).nodeVisibility(this.getNodeVisible).linkVisibility(this.getLinkVisible).linkColor((link) => {
+      var _a, _b;
+      return this.highlightLinks.has(link) ? ((_a = this.plugin.settings.customSlot) == null ? void 0 : _a[0].colorMap["linkHighlightColor"].value) || "#ffffff" : ((_b = this.plugin.settings.customSlot) == null ? void 0 : _b[0].colorMap["linkNormalColor"].value) || "#ffffff";
+    }).linkWidth((link) => this.highlightLinks.has(link) ? 2 : 1).linkDirectionalParticles((link) => this.highlightLinks.has(link) ? 4 : 2).linkDirectionalParticleWidth((link) => this.highlightLinks.has(link) ? 3 : 0.5).linkDirectionalParticleColor((link) => {
+      var _a, _b;
+      return this.highlightLinks.has(link) ? ((_a = this.plugin.settings.customSlot) == null ? void 0 : _a[0].colorMap["linkParticleHighlightColor"].value) || "#ffffff" : ((_b = this.plugin.settings.customSlot) == null ? void 0 : _b[0].colorMap["linkParticleColor"].value) || "#ffffff";
+    }).nodeOpacity(0.9).nodeThreeObject(this.createNodeThreeObject).onNodeClick((node) => {
       var _a, _b, _c, _d, _e, _f, _g, _h, _i;
-      const distance = 640;
+      const distance = this.getCameraDistance(node);
       const distRatio = 1 + distance / Math.hypot((_a = node.x) != null ? _a : 0, (_b = node.y) != null ? _b : 0, (_c = node.z) != null ? _c : 0);
       const newPos = node.x || node.y || node.z ? { x: ((_d = node.x) != null ? _d : 0) * distRatio, y: ((_e = node.y) != null ? _e : 0) * distRatio, z: ((_f = node.z) != null ? _f : 0) * distRatio } : { x: 0, y: 0, z: distance };
       this.Graph.cameraPosition(
@@ -33803,16 +35672,41 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
       this.handleNodeClick(node);
       this.highlightOnNodeClick(node);
     }).onNodeRightClick((node) => {
+      var _a, _b, _c;
+      if (node.x && node.y && node.z) {
+        const distance = this.getCameraDistance(node);
+        const camera3 = this.Graph.camera();
+        const dir = new Vector3();
+        dir.set(
+          camera3.position.x - node.x,
+          camera3.position.y - node.y,
+          camera3.position.z - node.z
+        );
+        dir.normalize();
+        const targetPoint = new Vector3();
+        targetPoint.set(
+          node.x + dir.x * distance,
+          node.y + dir.y * distance,
+          node.z + dir.z * distance
+        );
+        DebugMsg(4 /* DEBUG */, "Camera new position: ", targetPoint);
+        this.Graph.cameraPosition(
+          targetPoint,
+          // new position
+          { x: (_a = node.x) != null ? _a : 0, y: (_b = node.y) != null ? _b : 0, z: (_c = node.z) != null ? _c : 0 },
+          1e3
+          // ms transition duration
+        );
+      }
       this.highlightOnNodeRightClick(node);
     }).onBackgroundClick(() => {
       this.highlightOnNodeClick(null);
+      this.Graph.graphData(this.gData);
     }).onNodeDragEnd((node) => {
       node.fx = node.x;
       node.fy = node.y;
       node.fz = node.z;
     }).onNodeHover((node) => this.highlightOnNodeHover(node)).onLinkHover((link) => this.onLinkHover(link)).cooldownTicks(1e4);
-    const bloomPass = new UnrealBloomPass({ x: container.clientWidth, y: container.clientHeight }, 2, 1, 0);
-    this.Graph.postProcessingComposer().addPass(bloomPass);
     const observer = new MutationObserver(() => {
       const newWidth = container.clientWidth;
       const newHeight = container.clientHeight;
@@ -33820,39 +35714,45 @@ var TagRoutesView = class extends import_obsidian4.ItemView {
     });
     observer.observe(container, { attributes: true, childList: true, subtree: true });
     this.register(() => observer.disconnect());
+    if (!this.plugin.settings.customSlot)
+      return;
+    this.plugin.skipSave = true;
     new settingGroup(this.plugin, "Tags' route settings", "Tags' route settings", "root").hide().add({
-      arg: new settingGroup(this.plugin, "commands", "Node commands").addButton("Link broken as star", "graph-button", () => {
-        this.connectBrokenNodes(true);
-      }).addButton("Link broken as line", "graph-button", () => {
-        this.connectBrokenNodes(false);
-      }).addButton("Unlink broken", "graph-button", () => {
-        this.resetBrokenNodes();
-      }).addButton("Link Excalidraw orphans", "graph-button", () => {
-        this.connectExcalidrawNodes();
-      }).addButton("Unlink Excalidraw orphans", "graph-button", () => {
-        this.resetUnlinkedExcalidrawNodes();
-      }).addButton("Reset graph", "graph-button", () => {
-        this.onResetGraph();
+      arg: new settingGroup(this.plugin, "commands", "Node commands").addDropdown("Select orphan", this.getOrphanNodes(this.gData.nodes), "broken", this.onDropdown).add({
+        arg: new settingGroup(this.plugin, "link-box", "link-box", "flex-box").addExButton("circle-dashed", "Link orphan type as a star", () => this.onLinkButton(true)).addExButton("spline", "Link orphan type as a line", () => this.onLinkButton(false)).addExButton("unlink-2", "Unlink orphans", this.onUnlinkButton).addExButton("corner-up-left", "Reload graph", this.onResetGraph)
       })
     }).add({
-      arg: new settingGroup(this.plugin, "control sliders", "Display control").addSlider("Node size", 1, 10, 1, this.plugin.settings.customSlot[0].node_size, this.onNodeSize).addSlider("Node repulsion", 0, 10, 1, this.plugin.settings.customSlot[0].node_repulsion, this.onNodeRepulsion).addSlider("Link distance", 1, 25, 1, this.plugin.settings.customSlot[0].link_distance, this.onLinkDistance).addSlider("Link width", 1, 5, 1, this.plugin.settings.customSlot[0].link_width, this.onLinkWidth).addSlider("Link particle size", 1, 5, 1, this.plugin.settings.customSlot[0].link_particle_size, this.onLinkParticleSize).addSlider("Link particle number", 1, 5, 1, this.plugin.settings.customSlot[0].link_particle_number, this.onLinkParticleNumber).addToggle("Toggle global map", this.plugin.settings.customSlot[0].toggle_global_map, this.onToggleGlobalMap)
+      arg: new settingGroup(this.plugin, "control sliders", "Display control").addToggle("Lock node positions", false, this.onToggleFreezeNodePosition).addSlider("Node size", 1, 10, 1, this.plugin.settings.customSlot[0].node_size, this.onNodeSize).addSlider("Node repulsion", 0, 10, 1, this.plugin.settings.customSlot[0].node_repulsion, this.onNodeRepulsion).addSlider("Link distance", 1, 25, 1, this.plugin.settings.customSlot[0].link_distance, this.onLinkDistance).addSlider("Link width", 1, 5, 1, this.plugin.settings.customSlot[0].link_width, this.onLinkWidth).addSlider("Link particle size", 1, 5, 1, this.plugin.settings.customSlot[0].link_particle_size, this.onLinkParticleSize).addSlider("Link particle number", 0, 5, 1, this.plugin.settings.customSlot[0].link_particle_number, this.onLinkParticleNumber).addSlider("Text color", 0, 8, 1, this.plugin.settings.customSlot[0].text_color_angle, this.onTextColorAngle).addSlider("Bloom strength (dark mode)", 0.4, 3, 0.2, this.plugin.settings.customSlot[0].bloom_strength, this.onBloomStrength).addToggle("Toggle global map", this.plugin.settings.customSlot[0].toggle_global_map, this.onToggleGlobalMap).addToggle("Toggle label display", this.plugin.settings.customSlot[0].toggle_label_display, this.onToggleLabelDisplay).addToggle("Highlight connection paths", this.plugin.settings.customSlot[0].toggle_highlight_track_mode, this.onToggleHighlightTrackMode)
     }).add({
-      arg: new settingGroup(this.plugin, "save-load", "Save and load").addSlider("Slot #", 1, 5, 1, this.plugin.settings.currentSlot, this.onSlotSliderChange).add({
+      arg: new settingGroup(this.plugin, "save-load", "Save and load").addSlider("Slot #", 1, 5, 1, this.plugin.settings.currentSlotNum, this.onSlotSliderChange).add({
+        arg: new settingGroup(this.plugin, "button-box", "button-box", "normal-box").addButton("Apply Theme Color", "graph-button", () => {
+          this.applyThemeColor();
+        })
+      }).add({
         arg: new settingGroup(this.plugin, "button-box", "button-box", "flex-box").addButton("Save", "graph-button", () => {
-          this.onSave();
-        }).addButton("Load", "graph-button", () => {
-          this.onLoad();
+          this.onSettingsSave();
+        }).getLastElement(this.saveButtonRef).addButton("Load", "graph-button", () => {
+          this.onSettingsLoad();
         }).addButton("Reset", "graph-button", () => {
-          this.onReset();
+          this.onSettingsReset();
+        })
+      }).add({
+        arg: new settingGroup(this.plugin, "button-box", "button-box", "normal-box").addButton("Capture & Insert into Note", "graph-button", () => {
+          this.captureAndSaveScreenshot(true);
+        })
+      }).add({
+        arg: new settingGroup(this.plugin, "button-box", "button-box", "normal-box").addButton("Capture Snapshot", "graph-button", () => {
+          this.captureAndSaveScreenshot(false);
         })
       })
-    }).attachEl(graphContainer.createEl("div", { cls: "settings-container" })).hideAll();
+    }).attachEl(graphContainer.createEl("div", { cls: "graph-controls" })).hideAll();
+    this.plugin.skipSave = false;
   }
   // 点击节点后的处理函数
   handleTagClick(node) {
     if (node.type === "tag") {
       const sanitizedId = node.id.replace(/\//g, "__");
-      const newFilePath = `TagsRoutes/reports/TagReport_${sanitizedId}.md`;
+      const newFileName = `TagReport_${sanitizedId}.md`;
       const fileContent1 = `---
 tags:
   - tag-report
@@ -33862,13 +35762,30 @@ tags:
     ${node.id}
 \`\`\`
 `;
-      this.createAndWriteToFile(newFilePath, fileContent1);
+      this.createAndWriteReport(newFileName, fileContent1);
+    }
+    if (node.type === "frontmatter_tag") {
+      DebugMsg(4 /* DEBUG */, "handleTagClick::frontmatter tag:", node.id);
+      const sanitizedId = node.id.replace(/\//g, "__");
+      const newFileName = `TagReport_frontmatter_tag_${sanitizedId}.md`;
+      const fileContent1 = `---
+tags:
+  - tag-report
+---
+
+\`\`\`tagsroutes
+    frontmatter_tag: ${node.id}
+\`\`\`
+`;
+      this.createAndWriteReport(newFileName, fileContent1);
     }
   }
   // 创建文件并写入内容的函数
-  async createAndWriteToFile(filePath, content) {
+  async createAndWriteReport(fileName, content) {
     const { vault } = this.app;
+    const filePath = `${globalDirectory.reportDirectory}/${fileName}`;
     if (!vault.getAbstractFileByPath(filePath)) {
+      createFolderIfNotExists(globalDirectory.reportDirectory);
       await vault.create(filePath, content);
     } else {
       const file2 = vault.getAbstractFileByPath(filePath);
@@ -33876,9 +35793,9 @@ tags:
         await vault.modify(file2, content);
       }
     }
-    const file = vault.getAbstractFileByPath(filePath);
+    const file = vault.getFileByPath(filePath);
     if (file && file instanceof import_obsidian4.TFile) {
-      const leaf = this.app.workspace.getLeaf(false);
+      const leaf = this.app.workspace.getLeaf();
       await leaf.openFile(file);
       setViewType(leaf.view, "preview");
     }
@@ -33895,13 +35812,14 @@ tags:
       return;
     const { vault } = this.app;
     const content = this.logMessages;
-    if (!vault.getAbstractFileByPath(logFilePath)) {
+    if (!vault.getAbstractFileByPath(globalDirectory.logFilePath)) {
+      createFolderIfNotExists(globalDirectory.logDirectory);
       if (!this.createdFile) {
         this.createdFile = true;
-        await vault.create(logFilePath, content.join(""));
+        await vault.create(globalDirectory.logFilePath, content.join(""));
       }
     } else {
-      const file = vault.getAbstractFileByPath(logFilePath);
+      const file = vault.getAbstractFileByPath(globalDirectory.logFilePath);
       if (file instanceof import_obsidian4.TFile) {
         await vault.process(file, (data) => {
           return data + "\n" + content.join("");
@@ -33918,32 +35836,56 @@ tags:
   async handleNodeClick(node) {
     const filePath = node.id;
     const { workspace, vault } = this.app;
-    if (node.type !== "tag") {
+    if (node.type !== "tag" && node.type !== "frontmatter_tag") {
       const file = vault.getAbstractFileByPath(filePath);
       if (!file || !(file instanceof import_obsidian4.TFile)) {
         return;
       }
-      const leaf = workspace.getLeaf(false);
-      await leaf.openFile(file);
+      const leaves = this.app.workspace.getLeavesOfType("markdown");
+      const existingLeaf = leaves.find((leaf) => {
+        var _a;
+        return ((_a = leaf.view.file) == null ? void 0 : _a.path) === filePath;
+      });
+      if (existingLeaf) {
+        this.app.workspace.setActiveLeaf(existingLeaf);
+      } else {
+        const leaf = workspace.getLeaf(false);
+        await leaf.openFile(file);
+        setViewType(leaf.view, "preview");
+      }
       const view = this.app.workspace.getActiveViewOfType(import_obsidian3.MarkdownView);
       setViewType(view, "preview");
+      const fileExplorerView = this.plugin.app.workspace.getLeavesOfType("file-explorer")[0];
+      if (node.type !== "attachment") {
+        if (fileExplorerView) {
+          try {
+            fileExplorerView.view.revealInFolder(file);
+          } catch (error) {
+            console.error("Error revealing file in folder:", error);
+          }
+        }
+      }
     } else {
       this.handleTagClick(node);
     }
   }
   // view的open 事件
   async onOpen() {
-    const container = this.containerEl.children[1];
-    container.empty();
+    this.container.empty();
     this.getCache();
     this.gData = this.buildGdata();
-    this.createGraph(container);
+    this.createGraph(this.container);
+    setTimeout(() => {
+      this.plugin.view.switchTheme(this.plugin.settings.currentTheme);
+    }, 0);
     this.Graph.graphData(this.gData);
     setTimeout(() => {
+      if (!this.plugin.settings.customSlot)
+        return;
       this.setControlValue(
         "Node size",
         this._controls,
-        this.plugin.settings.customSlot[this.currentSlot],
+        this.plugin.settings.customSlot[this.currentSlotNum],
         "node_size"
       );
     }, 2e3);
@@ -33959,6 +35901,30 @@ var codeBlockProcessor = class {
   constructor(plugin) {
     this.plugin = plugin;
     this.codeBlockProcessor = this.codeBlockProcessor.bind(this);
+  }
+  async checkAndGetFrontmatterTag(source, el, ctx) {
+    const tag = source.replace(/frontmatter_tag:/, "").trim();
+    const files = this.plugin.app.vault.getMarkdownFiles();
+    const matchingFiles = await Promise.all(files.map(async (file) => {
+      var _a;
+      const cache = this.plugin.app.metadataCache.getCache(file.path);
+      if ((_a = cache == null ? void 0 : cache.frontmatter) == null ? void 0 : _a.tags) {
+        let tags = Array.isArray(cache.frontmatter.tags) ? cache.frontmatter.tags : [cache.frontmatter.tags];
+        if (tags.includes("tag-report")) {
+          return null;
+        }
+        if (tags.some((t) => t.includes(tag))) {
+          return file.path;
+        }
+      }
+      return null;
+    }));
+    const result = matchingFiles.filter((path) => path !== null);
+    const writeContent = `
+# Total \`${result.length}\` notes with tag \`${tag}\` :
+${result.map((v) => "- [[" + v.replace(/.md$/, "") + "]]").join("\n")}
+`;
+    this.writeMarkdown("frontmatter_tag: " + tag, writeContent, el, ctx);
   }
   getTagContent(term) {
     const files = this.plugin.app.vault.getMarkdownFiles();
@@ -33994,26 +35960,9 @@ var codeBlockProcessor = class {
     );
     return arr;
   }
-  async codeBlockProcessor(source, el, ctx) {
-    const regstr = "(#[\\w/_\u4E00-\u9FA5]*)";
-    const regex = new RegExp(regstr, "g");
-    const match = source.match(regex);
-    const term = (match == null ? void 0 : match[0]) || "#empty";
-    const con = this.getTagContent(term);
-    const markdownText = [];
-    const values = await Promise.all(con);
-    const noteArr = values.flat();
-    noteArr.sort((a2, b) => getLineTime(a2) - getLineTime(b));
-    markdownText.push("# Tag [" + term + "] total: `" + noteArr.length + "` records.");
-    for (let i = 0; i < noteArr.length; i++) {
-      noteArr[noteArr.length - 1 - i] = noteArr[noteArr.length - 1 - i].replace(/^#/g, "###").replace(/\n#/g, "\n###");
-      noteArr[noteArr.length - 1 - i] = "> [!info]+ " + (i + 1) + "\n> " + noteArr[noteArr.length - 1 - i].replace(/\n/g, "\n> ");
-      markdownText.push("## " + (i + 1) + `
-${noteArr[noteArr.length - 1 - i]}`);
-    }
-    const markDownSource = markdownText.filter((line) => line.trim() !== "").join("\n");
-    const useDiv = true;
-    if (useDiv) {
+  async writeMarkdown(term, source, el, ctx) {
+    const markDownSource = source;
+    if (globalProgramControl.useDiv) {
       import_obsidian5.MarkdownRenderer.render(
         this.plugin.app,
         markDownSource,
@@ -34040,41 +35989,168 @@ tags:
       }
     }
   }
+  async codeBlockProcessor(source, el, ctx) {
+    if (ctx.frontmatter.tags === void 0) {
+      return;
+    }
+    if (source.contains("frontmatter_tag:")) {
+      this.checkAndGetFrontmatterTag(source, el, ctx);
+      return;
+    }
+    const regstr = "(#[\\w/_\u4E00-\u9FA5]*)";
+    const regex = new RegExp(regstr, "g");
+    const match = source.match(regex);
+    const term = (match == null ? void 0 : match[0]) || "#empty";
+    this.writeMarkdown(term, '<br><div class="container-fluid"><div class="tg-alert"><b>PROCESSING...</b></div><small><em>The first time will be slow depending on vault size.</em></small></div>', el, ctx);
+    const con = this.getTagContent(term);
+    const markdownText = [];
+    const values = await Promise.all(con);
+    const noteArr = values.flat();
+    noteArr.sort((a2, b) => getLineTime(a2) - getLineTime(b));
+    markdownText.push("# Tag [" + term + "] total: `" + noteArr.length + "` records.");
+    for (let i = 0; i < noteArr.length; i++) {
+      noteArr[noteArr.length - 1 - i] = noteArr[noteArr.length - 1 - i].replace(/^#/g, "###").replace(/\n#/g, "\n###");
+      noteArr[noteArr.length - 1 - i] = "> [!info]+ " + (i + 1) + "\n> " + noteArr[noteArr.length - 1 - i].replace(/\n/g, "\n> ");
+      markdownText.push("## " + (i + 1) + `
+${noteArr[noteArr.length - 1 - i]}`);
+    }
+    const markDownSource = markdownText.filter((line) => line.trim() !== "").join("\n");
+    this.writeMarkdown(term, markDownSource, el, ctx);
+  }
 };
 
 // src/main.ts
-var defaultolorMap = {
-  markdown: "#00ff00",
-  attachment: "#ffff00",
-  broken: "#ff0000",
-  excalidraw: "#00ffff",
-  tag: "#ff00ff",
-  nodeHighlightColor: "#3333ff",
-  nodeFocusColor: "#FF3333",
-  linkHighlightColor: "#ffffff",
-  linkNormalColor: "#ffffff",
-  linkParticleColor: "#ffffff",
-  linkParticleHighlightColor: "#ff00ff"
+var globalProgramControl = {
+  useDiv: false,
+  debugLevel: 3 /* INFO */,
+  useGroup: true,
+  allowDuplicated: false,
+  aimBeforeLink: true,
+  useTrackHighlight: true,
+  snapshotDirectory: "graph-screenshot"
 };
-var DEFAULT_DISPLAY_SETTINGS = {
-  broken_file_link_center: "true",
-  broken_file_link_line: "false",
+var currentVersion = "1.1.3";
+var currentSaveSpecVer = 10103;
+var minSaveSpecVer = 10101;
+var programDirectory = "TagsRoutes";
+var logDirectory = `${programDirectory}/logs`;
+var reportDirectory = `${programDirectory}/reports`;
+var logFilePath = `${programDirectory}/logMessage.md`;
+var globalDirectory = {
+  programDirectory,
+  logDirectory,
+  reportDirectory,
+  logFilePath
+};
+var defaultolorMapDark = {
+  markdown: { name: "default", value: "#00ff00" },
+  attachment: { name: "default", value: "#ffff00" },
+  broken: { name: "default", value: "#ff0000" },
+  excalidraw: { name: "default", value: "#00ffff" },
+  pdf: { name: "default", value: "#0000ff" },
+  tag: { name: "default", value: "#ff00ff" },
+  frontmatter_tag: { name: "default", value: "#fa8072" },
+  screenshot: { name: "default", value: "#7f00ff" },
+  nodeHighlightColor: { name: "default", value: "#3333ff" },
+  nodeFocusColor: { name: "default", value: "#ff3333" },
+  linkHighlightColor: { name: "default", value: "#ffffff" },
+  linkNormalColor: { name: "default", value: "#ffffff" },
+  linkParticleColor: { name: "default", value: "#ffffff" },
+  linkParticleHighlightColor: { name: "default", value: "#ff00ff" },
+  backgroundColor: { name: "default", value: "#000003" }
+};
+var defaultolorMapLight = {
+  markdown: { name: "default", value: "#00ff00" },
+  attachment: { name: "default", value: "#ffff00" },
+  broken: { name: "default", value: "#ff0000" },
+  excalidraw: { name: "default", value: "#00ffff" },
+  pdf: { name: "default", value: "#0000ff" },
+  tag: { name: "default", value: "#ff00ff" },
+  frontmatter_tag: { name: "default", value: "#fa8072" },
+  screenshot: { name: "default", value: "#7f00ff" },
+  nodeHighlightColor: { name: "default", value: "#3333ff" },
+  nodeFocusColor: { name: "default", value: "#ff3333" },
+  linkHighlightColor: { name: "default", value: "#ffffff" },
+  linkNormalColor: { name: "default", value: "#ffffff" },
+  linkParticleColor: { name: "default", value: "#ffffff" },
+  linkParticleHighlightColor: { name: "default", value: "#ff00ff" },
+  backgroundColor: { name: "default", value: "#ffffff" }
+};
+var defaltColorMap2 = {
+  dark: defaultolorMapDark,
+  light: defaultolorMapLight
+};
+var DEFAULT_DISPLAY_SETTINGS_DARK = {
+  node_size: 5,
+  node_repulsion: 0,
+  // where is min an max set?
+  link_distance: 17,
+  link_width: 1,
+  link_particle_size: 2,
+  link_particle_number: 2,
+  text_color_angle: 0,
+  bloom_strength: 2,
+  toggle_global_map: true,
+  toggle_label_display: false,
+  toggle_highlight_track_mode: false,
+  colorMapSource: "Default dark",
+  colorMap: defaultolorMapDark
+};
+var DEFAULT_DISPLAY_SETTINGS_LIGHT = {
   node_size: 5,
   node_repulsion: 0,
   link_distance: 5,
   link_width: 1,
   link_particle_size: 2,
   link_particle_number: 2,
-  toggle_global_map: false,
-  colorMap: defaultolorMap
+  text_color_angle: 0,
+  bloom_strength: 2,
+  toggle_global_map: true,
+  toggle_label_display: false,
+  toggle_highlight_track_mode: false,
+  colorMapSource: "Defalt light",
+  colorMap: defaultolorMapLight
+};
+var DEFAULT_DISPLAY_SETTINGS = {
+  dark: DEFAULT_DISPLAY_SETTINGS_DARK,
+  light: DEFAULT_DISPLAY_SETTINGS_LIGHT
 };
 var DEFAULT_SETTINGS = {
+  saveSpecVer: currentSaveSpecVer,
   enableSave: true,
   enableShow: true,
-  currentSlot: 1,
-  customSlot: [DEFAULT_DISPLAY_SETTINGS, DEFAULT_DISPLAY_SETTINGS, DEFAULT_DISPLAY_SETTINGS, DEFAULT_DISPLAY_SETTINGS, DEFAULT_DISPLAY_SETTINGS, DEFAULT_DISPLAY_SETTINGS]
+  currentSlotNum: 1,
+  themeSlotNum: {
+    dark: 1,
+    light: 1
+  },
+  openInCurrentTab: false,
+  enableTagsReaction: true,
+  snapShotFolder: "graph-screenshot",
+  currentTheme: "dark",
+  customSlot: null,
+  dark: [
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_DARK),
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_DARK),
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_DARK),
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_DARK),
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_DARK),
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_DARK)
+  ],
+  light: [
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_LIGHT),
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_LIGHT),
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_LIGHT),
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_LIGHT),
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_LIGHT),
+    structuredClone(DEFAULT_DISPLAY_SETTINGS_LIGHT)
+  ]
 };
-var TagsRoutes2 = class extends import_obsidian6.Plugin {
+var TagsRoutes3 = class extends import_obsidian6.Plugin {
+  constructor() {
+    super(...arguments);
+    this.skipSave = true;
+  }
   onFileClick(filePath) {
     for (let leaf of this.app.workspace.getLeavesOfType(VIEW_TYPE_TAGS_ROUTES)) {
       if (leaf.view instanceof TagRoutesView) {
@@ -34093,6 +36169,7 @@ var TagsRoutes2 = class extends import_obsidian6.Plugin {
   }
   async onload() {
     this.app.workspace.onLayoutReady(() => {
+      DebugMsg(3 /* INFO */, "Loading Tags Routes v", currentVersion);
       this.initializePlugin();
     });
   }
@@ -34106,9 +36183,6 @@ var TagsRoutes2 = class extends import_obsidian6.Plugin {
     });
   }
   async initializePlugin() {
-    createFolderIfNotExists("TagsRoutes");
-    createFolderIfNotExists("TagsRoutes/logs");
-    createFolderIfNotExists("TagsRoutes/reports");
     await this.loadSettings();
     this.registerView(
       VIEW_TYPE_TAGS_ROUTES,
@@ -34122,7 +36196,7 @@ var TagsRoutes2 = class extends import_obsidian6.Plugin {
           this.onFileClick(file.path);
       })
     );
-    this.addRibbonIcon("footprints", "Open tags routes", () => {
+    this.addRibbonIcon("waypoints", "Open tags routes", () => {
       this.activateView();
     });
     this.addSettingTab(new TagsroutesSettingsTab(this.app, this));
@@ -34142,6 +36216,19 @@ var TagsRoutes2 = class extends import_obsidian6.Plugin {
               leaf.view.focusGraphTag(tag);
             }
           }
+          return;
+        }
+        if (target && target.closest(".multi-select-pill-content")) {
+          const parent = target.closest('[data-property-key="tags"]');
+          if (parent) {
+            const tagContent = target.textContent || target.innerText;
+            for (let leaf of this.app.workspace.getLeavesOfType(VIEW_TYPE_TAGS_ROUTES)) {
+              if (leaf.view instanceof TagRoutesView) {
+                leaf.view.focusGraphTag(tagContent);
+              }
+            }
+          }
+          return;
         }
       }
     });
@@ -34152,29 +36239,58 @@ var TagsRoutes2 = class extends import_obsidian6.Plugin {
     if (!sources.length)
       return target;
     const source = sources.shift();
-    if (typeof target === "object" && typeof source === "object") {
-      for (const key in source) {
-        if (source[key] !== void 0) {
-          if (typeof source[key] === "object" && source[key] !== null) {
-            if (!target[key])
-              Object.assign(target, { [key]: {} });
+    if (this.isObject(target) && this.isObject(source)) {
+      for (const key in target) {
+        if (key in source) {
+          if (this.isObject(target[key]) && this.isObject(source[key])) {
             this.mergeDeep(target[key], source[key]);
-          } else {
-            Object.assign(target, { [key]: source[key] });
+          } else if (typeof target[key] === typeof source[key] && typeof target[key] !== "object") {
+            target[key] = source[key];
+          } else if (Array.isArray(target[key]) && Array.isArray(source[key])) {
+            for (let i = 0; i < target[key].length; i++) {
+              if (this.isObject(target[key][i]) && this.isObject(source[key][i])) {
+                this.mergeDeep(target[key][i], source[key][i]);
+              }
+            }
           }
         }
       }
     }
     return this.mergeDeep(target, ...sources);
   }
+  // 辅助函数：检查是否为对象
+  isObject(item) {
+    return item && typeof item === "object" && !Array.isArray(item);
+  }
   async loadSettings() {
-    this.settings = this.mergeDeep({}, DEFAULT_SETTINGS, await this.loadData());
+    this.settings = structuredClone(DEFAULT_SETTINGS);
+    const loadedSettings = await this.loadData();
+    if ((loadedSettings == null ? void 0 : loadedSettings.saveSpecVer) && loadedSettings.saveSpecVer >= minSaveSpecVer) {
+      this.mergeDeep(this.settings, loadedSettings);
+      if (loadedSettings.saveSpecVer != currentSaveSpecVer) {
+        DebugMsg(3 /* INFO */, `Save spec version ${loadedSettings.saveSpecVer} merged.`);
+      }
+    } else {
+      if (loadedSettings && loadedSettings.saveSpecVer) {
+        DebugMsg(3 /* INFO */, `Override save spec version ${loadedSettings.saveSpecVer}.`);
+      } else if (!loadedSettings) {
+        DebugMsg(3 /* INFO */, `New installation: Using default settings.`);
+      }
+    }
+    this.settings.customSlot = this.settings[this.settings.currentTheme];
+    this.settings.currentSlotNum = this.settings.themeSlotNum[this.settings.currentTheme];
     this.settings.customSlot[0] = structuredClone(
-      this.settings.customSlot[this.settings.currentSlot]
+      this.settings.customSlot[this.settings.currentSlotNum]
     );
+    this.settings.saveSpecVer = DEFAULT_SETTINGS.saveSpecVer;
   }
   async saveSettings() {
-    await this.saveData(this.settings);
+    if (this.skipSave)
+      return;
+    DebugMsg(4 /* DEBUG */, "[TagsRoutes: Save settings]");
+    this.settings.customSlot = null;
+    this.saveData(this.settings);
+    this.settings.customSlot = this.settings[this.settings.currentTheme];
   }
   async activateView() {
     const { workspace } = this.app;
@@ -34183,7 +36299,11 @@ var TagsRoutes2 = class extends import_obsidian6.Plugin {
     if (leaves.length > 0) {
       leaf = leaves[0];
     } else {
-      leaf = workspace.getLeaf("split");
+      if (!this.settings.openInCurrentTab) {
+        leaf = workspace.getLeaf("split");
+      } else {
+        leaf = workspace.getLeaf();
+      }
       if (leaf) {
         await leaf.setViewState({ type: VIEW_TYPE_TAGS_ROUTES, active: true });
       }
@@ -34193,32 +36313,90 @@ var TagsRoutes2 = class extends import_obsidian6.Plugin {
     }
   }
 };
+var colorPickerGroup = class {
+  constructor(plugin, container, name, keyname) {
+    this.isProgrammaticChange = false;
+    this.skipSave = false;
+    var _a, _b;
+    this.plugin = plugin;
+    this.keyname = keyname;
+    const holder = container.createEl("div", "inline-settings");
+    this.text = new import_obsidian6.Setting(holder.createEl("span")).addText(
+      (text) => {
+        this.textC = text.setValue("").onChange((v) => {
+          if (!this.plugin.settings.customSlot)
+            return;
+          if (v === "")
+            return;
+          const colorHex = this.namedColorToHex(v);
+          if (colorHex !== "N/A") {
+            this.isProgrammaticChange = true;
+            this.plugin.settings.customSlot[0].colorMap[keyname].name = v;
+            this.colorC.setValue(colorHex);
+            this.text.setDesc(`${v} - ${colorHex}`);
+            this.isProgrammaticChange = false;
+          }
+        });
+      }
+    ).setName(name).setDesc(((_a = this.plugin.settings.customSlot) == null ? void 0 : _a[0].colorMap[keyname].name) || ((_b = this.plugin.settings.customSlot) == null ? void 0 : _b[0].colorMap[keyname].value) || "");
+    this.colorPicker = new import_obsidian6.Setting(holder.createEl("span")).addColorPicker(
+      (c2) => {
+        var _a2;
+        this.colorC = c2.setValue(((_a2 = this.plugin.settings.customSlot) == null ? void 0 : _a2[0].colorMap[keyname].value) || "").onChange((v) => {
+          if (!this.plugin.settings.customSlot)
+            return;
+          this.textC.setValue("");
+          if (this.isProgrammaticChange == false) {
+            this.text.setDesc(v);
+            this.plugin.settings.customSlot[0].colorMap[keyname].value = v;
+            this.plugin.settings.customSlot[0].colorMap[keyname].name = "";
+          } else {
+            this.plugin.settings.customSlot[0].colorMap[keyname].value = v;
+          }
+          if (!this.skipSave) {
+            this.plugin.view.onSettingsSave();
+          }
+          this.plugin.view.updateColor();
+        });
+      }
+    );
+    return this;
+  }
+  namedColorToHex(color) {
+    const ret = namedColor.get(color);
+    if (ret) {
+      return ret;
+    }
+    return "N/A";
+  }
+  resetColor(skipSave) {
+    if (!this.plugin.settings.customSlot)
+      return;
+    this.skipSave = skipSave;
+    this.isProgrammaticChange = true;
+    this.colorC.setValue(this.plugin.settings.customSlot[0].colorMap[this.keyname].value);
+    this.text.setDesc(this.plugin.settings.customSlot[0].colorMap[this.keyname].name || this.plugin.settings.customSlot[0].colorMap[this.keyname].value);
+    this.skipSave = false;
+    this.isProgrammaticChange = false;
+  }
+};
 var TagsroutesSettingsTab = class extends import_obsidian6.PluginSettingTab {
   constructor(app, plugin) {
     super(app, plugin);
+    this.colors = [];
     this.plugin = plugin;
     this.loadColor = this.loadColor.bind(this);
-  }
-  addColorPicker(container, name, keyName, cb) {
-    const defaultColor = this.plugin.settings.customSlot[0].colorMap[keyName];
-    const colorpicker = new import_obsidian6.Setting(container).setName(name).setDesc(defaultColor || "#000000").addColorPicker((picker) => {
-      picker.setValue(defaultColor).onChange(async (value) => {
-        this.plugin.settings.customSlot[0].colorMap[keyName] = value;
-        this.plugin.view.onSave();
-        cb(value);
-        setTimeout(() => colorpicker.setDesc(value), 0);
-      });
-    });
-    return this;
   }
   loadColor(value) {
     this.plugin.view.updateColor();
   }
   display() {
+    var _a, _b;
+    this.plugin.skipSave = true;
     const { containerEl } = this;
     containerEl.empty();
     containerEl.createEl("h1", { text: "General" });
-    new import_obsidian6.Setting(containerEl).setName("Log Node/Link Count").setDesc("Enable or disable logging the number of nodes and links when the graph loads").addToggle(
+    new import_obsidian6.Setting(containerEl).setName("Log node/link count").setDesc("Enable or disable logging the number of nodes and links when the graph loads.").addToggle(
       (toggle) => {
         toggle.setValue(this.plugin.settings.enableSave).onChange(async (value) => {
           if (!value) {
@@ -34230,7 +36408,7 @@ var TagsroutesSettingsTab = class extends import_obsidian6.PluginSettingTab {
         this.toggleEnableSave = toggle;
       }
     );
-    new import_obsidian6.Setting(containerEl).setName("Show Log File on Startup").setDesc("Automatically display the log file after the graph loads").addToggle(
+    new import_obsidian6.Setting(containerEl).setName("Show log file on startup").setDesc("Automatically display the log file after the graph loads.").addToggle(
       (toggle) => {
         toggle.onChange(async (value) => {
           if (value) {
@@ -34242,22 +36420,102 @@ var TagsroutesSettingsTab = class extends import_obsidian6.PluginSettingTab {
         this.toggleEnableShow = toggle;
       }
     );
-    containerEl.createEl("h1", { text: "Color" });
-    new import_obsidian6.Setting(containerEl).setName("Node type").setHeading();
-    this.addColorPicker(containerEl, "Markdown", "markdown", this.loadColor);
-    this.addColorPicker(containerEl, "Tags", "tag", this.loadColor);
-    this.addColorPicker(containerEl, "Exclidraw", "excalidraw", this.loadColor);
-    this.addColorPicker(containerEl, "Attachments", "attachment", this.loadColor);
-    this.addColorPicker(containerEl, "Broken", "broken", this.loadColor);
-    new import_obsidian6.Setting(containerEl).setName("Node state").setHeading().setDesc("Effects in global map mode");
-    this.addColorPicker(containerEl, "Highlight", "nodeHighlightColor", this.loadColor);
-    this.addColorPicker(containerEl, "Focus", "nodeFocusColor", this.loadColor);
-    new import_obsidian6.Setting(containerEl).setName("Link state").setHeading();
-    this.addColorPicker(containerEl, "Normal", "linkNormalColor", this.loadColor);
-    this.addColorPicker(containerEl, "Highlight", "linkHighlightColor", this.loadColor);
-    new import_obsidian6.Setting(containerEl).setName("Particle state").setHeading();
-    this.addColorPicker(containerEl, "Normal", "linkParticleColor", this.loadColor);
-    this.addColorPicker(containerEl, "Highlight", "linkParticleHighlightColor", this.loadColor);
+    new import_obsidian6.Setting(containerEl).setName("Enable tag click actions").setDesc("When enabled, clicking on a tag will generate a content report based on that tag.").addToggle(
+      (toggle) => {
+        toggle.onChange(async (value) => {
+          this.plugin.settings.enableTagsReaction = value;
+          await this.plugin.saveSettings();
+        }).setValue(this.plugin.settings.enableTagsReaction);
+      }
+    );
+    new import_obsidian6.Setting(containerEl).setName("Open graph in current tab").setDesc("Toggle to open graph within current tab.").addToggle(
+      (toggle) => {
+        toggle.onChange(async (value) => {
+          this.plugin.settings.openInCurrentTab = value;
+          await this.plugin.saveSettings();
+        }).setValue(this.plugin.settings.openInCurrentTab);
+      }
+    );
+    new import_obsidian6.Setting(containerEl).setName("Save location for graph snapshots").setDesc("Choose the folder where you want to save screenshots of the graph.").addText((text) => {
+      text.setValue(this.plugin.settings.snapShotFolder).onChange(async (v) => {
+        this.plugin.settings.snapShotFolder = v;
+        await this.plugin.saveSettings();
+      });
+    });
+    const themeTitle = containerEl.createEl("div", { cls: "tags-routes-settings-title" });
+    themeTitle.createEl("h1", { text: "Theme" });
+    new import_obsidian6.Setting(containerEl).setName("Theme selection").setDesc("Toggel to use light or dark theme, the default and recommended is dark.").addToggle(
+      (toggle) => {
+        toggle.onChange(async (value) => {
+          if (value === true) {
+            this.plugin.settings.currentTheme = "light";
+          } else {
+            this.plugin.settings.currentTheme = "dark";
+          }
+          if (this.plugin.view.currentVisualString === this.plugin.settings.currentTheme)
+            return;
+          this.plugin.settings.customSlot = this.plugin.settings[this.plugin.settings.currentTheme];
+          this.plugin.settings.currentSlotNum = this.plugin.settings.themeSlotNum[this.plugin.settings.currentTheme];
+          this.plugin.view.currentSlotNum = this.plugin.settings.currentSlotNum;
+          this.plugin.settings.customSlot[0] = structuredClone(
+            this.plugin.settings.customSlot[this.plugin.settings.currentSlotNum]
+          );
+          this.plugin.view.switchTheme(this.plugin.settings.currentTheme).then((result) => {
+            if (result) {
+              const entry = this.plugin.view._controls.find((v) => v.id === "Slot #");
+              if (entry) {
+                entry.control.setValue(this.plugin.settings.currentSlotNum);
+              }
+              this.plugin.saveSettings();
+            }
+          });
+          this.colors.forEach((v) => v.resetColor(true));
+          this.colorMapSourceElement.innerText = this.plugin.settings.customSlot[this.plugin.settings.currentSlotNum].colorMapSource;
+        }).setValue(this.plugin.settings.currentTheme === "dark" ? false : true);
+      }
+    );
+    const colorTitle = containerEl.createEl("div", { cls: "tags-routes-settings-title" });
+    colorTitle.createEl("h1", { text: "Color" });
+    new import_obsidian6.ExtraButtonComponent(colorTitle.createEl("span", { cls: "group-bar-button" })).setIcon("reset").setTooltip("Reset color of current slot ").onClick(() => {
+      if (!this.plugin.settings.customSlot)
+        return;
+      this.plugin.settings.customSlot[0].colorMap = structuredClone(defaltColorMap2[this.plugin.settings.currentTheme]);
+      this.plugin.settings.customSlot[0].colorMapSource = DEFAULT_DISPLAY_SETTINGS[this.plugin.settings.currentTheme].colorMapSource;
+      this.plugin.view.onSettingsSave();
+      this.plugin.view.updateColor();
+      this.colors.forEach((v) => v.resetColor(true));
+      this.colorMapSourceElement.innerText = this.plugin.settings.customSlot[this.plugin.settings.currentSlotNum].colorMapSource;
+      new import_obsidian6.Notice(`Color reset on slot ${this.plugin.settings.currentSlotNum}`);
+    });
+    const desc = containerEl.createEl("div", { text: "You can enter css named colors here, like 'blue', 'lightblue' etc." });
+    desc.createEl("br");
+    desc.appendText("For the supported css named colors, please refer to: ");
+    desc.createEl("a", { href: "https://www.w3.org/wiki/CSS/Properties/color/keywords", text: "Css color keywords" });
+    desc.createEl("br");
+    desc.createEl("br");
+    this.colorMapSourceElement = desc.createEl("div").createEl("span", { text: "Current color map source: " }).createEl("span", { text: ((_b = (_a = this.plugin.settings.customSlot) == null ? void 0 : _a[0]) == null ? void 0 : _b.colorMapSource) || "Defalt" });
+    this.colorMapSourceElement.addClass("tags-routes-need-save");
+    desc.addClass("setting-item-description");
+    const colorSettingsGroup = containerEl.createEl("div", { cls: "tags-routes" });
+    new import_obsidian6.Setting(colorSettingsGroup).setName("Node type").setHeading().settingEl.addClass("tg-settingtab-heading");
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Markdown", "markdown"));
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Tag", "tag"));
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Excalidraw", "excalidraw"));
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Pdf", "pdf"));
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Attachment", "attachment"));
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Frontmatter tag", "frontmatter_tag"));
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Screenshot", "screenshot"));
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Broken", "broken"));
+    new import_obsidian6.Setting(colorSettingsGroup).setName("Node state").setHeading().setDesc("Effects in global map mode.").settingEl.addClass("tg-settingtab-heading");
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Highlight", "nodeHighlightColor"));
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Focus", "nodeFocusColor"));
+    new import_obsidian6.Setting(colorSettingsGroup).setName("Link state").setHeading().settingEl.addClass("tg-settingtab-heading");
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Normal", "linkNormalColor"));
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Highlight", "linkHighlightColor"));
+    new import_obsidian6.Setting(colorSettingsGroup).setName("Particle state").setHeading().settingEl.addClass("tg-settingtab-heading");
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Normal", "linkParticleColor"));
+    this.colors.push(new colorPickerGroup(this.plugin, colorSettingsGroup, "Highlight", "linkParticleHighlightColor"));
+    this.plugin.skipSave = false;
   }
 };
 /*! Bundled license information:

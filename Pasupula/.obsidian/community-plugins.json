@@ -34,7 +34,8 @@
   "obsidian-tracker",
   "heatmap-calendar",
   "obsidian-charts",
-  "journals",
   "templater-obsidian",
-  "automatic-table-of-contents"
+  "automatic-table-of-contents",
+  "calendar",
+  "obsidian-desmos"
 ]

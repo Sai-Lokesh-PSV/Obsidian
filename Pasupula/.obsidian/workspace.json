@@ -4,35 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "8014b142a5d48752",
+        "id": "60abb5518c3d9c94",
         "type": "tabs",
         "children": [
           {
-            "id": "68b231d614334d8c",
+            "id": "1a2d52333f502056",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01 - Projects/02 - C++ Projects/00 - C++ Projects.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "a49b47d7b1e42bfb",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "02 - Areas/02 - Podcasts/202408281424 How to Enhance Focus and Improve Productivity.md",
+                "file": "02 - Areas/01 - Mini Essays/202410171217 Drifting away.....md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -62,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#Projects",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -123,7 +110,7 @@
       {
         "id": "dde9ec7339977198",
         "type": "tabs",
-        "dimension": 31.547619047619047,
+        "dimension": 32.73809523809524,
         "children": [
           {
             "id": "95c3bd9849d71aae",
@@ -142,7 +129,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02 - Areas/02 - Podcasts/202408281424 How to Enhance Focus and Improve Productivity.md",
+                "file": "02 - Areas/01 - Mini Essays/202410171217 Drifting away.....md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -159,7 +146,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "02 - Areas/02 - Podcasts/202408281424 How to Enhance Focus and Improve Productivity.md",
+                "file": "02 - Areas/01 - Mini Essays/202410171217 Drifting away.....md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -178,30 +165,30 @@
             }
           },
           {
-            "id": "8f7c6e0c9111e013",
+            "id": "802a3aac8f481b39",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "0e9caf4dd1d19971",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "02 - Areas/02 - Podcasts/202408281424 How to Enhance Focus and Improve Productivity.md"
+                "file": "02 - Areas/01 - Mini Essays/202410171217 Drifting away.....md"
               }
-            }
-          },
-          {
-            "id": "d426ed707c07de40",
-            "type": "leaf",
-            "state": {
-              "type": "journal-calendar",
-              "state": {}
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 4
       },
       {
         "id": "dfbef80721333ec4",
         "type": "tabs",
-        "dimension": 23.41269841269841,
+        "dimension": 37.89682539682539,
         "children": [
           {
             "id": "5b0dc9fb6766d0d2",
@@ -216,7 +203,7 @@
       {
         "id": "8db31c9212fe96d4",
         "type": "tabs",
-        "dimension": 45.03968253968254,
+        "dimension": 29.365079365079367,
         "children": [
           {
             "id": "bd49f45478c7d00a",
@@ -243,8 +230,8 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:Open quick switcher": true,
-      "command-palette:Open command palette": true,
+      "switcher:Open quick switcher": false,
+      "command-palette:Open command palette": false,
       "graph:Open graph view": false,
       "daily-notes:Open today's daily note": false,
       "random-note:Open random note": false,
@@ -268,45 +255,45 @@
       "tags-routes:Open tags routes": false
     }
   },
-  "active": "a49b47d7b1e42bfb",
+  "active": "1a2d52333f502056",
   "lastOpenFiles": [
-    "Computer Science.md",
-    "02 - Areas/02 - Podcasts/202408281424 How to Enhance Focus and Improve Productivity.md",
+    "Ethics and Values Notes.md",
+    "02 - Areas/01 - Mini Essays/202410171217 Drifting away.....md",
+    "06 - Daily/01 - Daily/20241016.md",
     "01 - Projects/02 - C++ Projects/00 - C++ Projects.md",
-    "01 - Projects/02 - C++ Projects/20 Address Book.md",
-    "01 - Projects/02 - C++ Projects/19 Digital Piano.md",
-    "01 - Projects/02 - C++ Projects/18 Hotel Booking System.md",
-    "01 - Projects/02 - C++ Projects/17 Payroll Management System.md",
-    "01 - Projects/02 - C++ Projects/16 3D Bounce Ball Game.md",
-    "01 - Projects/02 - C++ Projects/15 Bike Race Game.md",
-    "01 - Projects/02 - C++ Projects/14 Academic Search Engine.md",
-    "01 - Projects/02 - C++ Projects/07 Sudoku Game.md",
-    "01 - Projects/02 - C++ Projects/13 Tic-Tac-Toe.md",
-    "01 - Projects/02 - C++ Projects/12 Digital Calculator.md",
-    "01 - Projects/02 - C++ Projects/11 Face Detection App.md",
-    "01 - Projects/02 - C++ Projects/10 Sales Management System.md",
-    "01 - Projects/02 - C++ Projects/09 Casino Number Guessing Game.md",
-    "01 - Projects/02 - C++ Projects/08 Trading Application Project.md",
-    "01 - Projects/02 - C++ Projects/06 Credit Card Validator.md",
-    "01 - Projects/02 - C++ Projects/05 Car Rental System.md",
-    "01 - Projects/02 - C++ Projects/04 Contact Management System.md",
-    "01 - Projects/02 - C++ Projects/03 Student Record Management System.md",
-    "01 - Projects/02 - C++ Projects/02 Bank Management System.md",
     "01 - Projects/02 - C++ Projects/01 Bookshop Management System.md",
-    "TagsRoutes/logs/logMessage.md",
-    "06 - Daily/01 - Daily/20240913.md",
-    "07 - Archives/Archives.md",
+    "01 - Projects/04 - Cybersecurity/20240922 Codex 3.0.md",
+    "06 - Daily/01 - Daily/20241013.md",
+    "TagsRoutes/logMessage.md",
+    "Focus.md",
+    "02 - Areas/02 - Podcasts/202408281424 How to Enhance Focus and Improve Productivity.md",
+    "logseq/bak/logseq/config/2024-10-12T17_02_46.428Z.Desktop.edn",
+    "logseq/bak/logseq/config",
+    "logseq/bak/logseq",
+    "logseq/bak",
+    "logseq/custom.css",
+    "pages/contents.md",
+    "pages",
+    "logseq/config.edn",
+    "journals",
+    "logseq",
+    "06 - Daily/01 - Daily/20241012.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Daily.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Daily (Vanilla).md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Trial.md",
+    "99 - Meta/00 - Templates/(TEMPLATE) Weekly.md",
+    "Probability and statistics.md",
+    "2024-10-08.md",
+    "06 - Daily/01 - Daily/20241003.md",
+    "06 - Daily/01 - Daily/20241002.md",
+    "06 - Daily/02 - Weekly/W40 e-matrix.md",
+    "20240921.md",
+    "02 - Areas/01 - Mini Essays/202409291445 Adopting to change.md",
+    "06 - Daily/01 - Daily/20241006.md",
+    "06 - Daily/01 - Daily/20241004.md",
+    "06 - Daily/01 - Daily/20241001.md",
+    "01 - Projects/04 - Cybersecurity",
     "screenshot-20240824-155003Z-all.png",
-    "screenshot-20240828-095718Z-selected.png",
-    "02 - Areas/04 - Youtube",
-    "01 - Projects/Untitled",
-    "TagsRoutes/reports",
-    "TagsRoutes/logs",
-    "TagsRoutes",
-    "01 - Projects/02 - C++ Projects",
-    "99 - Meta/00 - Templates/Untitled",
-    "06 - Daily/04 - Montly",
-    "06 - Daily/03 - Quaterly",
-    "06 - Daily/02 - Weekly"
+    "screenshot-20240828-095718Z-selected.png"
   ]
 }

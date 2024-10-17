@@ -8,5 +8,5 @@ Due to a random outcome we cannot or is impossible to get 2 same sample space(th
 1. $p(x_{i})\geq 0$ and $p(x_{i})<1$
 2. $\sum\limits_{i=1}^n=1$
 >[!note]
->Probatbility ($p(x)=1$) when in biased environment
+>Probatbility $p(x)=1$ when in biased environment
 

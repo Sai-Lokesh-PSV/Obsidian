@@ -1,6 +1,6 @@
 {
   "accentColor": "#43cfea",
-  "cssTheme": "Vanilla AMOLED",
+  "cssTheme": "AnuPpuccin",
   "interfaceFontFamily": "JetBrainsMono Nerd Font",
   "textFontFamily": "JetBrainsMono Nerd Font",
   "monospaceFontFamily": "JetBrainsMono Nerd Font",
@@ -16,9 +16,10 @@
     "CyanVoxel's General Tweaks",
     "Daily Note Themes",
     "kanban",
-    "styles"
+    "trial"
   ],
   "translucency": false,
   "theme": "obsidian",
-  "baseFontSize": 17
+  "baseFontSize": 17,
+  "baseFontSizeAction": true
 }

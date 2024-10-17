@@ -11,7 +11,6 @@ cssclasses:
 ***
 ### Journal
 #### TIME
-Customize this template to your liking!
 ...
 ***
 ### Tasks

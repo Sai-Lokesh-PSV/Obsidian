@@ -3,7 +3,7 @@
   "autoPairMarkdown": false,
   "alwaysUpdateLinks": true,
   "attachmentFolderPath": "99 - Meta/attachments",
-  "promptDelete": false,
+  "promptDelete": true,
   "userIgnoreFilters": [
     "99 - Meta/",
     "TagsRoutes/"
@@ -14,5 +14,6 @@
   "readableLineLength": true,
   "spellcheck": true,
   "showLineNumber": true,
-  "vimMode": true
+  "vimMode": true,
+  "showRibbon": true
 }
