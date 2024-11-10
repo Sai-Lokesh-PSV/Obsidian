@@ -6,11 +6,11 @@
     "emojiStyle": "native",
     "iconColor": null,
     "recentlyUsedIcons": [
-      "FabYoutube",
-      "LiCode2",
-      "BoBxCalendarWeek",
-      "BoBxNews",
-      "BoBxPodcast"
+      "FabPython",
+      "LiQrCode",
+      "BoBxlJavascript",
+      "FabAndroid",
+      "FabLinux"
     ],
     "recentlyUsedIconsSize": 5,
     "rules": [
@@ -106,5 +106,10 @@
   "06 - Daily/02 - Weekly": "BoBxCalendarWeek",
   "02 - Areas/01 - Mini Essays": "BoBxsDetail",
   "01 - Projects/02 - C++ Projects": "LiCode2",
-  "02 - Areas/04 - Youtube": "FabYoutube"
+  "02 - Areas/04 - Youtube": "FabYoutube",
+  "01 - Projects/05 - LearningReact": "FabReact",
+  "01 - Projects/01 - Basics of making a app": "FabAndroid",
+  "01 - Projects/03 - OpenGL": "BoBxlJavascript",
+  "04 - Permanent/06 - QR": "LiQrCode",
+  "01 - Projects/04 - LearningPython": "FabPython"
 }

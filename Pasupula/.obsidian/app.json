@@ -1,5 +1,5 @@
 {
-  "showInlineTitle": false,
+  "showInlineTitle": true,
   "autoPairMarkdown": false,
   "alwaysUpdateLinks": true,
   "attachmentFolderPath": "99 - Meta/attachments",
@@ -9,11 +9,12 @@
     "TagsRoutes/"
   ],
   "showFrontmatter": true,
-  "propertiesInDocument": "visible",
+  "propertiesInDocument": "source",
   "autoPairBrackets": true,
-  "readableLineLength": true,
+  "readableLineLength": false,
   "spellcheck": true,
   "showLineNumber": true,
   "vimMode": true,
-  "showRibbon": true
+  "showRibbon": true,
+  "strictLineBreaks": false
 }

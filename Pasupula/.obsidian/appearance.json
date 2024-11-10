@@ -1,6 +1,6 @@
 {
   "accentColor": "#43cfea",
-  "cssTheme": "AnuPpuccin",
+  "cssTheme": "Vanilla AMOLED",
   "interfaceFontFamily": "JetBrainsMono Nerd Font",
   "textFontFamily": "JetBrainsMono Nerd Font",
   "monospaceFontFamily": "JetBrainsMono Nerd Font",
@@ -8,18 +8,20 @@
     "retro-notebook-bg",
     "Daily Note",
     "Notebook Backgrounds",
-    "Runescape",
     "Japanese Fonts",
-    "Japanese Font Support",
     "Colored Sidebar Items",
     "Minecraft",
     "CyanVoxel's General Tweaks",
     "Daily Note Themes",
     "kanban",
-    "trial"
+    "trial",
+    "Japanese Font Support",
+    "Runescape"
   ],
   "translucency": false,
   "theme": "obsidian",
   "baseFontSize": 17,
-  "baseFontSizeAction": true
+  "baseFontSizeAction": true,
+  "showViewHeader": true,
+  "nativeMenus": true
 }

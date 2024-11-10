@@ -27,3 +27,13 @@
 |[2024-10-13 11:07:40] |After filtered pathes=>|| filtered nodes: |2|  links:| 60|
 |[2024-10-13 11:07:40] |Tags parse completed=>||  tag nodes: |15| tag links:| 37|
 |[2024-10-13 11:07:40] |tags num:| 15| broken files: |0| tag links:| 37|
+
+
+
+||||||||
+|-:|-:|-:|-:|-:|-:|-:|
+|[2024-11-07 09:06:39] |File parse completed=>|| markdown and linked files nodes:| 67| total file links:| 26|
+|[2024-11-07 09:06:39] |add tags and other files=>||  total nodes: |82|  total links:| 77|
+|[2024-11-07 09:06:39] |After filtered pathes=>|| filtered nodes: |2|  links:| 77|
+|[2024-11-07 09:06:39] |Tags parse completed=>||  tag nodes: |15| tag links:| 51|
+|[2024-11-07 09:06:39] |tags num:| 15| broken files: |0| tag links:| 51|
