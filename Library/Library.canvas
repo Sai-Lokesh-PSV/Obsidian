@@ -1,0 +1,16 @@
+{
+	"nodes":[
+		{"type":"group","id":"e2327a6001d7426c","x":-1021,"y":-880,"width":3341,"height":600,"color":"4","label":"Reading"},
+		{"type":"group","id":"8f806af23ba3409c","x":-760,"y":-960,"width":960,"height":1920,"color":"6","label":"High"},
+		{"type":"group","id":"24f7da5ba9bdd2cc","x":280,"y":-960,"width":960,"height":1920,"color":"6","label":"Medium"},
+		{"type":"group","id":"7e96bc6402824b7c","x":1320,"y":-960,"width":960,"height":1920,"color":"6","label":"Low"},
+		{"type":"group","id":"95b3db54752df70a","x":-1021,"y":-200,"width":3341,"height":511,"color":"2","label":"Queued"},
+		{"type":"group","id":"f989d52f94330836","x":-1021,"y":400,"width":3341,"height":511,"color":"3","label":"Waiting"},
+		{"type":"file","file":"Books/Harry Potter and the Philosopher's Stone - 25th Anniversary Edition.md","id":"88d2997adc70dd22","x":520,"y":-760,"width":400,"height":400},
+		{"id":"586ae5e2f0e8c2a6","type":"file","file":"Queries/Priority Books.md","x":2580,"y":-960,"width":1100,"height":1920,"color":"4"},
+		{"type":"file","file":"Queries/Complete.md","id":"41caa33ff13ad327","x":3840,"y":-960,"width":1120,"height":1920,"color":"1"},
+		{"type":"file","file":"Books/Becoming a Sports Coach.md","id":"7a3d8d6295b59625","x":-400,"y":0,"width":400,"height":400},
+		{"type":"file","file":"Queries/To Be Read.md","id":"2367d8567b32e73f","x":-4200,"y":-960,"width":2880,"height":1920,"color":"5"}
+	],
+	"edges":[]
+}

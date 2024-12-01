@@ -1,22 +1,37 @@
 {
-  "collapse-filter": false,
+  "collapse-filter": true,
   "search": "",
   "showTags": true,
   "showAttachments": false,
   "hideUnresolved": false,
   "showOrphans": true,
   "collapse-color-groups": false,
-  "colorGroups": [],
+  "colorGroups": [
+    {
+      "query": "tag:#Programming  ",
+      "color": {
+        "a": 1,
+        "rgb": 14701138
+      }
+    },
+    {
+      "query": "tag:#Mini-Essay  ",
+      "color": {
+        "a": 1,
+        "rgb": 1975230
+      }
+    }
+  ],
   "collapse-display": false,
   "showArrow": true,
   "textFadeMultiplier": -2.2,
   "nodeSizeMultiplier": 1.11397333333333,
   "lineSizeMultiplier": 1.00247111111111,
-  "collapse-forces": true,
+  "collapse-forces": false,
   "centerStrength": 0.270140332640333,
   "repelStrength": 11.4204444444444,
   "linkStrength": 0.578607407407408,
   "linkDistance": 118,
-  "scale": 0.0772015664960088,
+  "scale": 0.04776665291866328,
   "close": true
 }

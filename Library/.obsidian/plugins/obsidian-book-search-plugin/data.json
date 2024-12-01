@@ -1,0 +1,13 @@
+{
+  "folder": "Books",
+  "fileNameFormat": "{{title}}",
+  "frontmatter": "Subtitle: {{subtitle}}\nAuthors: {{authors}}\nCategory: {{category}}\nPublisher: {{publisher}}\nTotalPage: {{totalPage}}\nCoverSmallUrl: {{coverUrl}}\nClass: Book\nRating:\nRecommendation: \nComplete: false\nPriority: \nStatus: ",
+  "content": "```dataview\ntable without id (\"![|100](\" + CoverSmallUrl + \")\") as \"Cover\", Rating\nfrom \"Books/<%tp.file.title%>\"\n```",
+  "useDefaultFrontmatter": false,
+  "defaultFrontmatterKeyType": "Camel Case",
+  "templateFile": "",
+  "serviceProvider": "google",
+  "naverClientId": "",
+  "naverClientSecret": "",
+  "localePreference": "default"
+}

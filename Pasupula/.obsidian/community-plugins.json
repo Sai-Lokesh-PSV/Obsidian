@@ -1,5 +1,4 @@
 [
-  "obsidian-spaced-repetition",
   "obsidian-smart-typography",
   "obsidian-importer",
   "settings-search",
@@ -37,5 +36,11 @@
   "templater-obsidian",
   "automatic-table-of-contents",
   "calendar",
-  "obsidian-desmos"
+  "obsidian-desmos",
+  "obsidian-projects",
+  "obsidian-book-search-plugin",
+  "better-export-pdf",
+  "buttons",
+  "quickadd",
+  "obsidian-tasks-plugin"
 ]

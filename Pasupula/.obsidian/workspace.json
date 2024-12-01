@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "9cfc6b11e89b255c",
+        "id": "8bdc327e02af4365",
         "type": "tabs",
         "children": [
           {
-            "id": "3c753ef6999239e2",
+            "id": "365a7094d282cc44",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "06 - Daily/01 - Daily/20241110.md",
+                "file": "06 - Daily/01 - Daily/20241130.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "20241110"
+              "title": "20241130"
             }
           }
         ]
@@ -76,26 +76,6 @@
           },
           {
             "id": "51f96234a51145e0",
-            "type": "leaf",
-            "state": {
-              "type": "tagfolder-view",
-              "state": {},
-              "icon": "stacked-levels",
-              "title": "Tag Folder"
-            }
-          },
-          {
-            "id": "ee943d8638eb07b6",
-            "type": "leaf",
-            "state": {
-              "type": "tagfolder-view",
-              "state": {},
-              "icon": "stacked-levels",
-              "title": "Tag Folder"
-            }
-          },
-          {
-            "id": "042ba6257d3f2bf1",
             "type": "leaf",
             "state": {
               "type": "tagfolder-view",
@@ -212,10 +192,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "06 - Daily/01 - Daily/20241110.md"
+                "file": "01 - Projects/05 - LearningReact/20241017 Day 1.md"
               },
               "icon": "lucide-list",
-              "title": "Outline of 20241110"
+              "title": "Outline of 20241017 Day 1"
             }
           }
         ],
@@ -268,7 +248,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 396.5
+    "width": 396.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -281,7 +262,6 @@
       "canvas:Create new canvas": false,
       "markdown-importer:Open format converter": false,
       "workspaces:Manage workspace layouts": false,
-      "obsidian-spaced-repetition:Review flashcards": false,
       "obsidian-importer:Open Importer": false,
       "obsidian-excalidraw-plugin:Create new drawing": false,
       "homepage:Open homepage": false,
@@ -294,48 +274,50 @@
       "pomodoro-timer:Toggle timer panel": false,
       "callout-manager:Insert Callout": false,
       "templater-obsidian:Templater": false,
+      "obsidian-projects:Open projects": false,
+      "obsidian-book-search-plugin:Create new book note": false,
       "tags-routes:Open tags routes": false
     }
   },
   "active": "5504be79e0cb7f76",
   "lastOpenFiles": [
-    "03 - Resources/202409092050 GitHub Pages.md",
-    "06 - Daily/01 - Daily/20241110.md",
-    "03 - Resources/20240903 Youtube Channels for learning.md",
-    "02 - Areas/01 - Mini Essays/202408240501 About Writing.md",
-    "01 - Projects/05 - LearningReact/20241101 Day 5.md",
-    "01 - Projects/04 - LearningPython/20241109 Day 1.md",
-    "06 - Daily/01 - Daily/20241109.md",
-    "01 - Projects/02 - C++ Projects/00 - C++ Projects.md",
-    "04 - Permanent/06 - QR/20241107 Presentation.md",
-    "06 - Daily/01 - Daily/20241107.md",
-    "TagsRoutes/logMessage.md",
-    "04 - Permanent/06 - QR",
-    "06 - Daily/01 - Daily/20241105.md",
-    "Untitled.md",
-    "02 - Areas/Untitled.md",
-    "Untitled 1.md",
+    "01 - Projects/02 - C++ Projects/01 Bookshop Management System.md",
+    "06 - Daily/01 - Daily/20241130.md",
+    "06 - Daily/01 - Daily/20241128.md",
+    "06 - Daily/01 - Daily/20241129.md",
+    "06 - Daily/01 - Daily/20241124.md",
+    "06 - Daily/01 - Daily/20241123.md",
+    "06 - Daily/01 - Daily/20241120.md",
     "06 - Daily/01 - Daily/20241104.md",
-    "06 - Daily/01 - Daily/20241102.md",
+    "06 - Daily/01 - Daily/20241117.md",
+    "01 - Projects/05 - LearningReact/20241114 Day 6.md",
+    "Ethics and Values Notes.md",
+    "Probability and statistics.md",
+    "Quotes.md",
+    "01 - Projects/05 - LearningReact/20241101 Day 5.md",
+    "Oscillations.md",
+    "Focus.md",
+    "Structures in c.md",
+    "06 - Daily/01 - Daily/20241114.md",
     "01 - Projects/05 - LearningReact/20241029 Day 4.md",
     "01 - Projects/05 - LearningReact/20241027 Day 3.md",
-    "01 - Projects/05 - LearningReact/20241018 Day 2.md",
     "01 - Projects/05 - LearningReact/20241017 Day 1.md",
-    "06 - Daily/01 - Daily/20241027.md",
-    "06 - Daily/01 - Daily/20241012.md",
-    "06 - Daily/01 - Daily/20241013.md",
-    "06 - Daily/01 - Daily/20241016.md",
-    "01 - Projects/05 - LearningReact/20241030 Day 5.md",
     "01 - Projects/05 - LearningReact/screenshot-20241027-172936Z-selected.png",
+    "03 - Resources/20240903 Youtube Channels for learning.md",
+    "06 - Daily/01 - Daily/20241112.md",
+    "06 - Daily/01 - Daily/20241111.md",
+    "01 - Projects/05 - LearningReact/20241018 Day 2.md",
+    "06 - Daily/01 - Daily/20241110.md",
+    "01 - Projects/05 - LearningReact/20241101 Day 5.md~",
+    "99 - Meta/Scripts/movies.js",
+    "99 - Meta/Scripts",
+    "02 - Areas/05 - Books",
+    "04 - Permanent/06 - QR",
     "01 - Projects/05 - LearningReact",
     "logseq/bak/logseq/config/2024-10-12T17_02_46.428Z.Desktop.edn",
     "logseq/bak/logseq/config",
     "logseq/bak/logseq",
     "logseq/bak",
-    "logseq/custom.css",
-    "pages",
-    "logseq/config.edn",
-    "journals",
     "screenshot-20240824-155003Z-all.png",
     "screenshot-20240828-095718Z-selected.png"
   ]
