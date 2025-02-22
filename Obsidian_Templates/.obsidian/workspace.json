@@ -13,10 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0A_14_Trackers/0A_14_3_DailyTracker.md",
+                "file": "0A_1_Logs/0A_1_3_MonthlyLog.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "0A_1_3_MonthlyLog"
             }
           }
         ]
@@ -38,8 +40,11 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
-              }
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
             }
           },
           {
@@ -54,7 +59,9 @@
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-search",
+              "title": "Search"
             }
           },
           {
@@ -62,7 +69,9 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {}
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
             }
           }
         ]
@@ -85,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "0A_14_Trackers/0A_14_3_DailyTracker.md",
+                "file": "0A_1_Logs/0A_1_3_MonthlyLog.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,7 +102,9 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for 0A_1_3_MonthlyLog"
             }
           },
           {
@@ -102,10 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "0A_14_Trackers/0A_14_3_DailyTracker.md",
+                "file": "0A_1_Logs/0A_1_3_MonthlyLog.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from 0A_1_3_MonthlyLog"
             }
           },
           {
@@ -116,7 +129,9 @@
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true
-              }
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
             }
           },
           {
@@ -125,8 +140,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "0A_14_Trackers/0A_14_3_DailyTracker.md"
-              }
+                "file": "0A_1_Logs/0A_1_3_MonthlyLog.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of 0A_1_3_MonthlyLog"
             }
           }
         ]
@@ -148,6 +165,9 @@
   },
   "active": "2c24a732d7b063ea",
   "lastOpenFiles": [
+    "0A_1_Logs/0A_1_2_WeeklyReview.md",
+    "0A_1_Logs/0A_1_1_DailyLog.md",
+    "0A_14_Trackers/0A_14_3_DailyTracker.md",
     "0A_14_Trackers/0A_14_2_HabitChallenge.md",
     "0A_14_Trackers/0A_14_1_SlipBox.md",
     "0A_3_Project/0A_3_2_ActionPlan.md",
@@ -161,8 +181,6 @@
     "0A_1_Logs/0A_1_6_WeeklyLog.md",
     "0A_1_Logs/0A_1_5_YearlyReview.md",
     "0A_1_Logs/0A_1_4_YearlyGoals.md",
-    "0A_1_Logs/0A_1_3_MonthlyLog.md",
-    "0A_1_Logs/0A_1_2_WeeklyReview.md",
-    "0A_1_Logs/0A_1_1_DailyLog.md"
+    "0A_1_Logs/0A_1_3_MonthlyLog.md"
   ]
 }

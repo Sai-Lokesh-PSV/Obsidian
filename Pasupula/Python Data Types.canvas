@@ -1,0 +1,21 @@
+{
+	"nodes":[
+		{"id":"7031f591bed26538","type":"text","text":"Numerical\n","x":-540,"y":-20,"width":250,"height":60},
+		{"id":"73e9f9fd71d65cd1","type":"text","text":"Dictionary\n","x":-253,"y":-20,"width":250,"height":60},
+		{"id":"cdc4d7c27fc040da","type":"text","text":"Boolean\n","x":31,"y":-20,"width":250,"height":60},
+		{"id":"4248c9662b0c5472","type":"text","text":"Set\n","x":320,"y":-20,"width":250,"height":60},
+		{"id":"38f330a4bab9d4bc","type":"text","text":"- Integer\n- Complex Number\n- Float","x":-540,"y":131,"width":250,"height":109},
+		{"id":"9f9d0fe1c9736032","type":"text","text":"Sequence Type","x":620,"y":-20,"width":250,"height":60},
+		{"id":"9279df410fac55d6","type":"text","text":"Data Types\n","x":31,"y":-280,"width":250,"height":60},
+		{"id":"2b777c4cf1671881","x":620,"y":131,"width":250,"height":109,"type":"text","text":"- String \n- List\n- TOuple"}
+	],
+	"edges":[
+		{"id":"1766467d7169d977","fromNode":"9279df410fac55d6","fromSide":"bottom","toNode":"7031f591bed26538","toSide":"top"},
+		{"id":"c982d9fa445464a1","fromNode":"9279df410fac55d6","fromSide":"bottom","toNode":"73e9f9fd71d65cd1","toSide":"top"},
+		{"id":"e8ae7226bcb98fb6","fromNode":"9279df410fac55d6","fromSide":"bottom","toNode":"cdc4d7c27fc040da","toSide":"top"},
+		{"id":"deea74bb0266e445","fromNode":"9279df410fac55d6","fromSide":"bottom","toNode":"4248c9662b0c5472","toSide":"top"},
+		{"id":"73b79a0b7f1d2b14","fromNode":"7031f591bed26538","fromSide":"bottom","toNode":"38f330a4bab9d4bc","toSide":"top"},
+		{"id":"fb9b5b8eba51f283","fromNode":"9279df410fac55d6","fromSide":"bottom","toNode":"9f9d0fe1c9736032","toSide":"top"},
+		{"id":"38175ebe420bef3c","fromNode":"9f9d0fe1c9736032","fromSide":"bottom","toNode":"2b777c4cf1671881","toSide":"top"}
+	]
+}

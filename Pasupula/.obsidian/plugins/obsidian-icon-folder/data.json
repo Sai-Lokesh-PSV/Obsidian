@@ -6,11 +6,11 @@
     "emojiStyle": "native",
     "iconColor": null,
     "recentlyUsedIcons": [
+      "LiCode2",
       "LiBook",
       "FabPython",
       "LiQrCode",
-      "BoBxlJavascript",
-      "FabAndroid"
+      "BoBxlJavascript"
     ],
     "recentlyUsedIconsSize": 5,
     "rules": [
@@ -99,7 +99,8 @@
     "iconsInLinksEnabled": true,
     "iconIdentifier": ":",
     "lucideIconPackType": "native",
-    "debugMode": false
+    "debugMode": false,
+    "useInternalPlugins": false
   },
   "02 - Areas/02 - Podcasts": "BoBxPodcast",
   "02 - Areas/03 - News Articles": "BoBxNews",
@@ -110,7 +111,8 @@
   "01 - Projects/05 - LearningReact": "FabReact",
   "01 - Projects/01 - Basics of making a app": "FabAndroid",
   "01 - Projects/03 - OpenGL": "BoBxlJavascript",
-  "04 - Permanent/06 - QR": "LiQrCode",
   "01 - Projects/04 - LearningPython": "FabPython",
-  "02 - Areas/05 - Books": "LiBook"
+  "02 - Areas/05 - Books": "LiBook",
+  "04 - Permanent/01 - QR": "LiQrCode",
+  "01 - Projects/06 - OOP in C++": "LiCode2"
 }

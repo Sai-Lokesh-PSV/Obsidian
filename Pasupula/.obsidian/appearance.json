@@ -20,8 +20,9 @@
   ],
   "translucency": false,
   "theme": "obsidian",
-  "baseFontSize": 17,
+  "baseFontSize": 16,
   "baseFontSizeAction": true,
   "showViewHeader": true,
-  "nativeMenus": true
+  "nativeMenus": true,
+  "showRibbon": true
 }

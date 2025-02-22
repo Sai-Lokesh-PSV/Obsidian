@@ -27,7 +27,6 @@
   "obsidian-style-settings",
   "obsidian-vimrc-support",
   "x86-flow-graphing",
-  "various-complements",
   "obsidian-pandoc",
   "callout-manager",
   "obsidian-tracker",
@@ -42,5 +41,7 @@
   "better-export-pdf",
   "buttons",
   "quickadd",
-  "obsidian-tasks-plugin"
+  "obsidian-tasks-plugin",
+  "iconic",
+  "journals"
 ]
