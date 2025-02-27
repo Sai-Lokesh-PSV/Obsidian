@@ -13,13 +13,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "How to Debate.md",
+                "file": "0 - Periodic Notes/2024/Daily/27-02-2025.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": false
               },
               "icon": "lucide-file",
-              "title": "How to Debate"
+              "title": "27-02-2025"
             }
           }
         ],
@@ -98,8 +98,8 @@
             "state": {
               "type": "mk-path-view",
               "state": {},
-              "icon": "layout-grid",
-              "title": "Spaces"
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           },
           {
@@ -108,8 +108,8 @@
             "state": {
               "type": "recent-files",
               "state": {},
-              "icon": "clock",
-              "title": "Recent Files"
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           }
         ],
@@ -126,8 +126,8 @@
             "state": {
               "type": "recent-files",
               "state": {},
-              "icon": "clock",
-              "title": "Recent Files"
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           }
         ]
@@ -151,7 +151,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "0 - Periodic Notes/2024/Daily/13-02-2025.md",
+                "file": "0 - Periodic Notes/2024/Daily/27-02-2025.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -161,7 +161,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for 13-02-2025"
+              "title": "Backlinks for 27-02-2025"
             }
           },
           {
@@ -240,8 +240,8 @@
             "state": {
               "type": "calendar",
               "state": {},
-              "icon": "calendar-with-checkmark",
-              "title": "Calendar"
+              "icon": "lucide-file",
+              "title": "Plugin no longer active"
             }
           }
         ]
@@ -276,16 +276,13 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "random-note:Open random note": false,
-      "zk-prefixer:Create new unique note": false,
-      "periodic-notes:Open today": false,
-      "templater-obsidian:Templater": false,
-      "obsidian-kindle-plugin:Sync your Kindle highlights": false,
-      "obsidian-kanban:Create new board": false,
-      "dbfolder:Create a new database table": false
+      "zk-prefixer:Create new unique note": false
     }
   },
   "active": "768172b1506de106",
   "lastOpenFiles": [
+    "How to Debate.md",
+    "0 - Periodic Notes/2024/Daily/27-02-2025.md",
     "0 - Periodic Notes/2024/Daily/29-08-2024.md",
     "0 - Periodic Notes/2024/Daily/13-02-2025.md",
     "0 - Periodic Notes/2024/Daily/28-08-2024.md",
@@ -305,14 +302,12 @@
     "Quotes.md",
     "Internship.md",
     "Untitled Kanban.md",
-    "How to Debate.md",
     "0 - Periodic Notes/2024/Daily/19-08-2024.md",
     "0 - Periodic Notes/2024/Daily/18-08-2024.md",
     "0 - Periodic Notes/0 - Periodic Notes.md",
     "0 - Periodic Notes/2024/Daily/17-08-2024.md",
     "0 - Periodic Notes/2024/Daily/10-08-2024.md",
     "0 - Periodic Notes/2024/Daily/11-08-2024.md",
-    "0 - Periodic Notes/2024/Daily/13-08-2024.md",
     "0 - Periodic Notes/2024/Yearly",
     "0 - Periodic Notes/2024/Quaterly",
     "0 - Periodic Notes/2024/Monthly",
